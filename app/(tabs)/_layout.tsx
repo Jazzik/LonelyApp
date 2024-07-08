@@ -9,14 +9,14 @@ export default function TabLayout(){
   const widthSettings = useSharedValue(28);
 
   const handleHomePress = () => {
-    widthHome.value = withSpring(widthHome.value + 5); // Adjust the increment as needed
+    widthHome.value = withSpring(32); // Adjust the increment as needed
     setTimeout(() => {
       widthHome.value = withTiming(28); // Return to initial width after a short delay
     }, 300);
   };
 
   const handleSettingsPress = () => {
-    widthSettings.value = withSpring(widthSettings.value + 5); // Adjust the increment as needed
+    widthSettings.value = withSpring(32); // Adjust the increment as needed
     setTimeout(() => {
       widthSettings.value = withTiming(28); // Return to initial width after a short delay
     }, 300);
@@ -37,7 +37,9 @@ export default function TabLayout(){
 
   return (
 
-    <Tabs screenOptions={{ tabBarStyle: { backgroundColor: '#442380' }}} >
+    <Tabs screenOptions={{ tabBarStyle: { backgroundColor: '#442380'},
+    tabBarActiveTintColor: 'white'}} >
+      
       <Tabs.Screen
         name="home"
         options={{
