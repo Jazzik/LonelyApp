@@ -3,6 +3,8 @@ import CircleButton from '../../components/CircleButton';
 import { StatusBar, StatusBarStyle } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
+
+
 const { width, height } = Dimensions.get('window');
 const translationY = useSharedValue(0);
 
