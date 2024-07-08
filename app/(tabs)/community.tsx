@@ -2,18 +2,21 @@ import { TouchableOpacity,Text,Button, View, StyleSheet } from 'react-native';
 import Animated, {useAnimatedStyle,useAnimatedScrollHandler, useSharedValue ,withSpring} from 'react-native-reanimated';
 
 
+const scrollY = useSharedValue(0);
+
+const scrollHandler = useAnimatedScrollHandler((event) => {
+scrollY.value = event.contentOffset.y;
+});
+
+
+const animatedStyle = useAnimatedStyle(() => {
+return {
+  transform: [{ translateY: -scrollY.value }],
+};
+});
+
 
 export default function community() {
-  const translationY = useSharedValue(0);
-  const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    scrollY.value = event.contentOffset.y;
-  });
-  const animatedStyle = useAnimatedStyle(() => {
-  return {
-    transform: [{ translateY: -scrollY.value }],
-  };
-  });
 
     return (
       <View style={styles.container}>
@@ -23,12 +26,7 @@ export default function community() {
         style={styles.scrollView}
       >
         <Animated.View style={[styles.content, animatedStyle]}>
-          {/* Your content goes here */}
-          {Array.from({ length: 20 }).map((_, index) => (
-            <View key={index} style={styles.item}>
-              <Text style={styles.itemText}>Item {index + 1}</Text>
-            </View>
-          ))}
+            <Text>Biba!</Text>
         </Animated.View>
       </Animated.ScrollView>
     </View>
@@ -38,8 +36,8 @@ export default function community() {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'black',
     flex: 1,
+    backgroundColor: "#221240",
   },
   scrollView: {
     flex: 1,
