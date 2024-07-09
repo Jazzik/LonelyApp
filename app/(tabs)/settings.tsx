@@ -1,22 +1,20 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import Animated, { useAnimatedStyle, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import { TouchableOpacity,Text,Button, View, StyleSheet } from 'react-native';
+import Animated, {useAnimatedStyle,useAnimatedScrollHandler, useSharedValue ,withSpring} from 'react-native-reanimated';
 
-export default function Settings() {
+export default function settings() {
+  const translationY = useSharedValue(0);
   const scrollY = useSharedValue(0);
-
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
   });
-
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: -scrollY.value }],
-    };
+      };
   });
-
-  return (
-    <View style={styles.container}>
+  
+    return (
+      <View style={styles.container}>
       <Animated.ScrollView
         onScroll={scrollHandler}
         scrollEventThrottle={16}
@@ -32,9 +30,10 @@ export default function Settings() {
         </Animated.View>
       </Animated.ScrollView>
     </View>
-  );
-}
+    );
+  
 
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
