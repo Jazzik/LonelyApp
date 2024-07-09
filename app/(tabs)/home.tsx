@@ -5,23 +5,20 @@ import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 
 
-const { width, height } = Dimensions.get('window');
-const translationY = useSharedValue(0);
 
-
-const scrollY = useSharedValue(0);
-
-const scrollHandler = useAnimatedScrollHandler((event) => {
-scrollY.value = event.contentOffset.y;
-});
-// bob
-
-const animatedStyle = useAnimatedStyle(() => {
-return {
-  transform: [{ translateY: -scrollY.value }],
-};
-});
 export default function Tab() {
+  const { width, height } = Dimensions.get('window');
+  const translationY = useSharedValue(0);
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
+  const animatedStyle = useAnimatedStyle(() => {
+  return {
+    transform: [{ translateY: -scrollY.value }],
+  };
+  });
+
   return (
 
     <View style={styles.container}>

@@ -3,29 +3,24 @@ import Animated, {useAnimatedStyle,useAnimatedScrollHandler, useSharedValue ,wit
 import { Link, router } from 'expo-router';
 import { Redirect } from 'expo-router';
 import * as AppleAuthentication from 'expo-apple-authentication';
-const translationY = useSharedValue(0);
 
-const scrollY = useSharedValue(0);
-
-const scrollHandler = useAnimatedScrollHandler((event) => {
-scrollY.value = event.contentOffset.y;
-});
-
-
-const animatedStyle = useAnimatedStyle(() => {
-return {
-  transform: [{ translateY: -scrollY.value }],
-};
-});
-
-
-const succesfullLogin = () => {
-    console.log('succesfull login')
-    return router.replace('/home');
-    
-}
 export default function LoginScreen() {
-    
+    const translationY = useSharedValue(0);
+    const scrollY = useSharedValue(0);
+    const scrollHandler = useAnimatedScrollHandler((event) => {
+        scrollY.value = event.contentOffset.y;
+    });
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: -scrollY.value }],
+        };
+    });
+
+    const succesfullLogin = () => {
+        console.log('succesfull login')
+        return router.replace('/home');
+        
+    }
     return (
         <SafeAreaView style={styles.container}>
             <View>
