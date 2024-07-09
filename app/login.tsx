@@ -30,8 +30,8 @@ export default function LoginScreen() {
         <SafeAreaView style={styles.container}>
             <View>
                 <View style={styles.loginBox}>
-                    <TextInput style={{...styles.loginItem, borderBottomWidth: 1, borderTopStartRadius: 20,borderTopEndRadius: 20, }} autoComplete='email' keyboardType='email-address' inputMode="email" placeholder="Email" /> 
-                    <TextInput style={{...styles.loginItem, borderBottomWidth: 1}} secureTextEntry={true} autoComplete='current-password' placeholder="Password" />
+                    <TextInput placeholderTextColor='#000' style={{...styles.loginItem, borderBottomWidth: 1, borderTopStartRadius: 20,borderTopEndRadius: 20, }} autoComplete='email' keyboardType='email-address' inputMode="email" placeholder="Email" /> 
+                    <TextInput placeholderTextColor='#000' style={{...styles.loginItem, borderBottomWidth: 1}} secureTextEntry={true} autoComplete='current-password' placeholder="Password" />
                     <Button onPress={succesfullLogin} title="Login" />
                 </View>
 
@@ -82,24 +82,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingHorizontal: 16,
     paddingVertical: 24,
-  },
-  scrollView: {
-    flex: 1,
+    color: '#000',
   },
   content: {
     flexGrow: 1,
     padding: 20,
-  },
-  item: {
-    height: 100,
-    marginBottom: 20,
-    backgroundColor: '#f9c2ff',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  itemText: {
-    fontSize: 18,
-    fontWeight: 'bold',
   },
   button: {
     width: 300,
