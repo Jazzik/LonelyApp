@@ -1,19 +1,20 @@
 import React from 'react';
 import { View } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Octicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
 import Animated, { useSharedValue, withSpring, withTiming, useAnimatedStyle, FadeIn, FadeOut } from 'react-native-reanimated';
 export default function TabLayout(){
 
-  const widthHome = useSharedValue(40);
-  const widthSettings = useSharedValue(28);
-  const widthCommunity = useSharedValue(32);
+  const widthHome = useSharedValue(32);
+  const widthSettings = useSharedValue(32);
+  const widthCommunity = useSharedValue(36);
 
   const handleHomePress = () => {
-    widthHome.value = withSpring(46); // Adjust the increment as needed
+    widthHome.value = withSpring(36); // Adjust the increment as needed
     setTimeout(() => {
-      widthHome.value = withTiming(40); // Return to initial width after a short delay
+      widthHome.value = withTiming(32); // Return to initial width after a short delay
     }, 300);
   };
 
@@ -25,13 +26,14 @@ export default function TabLayout(){
   };
 
   const handleCommunityPress = () => {
-    widthCommunity.value = withSpring(32); // Adjust the increment as needed
+    widthCommunity.value = withSpring(40); // Adjust the increment as needed
     setTimeout(() => {
-      widthCommunity.value = withTiming(28); // Return to initial width after a short delay
+      widthCommunity.value = withTiming(36); // Return to initial width after a short delay
     }, 300);
   };
 
   const AnimatedFontAwesome = Animated.createAnimatedComponent(FontAwesome);
+  const AnimatedOctions = Animated.createAnimatedComponent(Octicons);
 
   const animatedStyleHome = useAnimatedStyle(() => {
     return {
@@ -42,6 +44,7 @@ export default function TabLayout(){
   const animatedStyleSettings = useAnimatedStyle(() => {
     return {
       fontSize: widthSettings.value,
+      
     };
   });
 
@@ -54,7 +57,7 @@ export default function TabLayout(){
   return (
 
     <Tabs screenOptions={{ tabBarStyle: { backgroundColor: '#442380'},
-    tabBarActiveTintColor: 'white',
+    tabBarActiveTintColor: 'white', 
     tabBarShowLabel: false}} >
       
       <Tabs.Screen /* Initializing home button */
@@ -63,7 +66,7 @@ export default function TabLayout(){
           unmountOnBlur:true,
           title: 'home',
           tabBarIcon: ({ color }) => (
-            <AnimatedFontAwesome
+            <AnimatedOctions
               name="home"
               size={widthHome.value}
               color={color}
@@ -85,8 +88,8 @@ export default function TabLayout(){
           unmountOnBlur:true,
           title: 'Community',
           tabBarIcon: ({ color }) => (
-            <AnimatedFontAwesome
-              name="group"
+            <AnimatedOctions
+              name="people"
               size={widthCommunity.value}
               color={color}
               style={animatedStyleCommunity}
@@ -108,8 +111,8 @@ export default function TabLayout(){
           unmountOnBlur:true,
           title: 'Settings',
           tabBarIcon: ({ color }) => (
-            <AnimatedFontAwesome
-              name="cog"
+            <AnimatedOctions
+              name="gear"
               size={widthSettings.value}
               color={color}
               style={animatedStyleSettings}

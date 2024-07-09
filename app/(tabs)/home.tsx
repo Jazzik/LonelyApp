@@ -32,22 +32,29 @@ export default function Tab() {
         style={styles.scrollView}
       >
         <Animated.View style={[styles.content, animatedStyle]}>
-        <Animated.View 
-        entering={FadeIn.duration(1000)} 
-        exiting={FadeOut.duration(1000)} 
-        style={styles.container}
-      >
-        <Animated.View style={[styles.buttonContainer, { top: height * 0.1, left: width * 0.3 }]}>
-          <CircleButton onPress={() => {}} />
+          
+          <Animated.View 
+            entering={FadeIn.duration(300)} 
+            // exiting={FadeOut.duration(1000)} 
+            style={styles.container}
+          >
+            <Animated.View style={[styles.buttonContainer, { top: height * 0.1, left: width * 0.3 }]}>
+          
+              <CircleButton onPress={() => {}} text = '1' />
+            </Animated.View>
+
+            <Animated.View style={[styles.buttonContainer, { top: height * 0.4, left: width * 0.1 }]}>
+              <CircleButton onPress={() => {}} text = '2'/>
+            </Animated.View>
+
+            <Animated.View style={[styles.buttonContainer, { top: height * 0.7, left: width * 0.6 }]}>
+              <CircleButton onPress={() => {}} text = '3'/>
+            </Animated.View>
+
+          </Animated.View>
+
         </Animated.View>
-        <Animated.View style={[styles.buttonContainer, { top: height * 0.4, left: width * 0.5 }]}>
-          <CircleButton onPress={() => {}} />
-        </Animated.View>
-        <Animated.View style={[styles.buttonContainer, { top: height * 0.7, left: width * 0.6 }]}>
-          <CircleButton onPress={() => {}} />
-        </Animated.View>
-      </Animated.View>
-        </Animated.View>
+
       </Animated.ScrollView>
       <StatusBar style='light'/>
   </View>
