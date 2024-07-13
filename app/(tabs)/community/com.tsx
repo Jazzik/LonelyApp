@@ -2,7 +2,6 @@ import { TouchableOpacity,Text,Button, View, StyleSheet } from 'react-native';
 import Animated, {useAnimatedStyle,useAnimatedScrollHandler, useSharedValue ,withSpring} from 'react-native-reanimated';
 
 
-
 export default function community() {
   const translationY = useSharedValue(0);
   const scrollY = useSharedValue(0);
@@ -17,6 +16,7 @@ export default function community() {
 
     return (
       <View style={styles.container}>
+        
       <Animated.ScrollView
         onScroll={scrollHandler}
         scrollEventThrottle={16}
@@ -24,11 +24,7 @@ export default function community() {
       >
         <Animated.View style={[styles.content, animatedStyle]}>
           {/* Your content goes here */}
-          {Array.from({ length: 20 }).map((_, index) => (
-            <View key={index} style={styles.item}>
-              <Text style={styles.itemText}>Item {index + 1}</Text>
-            </View>
-          ))}
+
         </Animated.View>
       </Animated.ScrollView>
     </View>

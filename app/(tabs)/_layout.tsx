@@ -31,8 +31,6 @@ export default function TabLayout(){
       widthCommunity.value = withTiming(36); // Return to initial width after a short delay
     }, 300);
   };
-
-  const AnimatedFontAwesome = Animated.createAnimatedComponent(FontAwesome);
   const AnimatedOctions = Animated.createAnimatedComponent(Octicons);
 
   const animatedStyleHome = useAnimatedStyle(() => {
@@ -56,7 +54,7 @@ export default function TabLayout(){
 
   return (
 
-    <Tabs screenOptions={{ tabBarStyle: { backgroundColor: '#442380'},
+    <Tabs screenOptions={{tabBarStyle: { backgroundColor: '#442380'},
     tabBarActiveTintColor: 'white', 
     tabBarShowLabel: false}} >
       

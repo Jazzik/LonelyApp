@@ -3,7 +3,7 @@ import CircleButton from '../../components/CircleButton';
 import { StatusBar, StatusBarStyle } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
-
+import { ChallengeBar } from '@/components/ChallengeBar';
 
 
 export default function Tab() {
@@ -22,19 +22,21 @@ export default function Tab() {
   return (
 
     <View style={styles.container}>
-
       <Animated.ScrollView
+      
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         style={styles.scrollView}
       >
+        
         <Animated.View style={[styles.content, animatedStyle]}>
-          
+          <ChallengeBar title="example title" progress={50}></ChallengeBar>
           <Animated.View 
             entering={FadeIn.duration(300)} 
             // exiting={FadeOut.duration(1000)} 
             style={styles.container}
-          >
+          > 
+
             <Animated.View style={[styles.buttonContainer, { top: height * 0.1, left: width * 0.3 }]}>
           
               <CircleButton onPress={() => {}} text = '1' />
