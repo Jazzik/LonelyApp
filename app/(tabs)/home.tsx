@@ -30,13 +30,13 @@ export default function Tab() {
       >
         
         <Animated.View style={[styles.content, animatedStyle]}>
-          <ChallengeBar title="example title" progress={50}></ChallengeBar>
+          
           <Animated.View 
             entering={FadeIn.duration(300)} 
             // exiting={FadeOut.duration(1000)} 
             style={styles.container}
           > 
-
+            <ChallengeBar title="example title" progress={50}></ChallengeBar>
             <Animated.View style={[styles.buttonContainer, { top: height * 0.1, left: width * 0.3 }]}>
           
               <CircleButton onPress={() => {}} text = '1' />

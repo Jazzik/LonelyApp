@@ -1,0 +1,11 @@
+{
+  "welcome": "こんにちは",
+  "name": "チャーリー",
+  "wrong_email": "間違ったメールアドレス",
+  "wrong_password": "間違ったパスワード",
+  "password_min": "パスワードは6文字以上",
+  "required_field": "必須項目",
+  "login": "ログイン",
+  "email": "メールアドレス",
+  "password": "パスワード"
+}

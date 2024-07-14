@@ -13,9 +13,12 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-    "usesAppleSignIn": true,
-    "supportsTablet": true,
-    "googleServicesFile": "./GoogleService-Info.plist"
+      "usesAppleSignIn": true,
+      "supportsTablet": true,
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +26,6 @@
         "backgroundColor": "#ffffff"
       },
       "googleServicesFile": "./google-services.json"
-
     },
     "web": {
       "bundler": "metro",
@@ -32,10 +34,17 @@
     },
     "plugins": [
       "expo-router",
-      "@react-native-google-signin/google-signin"
+      "@react-native-google-signin/google-signin",
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "locales": {
+      "ja": "./languages/ja.json",
+      "ru": "./languages/ru.json",
+      "en": "./languages/en.json"
+      
     }
   }
 }

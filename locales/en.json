@@ -1,0 +1,11 @@
+{
+  "welcome": "Hello",
+  "name": "Charlie", 
+  "wrong_email": "Wrong email", 
+  "wrong_password": "Wrong password",
+  "password_min": "Password must be at least 6 characters",
+  "required_field": "Required field", 
+  "login": "Login",  
+  "email": "Email",
+  "password": "Password"
+}
