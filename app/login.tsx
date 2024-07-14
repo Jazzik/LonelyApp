@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, Button, View, StyleSheet, TextInput, SafeAreaView } from 'react-native';
-import Animated, { useAnimatedStyle, useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useAnimatedScrollHandler, useSharedValue} from 'react-native-reanimated';
 import { Link, router } from 'expo-router';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { Formik } from 'formik';
@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 import i18n from '@/i18n';
+
 
 
 console.log(i18n.t('welcome'), i18n.t('name'));
@@ -47,76 +48,89 @@ export default function LoginScreen() {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View>
-                <Formik
-                    initialValues={{ email: '', password: '' }}
-                    validationSchema={LoginSchema}
-                    onSubmit={(values) => succesfullLogin(values)}
-                >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                        <View style={styles.loginBox}>
-                            <TextInput
-                                placeholderTextColor='#000'
-                                style={{ ...styles.loginItem, borderBottomWidth: 1, borderTopStartRadius: 20, borderTopEndRadius: 20 }}
-                                autoComplete='email'
-                                keyboardType='email-address'
-                                inputMode="email"
-                                placeholder={i18n.t('email')}
-                                onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
-                                value={values.email}
-                            />
-                            {errors.email && touched.email ? (
-                                <Text style={styles.errorText}>{errors.email}</Text>
-                            ) : null}
-                            <TextInput
-                                placeholderTextColor='#000'
-                                style={{ ...styles.loginItem, borderBottomWidth: 1 }}
-                                secureTextEntry={true}
-                                autoComplete='current-password'
-                                placeholder={i18n.t('password')}
-                                onChangeText={handleChange('password')}
-                                onBlur={handleBlur('password')}
-                                value={values.password}
-                            />
-                            {errors.password && touched.password ? (
-                                <Text style={styles.errorText}>{errors.password}</Text>
-                            ) : null}
-                            <Button onPress={() => handleSubmit()} title={i18n.t('login')} />
-                        </View>
-                    )}
-                </Formik>
+        <Animated.ScrollView 
+        scrollEventThrottle={16}
+        style={styles.scrollView}>
+            <SafeAreaView style={styles.container}>
+                <View>
+                    <Formik
+                        initialValues={{ email: '', password: '' }}
+                        validationSchema={LoginSchema}
+                        onSubmit={(values) => succesfullLogin(values)}
+                    >
+                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                            <View style={styles.loginBox}>
+                                <TextInput
+                                    placeholderTextColor='#000'
+                                    style={{ ...styles.loginItem,  borderTopStartRadius: 20, borderTopEndRadius: 20 }}
+                                    autoComplete='email'
+                                    keyboardType='email-address'
+                                    inputMode="email"
+                                    placeholder={i18n.t('email')}
+                                    onChangeText={handleChange('email')}
+                                    onBlur={handleBlur('email')}
+                                    value={values.email}
+                                />
+                                {errors.email && touched.email ? (
+                                    <Text style={styles.errorText}>{errors.email}</Text>
+                                ) : null}
+                                <TextInput
+                                    placeholderTextColor='#000'
+                                    style={{ ...styles.loginItem, borderTopWidth: 1 }}
+                                    secureTextEntry={true}
+                                    autoComplete='current-password'
+                                    placeholder={i18n.t('password')}
+                                    onChangeText={handleChange('password')}
+                                    onBlur={handleBlur('password')}
+                                    value={values.password}
+                                />
+                                {errors.password && touched.password ? (
+                                    <Text style={styles.errorText}>{errors.password}</Text>
+                                ) : null}
+                                <View style={{borderTopWidth:1}}> 
+                                <Button onPress={() => handleSubmit()} title={i18n.t('login')} />
+                                </View>
+                                
+                            </View>
+                        )}
+                    </Formik>
 
-                <AppleAuthentication.AppleAuthenticationButton
-                    buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-                    buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
-                    cornerRadius={30}
-                    style={styles.button}
-                    onPress={async () => {
-                        try {
-                            const credential = await AppleAuthentication.signInAsync({
-                                requestedScopes: [
-                                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                                ],
-                            });
-                            // signed in
-                        } catch (e) {
-                            // handle errors
-                        }
-                    }}
-                />
-            </View>
-        </SafeAreaView>
+                    <AppleAuthentication.AppleAuthenticationButton
+                        buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+                        buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+                        cornerRadius={30}
+                        style={styles.button}
+                        onPress={async () => {
+                            try {
+                                const credential = await AppleAuthentication.signInAsync({
+                                    requestedScopes: [
+                                        AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                                        AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                                    ],
+                                });
+                                // signed in
+                            } catch (e) {
+                                // handle errors
+                            }
+                        }}
+                    />
+                </View>
+            </SafeAreaView>
+        </Animated.ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop: '60%',
         alignItems: 'center',
         justifyContent: 'center',
+        position: 'relative'
+    },
+    scrollView: {
+        flex: 1,
+        
     },
     loginBox: {
         backgroundColor: '#fff',
