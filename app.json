@@ -18,7 +18,8 @@
       "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
-      }
+      },
+      "bundleIdentifier": "com.anonymous.LonelyApp"
     },
     "android": {
       "adaptiveIcon": {
@@ -44,7 +45,6 @@
       "ja": "./languages/ja.json",
       "ru": "./languages/ru.json",
       "en": "./languages/en.json"
-      
     }
   }
 }
