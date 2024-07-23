@@ -6,8 +6,10 @@ import { Redirect } from 'expo-router';
 console.log('index.tsx');
 
 const checkLoginStatus = async () => {
-  const token = await AsyncStorage.getItem('userToken');
   
+  const token = await AsyncStorage.getItem('userToken');
+  // let token = false;
+  console.log('token is: ', token);
   if (token) {
     console.log('token found: ', token);
     // Optionally validate the token

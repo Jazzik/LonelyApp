@@ -4,7 +4,8 @@ import { StatusBar, StatusBarStyle } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
 import { ChallengeBar } from '@/components/ChallengeBar';
-
+import { Colors } from '../../constants/Colors';
+console.log('home.tsx');
 
 export default function Tab() {
   const { width, height } = Dimensions.get('window');
@@ -62,7 +63,7 @@ export default function Tab() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#221240",
+    backgroundColor: Colors.dark.background,
     flex: 1,
     position: 'relative', // Ensure the container is relative
   },

@@ -21,7 +21,6 @@ export default function settings() {
         style={styles.scrollView}
       >
         <Animated.View style={[styles.content, animatedStyle]}>
-          {/* Your content goes here */}
           {Array.from({ length: 20 }).map((_, index) => (
             <View key={index} style={styles.item}>
               <Text style={styles.itemText}>Item {index + 1}</Text>

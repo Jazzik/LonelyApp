@@ -3,8 +3,8 @@ import { View } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Octicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-
 import Animated, { useSharedValue, withSpring, withTiming, useAnimatedStyle, FadeIn, FadeOut } from 'react-native-reanimated';
+import { Colors } from '@/constants/Colors';
 export default function TabLayout(){
 
   const widthHome = useSharedValue(32);
@@ -54,7 +54,7 @@ export default function TabLayout(){
 
   return (
 
-    <Tabs screenOptions={{tabBarStyle: { backgroundColor: '#442380'},
+    <Tabs screenOptions={{tabBarStyle: { backgroundColor: Colors.dark.upper_background },
     tabBarActiveTintColor: 'white', 
     tabBarShowLabel: false}} >
       
