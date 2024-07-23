@@ -9,5 +9,5 @@
   "email": "Электронная почта",
   "password": "Пароль",
   "Incorrect_email_or_password": "Неверный email или пароль",
-  "Login_faled": "Войти не удалось"
+  "Login_failed": "Войти не удалось"
 }

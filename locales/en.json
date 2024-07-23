@@ -9,5 +9,5 @@
   "email": "Email",
   "password": "Password",
   "Incorrect_email_or_password": "Incorrect email or password",
-  "Login_faled": "Login failed"
+  "Login_failed": "Login failed"
 }

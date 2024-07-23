@@ -6,10 +6,10 @@ import * as AppleAuthentication from 'expo-apple-authentication';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n';
 
-
+console.log('login.tsx');
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email(i18n.t('wrong_email')).required(i18n.t('required_field')),
@@ -33,16 +33,18 @@ export default function LoginScreen() {
         password: string;
     }
 
-    const succesfullLogin = (values: LoginFormValues) => {
+    const succesfullLogin = async (values: LoginFormValues) => {
         axios.post('http://localhost:8080/auth/login', values)
-            .then(response => {
+            .then(async response => {
                 console.log('succesfull login');
                 console.log(response.data);
+                // Assuming the JWT is in response.data.token
+                await AsyncStorage.setItem('userToken', response.data);
                 router.replace('/home');
             })
             .catch(error => {
 
-                console.error(error.response.data, "code: ", error.response.status);
+                
                 if (error.response.status === 404) {
                     
                     console.log('redirect to register');
@@ -51,7 +53,7 @@ export default function LoginScreen() {
 
                 if (error.response.status === 401) {
                     console.log('incorrect email or password');
-                    Alert.alert(i18n.t('Login_faled'), i18n.t('Incorrect_email_or_password'));
+                    Alert.alert(i18n.t('Login_failed'), i18n.t('Incorrect_email_or_password'));
                 };
 
                 
@@ -71,6 +73,7 @@ export default function LoginScreen() {
                 console.error(error);
             });
     }
+
 
     return (
         <Animated.ScrollView 

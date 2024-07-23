@@ -9,5 +9,5 @@
     "email": "Correo",
     "password": "Contraseña",
     "Incorrect_email_or_password": "Correo o contraseña incorrectos",
-    "Login_faled": "Iniciar sesión fallido"
+    "Login_failed": "Iniciar sesión fallido"
 }

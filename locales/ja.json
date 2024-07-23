@@ -9,5 +9,5 @@
   "email": "メールアドレス",
   "password": "パスワード",
   "Incorrect_email_or_password": "メールアドレスまたはパスワードが間違っています",
-  "Login_faled": "ログインに失敗しました"
+  "Login_failed": "ログインに失敗しました"
 }
