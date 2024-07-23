@@ -53,7 +53,7 @@ export default function Tab() {
 
     <View style={styles.container}>
       <Animated.ScrollView
-      
+
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         style={styles.scrollView}
@@ -62,13 +62,13 @@ export default function Tab() {
         <Animated.View style={[styles.content, animatedStyle]}>
           
           <Animated.View 
-            entering={FadeIn.duration(300)} 
+            entering={FadeIn.duration(100)} 
             // exiting={FadeOut.duration(1000)} 
             style={styles.container}>
 
             {data.map((item) => (
-            <ChallengeBar title={item} progress={50} ></ChallengeBar>
-          ))}
+              <ChallengeBar title={item} progress={50} ></ChallengeBar>
+            ))}
             
 
           </Animated.View>

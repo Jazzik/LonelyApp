@@ -1,6 +1,6 @@
 import { Colors } from "@/constants/Colors";
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { View, Text, StyleSheet, TouchableWithoutFeedback, Button, Pressable } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle } from "react-native-reanimated";
 import * as Haptics from 'expo-haptics';
 
@@ -13,26 +13,30 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
       transform: [{ scale: scale.value }],
     };
   });
-
   return (
-    <TouchableWithoutFeedback
-      onPressIn={() => {
+
+    <Pressable 
+    onPressIn={() => {
+
+      scale.value = 0.95;
+    }}
+    onPressOut={() => {
+ 
+      scale.value = 1;
+     
+    }}
+    onPress={() => {
+  
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      scale.value = 0.80;
+      
+      //wait 1 second
+      setTimeout(() => {
+        scale.value = 1;
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        scale.value = 0.90;
-      }}
-      onPressOut={() => {
-        scale.value = 1.04;
-        
-        //wait 1 second
-        setTimeout(() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }, 30);
-        setTimeout(() => {
-          scale.value = 1;
-        }, 60);
-        
-      }}
-    >
+      }, 30);
+      
+    }}>
       <Animated.View style={[styles.container, animatedStyle]}>
         <Text style={styles.label}>{title}</Text>
         <View style={styles.progressBarContainer}>
@@ -44,8 +48,12 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
             ]}
           />
         </View>
-      </Animated.View>
-    </TouchableWithoutFeedback>
+
+        
+        
+     
+    </Animated.View>
+    </Pressable>
   );
 };
 
