@@ -7,6 +7,7 @@ import { ChallengeBar } from '@/components/ChallengeBar';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import { Colors } from '@/constants/Colors';
 export default function Tab() {
   const { width, height } = Dimensions.get('window');
   const translationY = useSharedValue(0);
