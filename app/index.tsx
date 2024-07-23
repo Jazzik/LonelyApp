@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { Link } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Redirect } from 'expo-router';
