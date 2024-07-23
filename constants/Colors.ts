@@ -21,6 +21,7 @@ export const Colors = {
     upper_background: '#442380',
     background: '#221240',
     tint: tintColorDark,
+    third_color: '#885FD3',
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,

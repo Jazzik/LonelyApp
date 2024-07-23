@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, TouchableOpacity, Text, Button, View, StyleSheet, TextInput, SafeAreaView } from 'react-native';
 import Animated, { useAnimatedStyle, useAnimatedScrollHandler, useSharedValue} from 'react-native-reanimated';
-import { Link, router } from 'expo-router';
+import { Link, Stack, router } from 'expo-router';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n';
 import { ip } from '@/ip.json';
+import { Colors } from '@/constants/Colors';
 
 console.log('login.tsx');
 
@@ -64,7 +65,7 @@ export default function LoginScreen() {
             .then(response => {
                 console.log('succesfull register');
                 console.log(response.data);
-                router.replace('/home');
+                succesfullLogin(values)
             })
             .catch(error => {
 
@@ -154,10 +155,11 @@ const styles = StyleSheet.create({
         marginTop: '60%',
         alignItems: 'center',
         justifyContent: 'center',
-        position: 'relative'
+        position: 'relative',
     },
     scrollView: {
         flex: 1,
+        backgroundColor: Colors.dark.upper_background,
         
     },
     loginBox: {

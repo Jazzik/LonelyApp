@@ -28,6 +28,7 @@ export default function Layout() {
       
     }}>
       <Stack.Screen name="(tabs)"  options={{ headerShown: true, headerStyle: { backgroundColor: Colors.dark.upper_background, } }} />
+      <Stack.Screen name="login"  options={{ headerShown: false, headerStyle: { backgroundColor: Colors.dark.upper_background, } }} />
     </Stack>
   );
 }
