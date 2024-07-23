@@ -1,3 +1,11 @@
 {
-    "welcome": "Bienvenido"
+    "welcome": "Hola",
+    "name": "Charlie",
+    "wrong_email": "Correo incorrecto",
+    "wrong_password": "Contraseña incorrecta",
+    "password_min": "La contraseña debe tener al menos 6 caracteres",
+    "required_field": "Campo obligatorio",
+    "login": "Iniciar sesión o crear cuenta",
+    "email": "Correo",
+    "password": "Contraseña"
 }

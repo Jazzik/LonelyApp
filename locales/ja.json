@@ -5,7 +5,7 @@
   "wrong_password": "間違ったパスワード",
   "password_min": "パスワードは6文字以上",
   "required_field": "必須項目",
-  "login": "ログイン",
+  "login": "ログイン または アカウントを作成",
   "email": "メールアドレス",
   "password": "パスワード"
 }

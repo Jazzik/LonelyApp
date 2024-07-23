@@ -5,7 +5,7 @@
   "wrong_password": "Wrong password",
   "password_min": "Password must be at least 6 characters",
   "required_field": "Required field", 
-  "login": "Login",  
+  "login": "Login or create an account",  
   "email": "Email",
   "password": "Password"
 }
