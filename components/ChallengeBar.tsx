@@ -25,10 +25,27 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
       scale.value = 1;
      
     }}
+    onLongPress={() => {
+      // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+      scale.value = 0.95;
+      setTimeout(() => {
+        scale.value = 0.93;
+      }, 100);
+      setTimeout(() => {
+        scale.value = 0.91;
+      }, 100);
+      setTimeout(() => {
+        scale.value = 0.89;
+      }, 100);
+      setTimeout(() => {
+        scale.value = 0.87;
+      }, 100);
+
+    }}
     onPress={() => {
   
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      scale.value = 0.80;
+      scale.value = 0.90;
       
       //wait 1 second
       setTimeout(() => {
