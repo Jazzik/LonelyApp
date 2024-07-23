@@ -2,7 +2,7 @@ import { Link } from 'expo-router';
 import { View, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Redirect } from 'expo-router';
-
+import { useState,useEffect } from 'react';
 console.log('index.tsx');
 
 const checkLoginStatus = async () => {
@@ -49,3 +49,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
 });
+

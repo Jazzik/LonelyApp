@@ -34,7 +34,7 @@ export default function LoginScreen() {
     }
 
     const succesfullLogin = async (values: LoginFormValues) => {
-        axios.post('http://localhost:8080/auth/login', values)
+        axios.post('http://10.30.14.146:8080/auth/login', values)
             .then(async response => {
                 console.log('succesfull login');
                 console.log(response.data);
@@ -56,11 +56,10 @@ export default function LoginScreen() {
                     Alert.alert(i18n.t('Login_failed'), i18n.t('Incorrect_email_or_password'));
                 };
 
-                
             });
     }
     const succesfullRegister = (values: LoginFormValues) => {
-        axios.post('http://localhost:8080/auth/register', values)
+        axios.post('http://10.30.14.146:8080/auth/register', values)
             .then(response => {
                 console.log('succesfull register');
                 console.log(response.data);
