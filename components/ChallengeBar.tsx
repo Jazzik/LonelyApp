@@ -3,57 +3,37 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Button, Pressable } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle } from "react-native-reanimated";
 import * as Haptics from 'expo-haptics';
+import { useNavigation } from "expo-router";
 
 export function ChallengeBar({ progress, title }: { progress: number; title: string }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const scale = useSharedValue(1);
-
+  const navigator = useNavigation()
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scale.value }],
     };
   });
   return (
-
-    <Pressable 
-    onPressIn={() => {
-
-      scale.value = 0.95;
-    }}
-    onPressOut={() => {
- 
-      scale.value = 1;
-     
-    }}
-    onLongPress={() => {
-      // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      scale.value = 0.95;
-      setTimeout(() => {
-        scale.value = 0.93;
-      }, 100);
-      setTimeout(() => {
-        scale.value = 0.91;
-      }, 100);
-      setTimeout(() => {
-        scale.value = 0.89;
-      }, 100);
-      setTimeout(() => {
-        scale.value = 0.87;
-      }, 100);
-
-    }}
-    onPress={() => {
-  
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      scale.value = 0.90;
-      
-      //wait 1 second
-      setTimeout(() => {
-        scale.value = 1;
+    <TouchableWithoutFeedback
+      onPressIn={() => {
+        navigator.navigate('tasks')
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      }, 30);
-      
-    }}>
+        scale.value = 0.90;
+      }}
+      onPressOut={() => {
+        scale.value = 1.04;
+        
+        //wait 1 second
+        setTimeout(() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        }, 30);
+        setTimeout(() => {
+          scale.value = 1;
+        }, 60);
+        
+      }}
+    >
       <Animated.View style={[styles.container, animatedStyle]}>
         <Text style={styles.label}>{title}</Text>
         <View style={styles.progressBarContainer}>
@@ -70,7 +50,7 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
         
      
     </Animated.View>
-    </Pressable>
+    </TouchableWithoutFeedback>
   );
 };
 

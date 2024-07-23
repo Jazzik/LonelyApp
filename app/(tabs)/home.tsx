@@ -29,8 +29,8 @@ export default function Tab() {
         
         const token = await AsyncStorage.getItem("userToken")
         // const token = await AsyncStorage.removeItem("userToken")
-        console.log(token)
-        const response = await axios.get(`http://${ip}:8080/tasks/groups`,{"headers":{"Authorization":"Bearer "+ token}});
+          
+        const response = await axios.get(`http://${ip}:8080/tasks/groups/en-en`,{"headers":{"Authorization":"Bearer "+ token}});
         const result = await response.data;
         setData(result);
       } catch (error) {
