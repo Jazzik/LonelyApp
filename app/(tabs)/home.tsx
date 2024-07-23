@@ -64,8 +64,8 @@ export default function Tab() {
             // exiting={FadeOut.duration(1000)} 
             style={styles.container}>
 
-          {data.map((item) => (
-            <ChallengeBar title={item} progress={50}></ChallengeBar>
+            {data.map((item) => (
+            <ChallengeBar title={item} progress={50} ></ChallengeBar>
           ))}
             
 
