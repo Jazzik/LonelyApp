@@ -7,5 +7,7 @@
   "required_field": "必須項目",
   "login": "ログイン または アカウントを作成",
   "email": "メールアドレス",
-  "password": "パスワード"
+  "password": "パスワード",
+  "Incorrect_email_or_password": "メールアドレスまたはパスワードが間違っています",
+  "Login_faled": "ログインに失敗しました"
 }

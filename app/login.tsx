@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text, Button, View, StyleSheet, TextInput, SafeAreaView } from 'react-native';
+import { Alert, TouchableOpacity, Text, Button, View, StyleSheet, TextInput, SafeAreaView } from 'react-native';
 import Animated, { useAnimatedStyle, useAnimatedScrollHandler, useSharedValue} from 'react-native-reanimated';
 import { Link, router } from 'expo-router';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -10,8 +10,6 @@ import axios from 'axios';
 import i18n from '@/i18n';
 
 
-
-console.log(i18n.t('welcome'), i18n.t('name'));
 
 const LoginSchema = Yup.object().shape({
     email: Yup.string().email(i18n.t('wrong_email')).required(i18n.t('required_field')),
@@ -36,13 +34,40 @@ export default function LoginScreen() {
     }
 
     const succesfullLogin = (values: LoginFormValues) => {
-        axios.post('https://bcab36b9-02fb-4f51-a72c-9b5227d997ec.mock.pstmn.io', values)
+        axios.post('http://localhost:8080/auth/login', values)
             .then(response => {
                 console.log('succesfull login');
+                console.log(response.data);
                 router.replace('/home');
             })
             .catch(error => {
+
+                console.error(error.response.data, "code: ", error.response.status);
+                if (error.response.status === 404) {
+                    
+                    console.log('redirect to register');
+                    succesfullRegister(values);
+                };
+
+                if (error.response.status === 401) {
+                    console.log('incorrect email or password');
+                    Alert.alert(i18n.t('Login_faled'), i18n.t('Incorrect_email_or_password'));
+                };
+
+                
+            });
+    }
+    const succesfullRegister = (values: LoginFormValues) => {
+        axios.post('http://localhost:8080/auth/register', values)
+            .then(response => {
+                console.log('succesfull register');
+                console.log(response.data);
+                router.replace('/home');
+            })
+            .catch(error => {
+
                 console.log('error login');
+
                 console.error(error);
             });
     }
@@ -160,3 +185,4 @@ const styles = StyleSheet.create({
         paddingTop: 8,
     },
 });
+

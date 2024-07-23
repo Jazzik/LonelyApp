@@ -7,5 +7,7 @@
     "required_field": "Campo obligatorio",
     "login": "Iniciar sesión o crear cuenta",
     "email": "Correo",
-    "password": "Contraseña"
+    "password": "Contraseña",
+    "Incorrect_email_or_password": "Correo o contraseña incorrectos",
+    "Login_faled": "Iniciar sesión fallido"
 }

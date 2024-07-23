@@ -7,5 +7,7 @@
   "required_field": "Обязательное поле",
   "login": "Войти или создать аккаунт",
   "email": "Электронная почта",
-  "password": "Пароль"
+  "password": "Пароль",
+  "Incorrect_email_or_password": "Неверный email или пароль",
+  "Login_faled": "Войти не удалось"
 }
