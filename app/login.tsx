@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from '@/i18n';
+import { ip } from '@/ip.json';
 
 console.log('login.tsx');
 
@@ -34,7 +35,7 @@ export default function LoginScreen() {
     }
 
     const succesfullLogin = async (values: LoginFormValues) => {
-        axios.post('http://10.30.14.146:8080/auth/login', values)
+        axios.post(`http://${ip}:8080/auth/login`, values)
             .then(async response => {
                 console.log('succesfull login');
                 console.log(response.data);
@@ -59,7 +60,7 @@ export default function LoginScreen() {
             });
     }
     const succesfullRegister = (values: LoginFormValues) => {
-        axios.post('http://10.30.14.146:8080/auth/register', values)
+        axios.post(`http://${ip}:8080/auth/register`, values)
             .then(response => {
                 console.log('succesfull register');
                 console.log(response.data);

@@ -8,6 +8,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
+import {ip} from '@/ip.json'
 export default function Tab() {
   const { width, height } = Dimensions.get('window');
   const translationY = useSharedValue(0);
@@ -24,7 +25,7 @@ export default function Tab() {
         
         const token = await AsyncStorage.getItem("userToken")
         console.log(token)
-        const response = await axios.get('http://10.30.14.146:8080/tasks/groups',{"headers":{"Authorization":"Bearer "+ token}})
+        const response = await axios.get(`http://${ip}:8080/tasks/groups`,{"headers":{"Authorization":"Bearer "+ token}});
         const result = await response.data;
         setData(result);
       } catch (error) {
