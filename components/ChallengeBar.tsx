@@ -2,6 +2,7 @@ import { Colors } from "@/constants/Colors";
 import { useState } from "react";
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle } from "react-native-reanimated";
+import * as Haptics from 'expo-haptics';
 
 export function ChallengeBar({ progress, title }: { progress: number; title: string }) {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -16,12 +17,16 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
   return (
     <TouchableWithoutFeedback
       onPressIn={() => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         scale.value = 0.90;
       }}
       onPressOut={() => {
         scale.value = 1.04;
+        
         //wait 1 second
-
+        setTimeout(() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        }, 30);
         setTimeout(() => {
           scale.value = 1;
         }, 60);
@@ -69,6 +74,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: '100%',
+    borderRadius: 5,
   },
   switchContainer: {
     flexDirection: 'row',

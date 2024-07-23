@@ -5,6 +5,8 @@ import { Octicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import Animated, { useSharedValue, withSpring, withTiming, useAnimatedStyle, FadeIn, FadeOut } from 'react-native-reanimated';
 import { Colors } from '@/constants/Colors';
+import * as Haptics from 'expo-haptics';
+
 export default function TabLayout(){
 
   const widthHome = useSharedValue(32);
@@ -12,6 +14,7 @@ export default function TabLayout(){
   const widthCommunity = useSharedValue(36);
 
   const handleHomePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     widthHome.value = withSpring(36); // Adjust the increment as needed
     setTimeout(() => {
       widthHome.value = withTiming(32); // Return to initial width after a short delay
@@ -19,6 +22,7 @@ export default function TabLayout(){
   };
 
   const handleSettingsPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     widthSettings.value = withSpring(36); // Adjust the increment as needed
     setTimeout(() => {
       widthSettings.value = withTiming(32); // Return to initial width after a short delay
@@ -26,6 +30,7 @@ export default function TabLayout(){
   };
 
   const handleCommunityPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
     widthCommunity.value = withSpring(40); // Adjust the increment as needed
     setTimeout(() => {
       widthCommunity.value = withTiming(36); // Return to initial width after a short delay
