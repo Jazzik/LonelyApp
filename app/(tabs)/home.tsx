@@ -2,14 +2,18 @@ import Animated, {FadeIn, FadeOut, useAnimatedStyle,useAnimatedScrollHandler, us
 import CircleButton from '../../components/CircleButton';
 import { StatusBar, StatusBarStyle } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View, Dimensions, Button } from 'react-native';
 import { ChallengeBar } from '@/components/ChallengeBar';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+
 import {ip} from '@/ip.json'
 export default function Tab() {
+  const nav = useNavigation()
   const { width, height } = Dimensions.get('window');
   const translationY = useSharedValue(0);
   const scrollY = useSharedValue(0);
@@ -30,7 +34,7 @@ export default function Tab() {
         const result = await response.data;
         setData(result);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -65,10 +69,9 @@ export default function Tab() {
             entering={FadeIn.duration(100)} 
             // exiting={FadeOut.duration(1000)} 
             style={styles.container}>
-
-            {data.map((item) => (
-              <ChallengeBar title={item} progress={50} ></ChallengeBar>
-            ))}
+          {data.map((item, index) => (
+            <ChallengeBar key={index} title={item} progress={0}></ChallengeBar>
+          ))}
             
 
           </Animated.View>
