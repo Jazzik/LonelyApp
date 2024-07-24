@@ -9,5 +9,7 @@
     "email": "Correo",
     "password": "Contraseña",
     "Incorrect_email_or_password": "Correo o contraseña incorrectos",
-    "Login_failed": "Iniciar sesión fallido"
+    "Login_failed": "Iniciar sesión fallido",
+    "check_internet_connection": "Algo salio mal, por favor revisa tu red",
+    "server_error": "Error del servidor, estamos corrigiendolo. Vuelve pronto"
 }

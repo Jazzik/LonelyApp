@@ -2,16 +2,18 @@ import Animated, {FadeIn, FadeOut, useAnimatedStyle,useAnimatedScrollHandler, us
 import CircleButton from '../../components/CircleButton';
 import { StatusBar, StatusBarStyle } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, View, Dimensions, Button } from 'react-native';
+import { StyleSheet, View, Dimensions, Button, Text } from 'react-native';
 import { ChallengeBar } from '@/components/ChallengeBar';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
-import { StackNavigationProp } from '@react-navigation/stack';
+// import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
-
+import CheckInternetConnection from '@/components/CheckInternetConnection';
 import {ip} from '@/ip.json'
+import { Punkboy1 } from '@/components/characters/punkboy/punkboy';
+import { ActivityIndicator } from 'react-native';
 export default function Tab() {
   const nav = useNavigation()
   const { width, height } = Dimensions.get('window');
@@ -19,32 +21,37 @@ export default function Tab() {
   const scrollY = useSharedValue(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isInternetError, setIsInternetError] = useState(false);
+
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollY.value = event.contentOffset.y;
 
   });
   useEffect(() => {
+    fetchData();},[]);
+
     const fetchData = async () => {
-      try {
-        
         const token = await AsyncStorage.getItem("userToken")
+        console.log("tut")
         // const token = await AsyncStorage.removeItem("userToken")
-          
-        const response = await axios.get(`http://${ip}:8080/tasks/group/en`,{"headers":{"Authorization":"Bearer "+ token}});
-        const result = await response.data;
-        setData(result);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+        setIsInternetError(false); // Reset internet error state
+        await axios.get(`http://${ip}:8080/tasks/groups/en-en`,
+          {"headers":{"Authorization":"Bearer "+ token}}).then((response) => {
+            const result = response.data;
+            console.log(result, "result");
+            setData(result);
+          }).catch((error) => {
+
+            setIsInternetError(true);
+            //error code 
+            console.log("error");
+            // console.log(JSON.stringify(error));  // for full error data
+            // console.error(error.data);
+          }).finally(() => {
+            setLoading(false);
+          });
+        
       }
-    };
-
-    fetchData();
-
-  },[]);
-
-
 
   const animatedStyle = useAnimatedStyle(() => {
   return {
@@ -52,37 +59,48 @@ export default function Tab() {
   };
   });
 
-
+  const retryConnection = () => {
+    fetchData();
+  };
   return (
 
     <View style={styles.container}>
+    
       <Animated.ScrollView
 
         onScroll={scrollHandler}
         scrollEventThrottle={16}
         style={styles.scrollView}
       >
-        
+        {isInternetError ? (
+            <View style= {{flex:1, alignItems: 'center', justifyContent: 'center', height: 600}}>
+              <Punkboy1 />
+              <CheckInternetConnection />
+              <Button title="Retry" onPress={retryConnection} />
+            </View>
+          ) : (
         <Animated.View style={[styles.content, animatedStyle]}>
-          
-          <Animated.View 
-            entering={FadeIn.duration(100)} 
-            // exiting={FadeOut.duration(1000)} 
-            style={styles.container}>
-          {data.map((item, index) => (
-            <ChallengeBar key={index} title={item} progress={0}></ChallengeBar>
-          ))}
             
+                  <Animated.View 
+                    entering={FadeIn.duration(100)} 
+                    // exiting={FadeOut.duration(1000)} 
+                    style={styles.container}>
+                      {data.map((item, index) => (
+                        <ChallengeBar key={index} title={item} progress={0}></ChallengeBar>
+                      ))}
+                  </Animated.View>
+        
+          
+          
 
-          </Animated.View>
-
-        </Animated.View>
-
-      </Animated.ScrollView>
+         </Animated.View>
+       )}
+        </Animated.ScrollView>
+      
       <StatusBar style='light'/>
   </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -97,6 +115,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
+    flex:1,
     flexGrow: 1,
     padding: 20,
   },
