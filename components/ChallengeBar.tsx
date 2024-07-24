@@ -3,10 +3,12 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TouchableWithoutFeedback, Button, Pressable } from "react-native";
 import Animated, { useSharedValue, useAnimatedStyle } from "react-native-reanimated";
 import * as Haptics from 'expo-haptics';
+import { useNavigation } from "expo-router";
 
 export function ChallengeBar({ progress, title }: { progress: number; title: string }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const scale = useSharedValue(1);
+  const navigation = useNavigation();
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -17,7 +19,7 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
 
     <Pressable 
     onPressIn={() => {
-
+      navigation.navigate("tasks")
       scale.value = 0.95;
     }}
     onPressOut={() => {
@@ -26,6 +28,7 @@ export function ChallengeBar({ progress, title }: { progress: number; title: str
      
     }}
     onLongPress={() => {
+
       // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       scale.value = 0.95;
       setTimeout(() => {
