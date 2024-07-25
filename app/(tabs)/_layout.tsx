@@ -2,9 +2,7 @@ import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Octicons } from "@expo/vector-icons";
 import { Stack, Tabs } from "expo-router";
-import Dart from "@/assets/svg/dart-board.svg";
-import Gold from "@/assets/svg/gold.svg";
-import Diamond from "@/assets/svg/diamond.svg";
+
 import Animated, {
   useSharedValue,
   withSpring,
@@ -15,7 +13,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
 import * as Haptics from "expo-haptics";
-import { Image, View, Text } from "react-native";
+import { Image, View, Text, Pressable } from "react-native";
+import { HeaderItems } from "@/components/headerItems/HeaderItems";
 
 export default function TabLayout() {
   const widthHome = useSharedValue(32);
@@ -78,65 +77,12 @@ export default function TabLayout() {
         headerTitleAlign: "left",
 
         headerRight: () => (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "flex-end",
-              justifyContent: "flex-end",
-              // backgroundColor: "red",
-              gap: 27,
-              paddingBottom: 3,
-            }}
-          >
-            <View
-              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end" }}
-            >
-              <Dart width={30} height={30} />
-              <Text style={{ color: "white", fontSize: 26 }}>98</Text>
-            </View>
-            <View
-              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end" }}
-            >
-              <Gold width={30} height={30} />
-              <Text style={{ color: "white", fontSize: 26 }}>112</Text>
-            </View>
-            <View
-              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end" }}
-            >
-              <Diamond width={30} height={30} />
-              <Text style={{ color: "white", fontSize: 26 }}>112</Text>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-                // backgroundColor: "red",
-              }}
-            >
-              <View
-                style={{
-                  width: 60, // Circle size
-                  height: 60, // Circle size
-                  borderRadius: 30, // Half of the width/height to make it a circle
-                  backgroundColor: Colors.dark.background, // Circle color
-                  justifyContent: "center", // Center the image vertically
-                  alignItems: "center", // Center the image horizontally
-                }}
-              >
-                <Image
-                  source={require("@/assets/images/user/user-photo.png")}
-                  style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 30,
-                    borderColor: "white",
-                    borderWidth: 2,
-                  }}
-                />
-              </View>
-            </View>
-          </View>
+          <HeaderItems
+            dartValue={100}
+            goldValue={150}
+            diamondValue={60}
+            userPhotoIsLoaded={true}
+          />
         ),
         headerTitle: () => <></>,
       }}
