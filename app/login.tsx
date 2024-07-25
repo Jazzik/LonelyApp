@@ -36,12 +36,16 @@ export default function LoginScreen() {
     }
 
     const succesfullLogin = async (values: LoginFormValues) => {
-        axios.post(`http://${ip}:8080/auth/login`, values)
+        axios.post(`http://${ip}:8080/api/v1/auth/login`, values)
             .then(async response => {
                 console.log('succesfull login');
                 console.log(response.data);
+                console.log('accessToken: ', response.data.accessToken);
+                console.log('refreshToken: ', response.data.refreshToken);
+
                 // Assuming the JWT is in response.data.token
-                await AsyncStorage.setItem('userToken', response.data);
+                await AsyncStorage.setItem('accessToken', response.data.accessToken);
+                await AsyncStorage.setItem('refreshToken', response.data.refreshToken);
                 router.replace('/home');
             })
             .catch(error => {
@@ -61,7 +65,7 @@ export default function LoginScreen() {
             });
     }
     const succesfullRegister = (values: LoginFormValues) => {
-        axios.post(`http://${ip}:8080/auth/register`, values)
+        axios.post(`http://${ip}:8080/api/v1/auth/register`, values)
             .then(response => {
                 console.log('succesfull register');
                 console.log(response.data);

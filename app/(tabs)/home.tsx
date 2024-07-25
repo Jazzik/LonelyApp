@@ -21,6 +21,7 @@ import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { ip } from "@/ip.json";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
 import { ActivityIndicator } from "react-native";
+import { Navigator } from "expo-router";
 export default function Tab() {
   const nav = useNavigation();
   const { width, height } = Dimensions.get("window");
@@ -38,13 +39,13 @@ export default function Tab() {
   }, []);
 
   const fetchData = async () => {
-    const token = await AsyncStorage.getItem("userToken");
+    const token = await AsyncStorage.getItem("accessToken");
     // const token = await AsyncStorage.removeItem("userToken")
     setLoading(true);
     setIsInternetError(false); // Reset internet error state
-    console.log("sending request");
+    console.log("sending request \n req: \nBearer " + token);
     await axios
-      .get(`http://${ip}:8080/tasks/groups/en-en`, {
+      .get(`http://${ip}:8080/api/v1/tasks/groups/en-en`, {
         headers: { Authorization: "Bearer " + token },
       })
       .then((response) => {
@@ -54,7 +55,7 @@ export default function Tab() {
       })
       .catch((error) => {
         setIsInternetError(true);
-        console.log("error");
+        console.error(error);
         // console.log(JSON.stringify(error));  // for full error data
       })
       .finally(() => {
@@ -62,11 +63,11 @@ export default function Tab() {
       });
   };
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: -scrollY.value }],
-    };
-  });
+  // const animatedStyle = useAnimatedStyle(() => {
+  //   return {
+  //     transform: [{ translateY: -scrollY.value }],
+  //   };
+  // });
 
   const retryConnection = () => {
     fetchData();
@@ -106,7 +107,7 @@ export default function Tab() {
               <Button title="Retry" onPress={retryConnection} />
             </View>
           ) : (
-            <Animated.View style={[styles.content, animatedStyle]}>
+            <Animated.View style={[styles.content]}>
               <Animated.View
                 entering={FadeIn.duration(100)}
                 // exiting={FadeOut.duration(1000)}

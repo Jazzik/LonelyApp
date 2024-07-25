@@ -32,6 +32,9 @@ export default function Layout() {
         options={{ 
           headerShown: true, 
           headerStyle: { backgroundColor: Colors.dark.upper_background },
+          headerBackTitle: 'Back',
+          headerBackTitleStyle: {fontSize: 20},
+          
         }} 
       />
     </Stack>
