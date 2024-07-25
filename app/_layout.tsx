@@ -3,11 +3,7 @@ import { Stack } from "expo-router";
 import { Image, View } from "react-native"; // Import the correct component for Image
 export default function Layout() {
   return (
-    <Stack
-      screenOptions={{
-        
-      }}
-    >
+    <Stack screenOptions={{}}>
       <Stack.Screen
         name="(tabs)"
         options={{
@@ -31,7 +27,6 @@ export default function Layout() {
           headerBackTitleStyle: { fontSize: 20 },
         }}
       />
-     
     </Stack>
   );
 }

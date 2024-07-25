@@ -1,24 +1,23 @@
-import { Link } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Redirect } from 'expo-router';
-import { useState,useEffect } from 'react';
-console.log('index.tsx');
+import { Link } from "expo-router";
+import { View, Text, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Redirect } from "expo-router";
+import { useState, useEffect } from "react";
+console.log("index.tsx");
 
 const checkLoginStatus = async () => {
-  
-  const token = await AsyncStorage.getItem('accessToken');
+  const token = await AsyncStorage.getItem("accessToken");
   // let token = false;
   if (token) {
-    console.log('token found: ', token);
+    console.log("token found: ", token);
     // Optionally validate the token
     // Navigate to the home screen or wherever appropriate
-    return '/home';
+    return "/home";
   } else {
-    console.log('token not found');
-    return '/login';
+    console.log("token not found");
+    return "/login";
   }
-}
+};
 
 export default function HomeScreen() {
   const [url, setUrl] = useState<"/home" | "/login" | null>(null);
@@ -32,20 +31,21 @@ export default function HomeScreen() {
   }, []);
 
   if (!url) {
-    return <View><Text>Loading...</Text></View>; // Or any other loading state
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    ); // Or any other loading state
   }
 
-  return (
-    <Redirect href={url}/>
-  );
+  return <Redirect href={url} />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     // backgroundColor: 'red',
   },
 });
-

@@ -36,7 +36,6 @@ export function ChallengeBar({
       onPressIn={() => {
         scale.value = 0.95;
       }}
-      
       // onLongPress={() => {
       //   // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       //   scale.value = 0.95;

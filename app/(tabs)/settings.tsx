@@ -20,21 +20,21 @@ export default function settings() {
   });
 
   return (
-      <View style={styles.container}>
-        <Animated.ScrollView
-          onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          style={styles.scrollView}
-        >
-          <Animated.View style={[styles.content, animatedStyle]}>
-            {Array.from({ length: 20 }).map((_, index) => (
-              <View key={index} style={styles.item}>
-                <Text style={styles.itemText}>Item {index + 1}</Text>
-              </View>
-            ))}
-          </Animated.View>
-        </Animated.ScrollView>
-      </View>
+    <View style={styles.container}>
+      <Animated.ScrollView
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        style={styles.scrollView}
+      >
+        <Animated.View style={[styles.content, animatedStyle]}>
+          {Array.from({ length: 20 }).map((_, index) => (
+            <View key={index} style={styles.item}>
+              <Text style={styles.itemText}>Item {index + 1}</Text>
+            </View>
+          ))}
+        </Animated.View>
+      </Animated.ScrollView>
+    </View>
   );
 }
 const styles = StyleSheet.create({

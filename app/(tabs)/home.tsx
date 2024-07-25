@@ -22,8 +22,8 @@ import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { ip } from "@/ip.json";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
 import { ActivityIndicator } from "react-native";
-import {isExpired} from "@/utils/token";
-import {getGroups,refreshTokenIfExpired} from "@/api/apiv1"
+import { isExpired } from "@/utils/token";
+import { getGroups, refreshTokenIfExpired } from "@/api/apiv1";
 export default function Tab() {
   const nav = useNavigation();
   const { width, height } = Dimensions.get("window");
@@ -41,15 +41,15 @@ export default function Tab() {
   }, []);
 
   const fetchData = async () => {
-    // await AsyncStorage.removeItem("acessToken")
-    const token = await AsyncStorage.getItem("acessToken")
+    // await AsyncStorage.removeItem("accessToken")
+    await AsyncStorage.getItem("accessToken");
     setLoading(true);
     setIsInternetError(false); // Reset internet error state
-    
+
     await getGroups("en-en")
       .then((response) => {
         const result = response.data;
-        console.log(result)
+        console.log(result);
         setData(result);
       })
       .catch((error) => {
@@ -61,8 +61,6 @@ export default function Tab() {
         setLoading(false);
       });
   };
-
-  
 
   const retryConnection = () => {
     fetchData();
