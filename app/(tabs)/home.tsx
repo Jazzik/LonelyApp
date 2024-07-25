@@ -46,21 +46,20 @@ export default function Tab() {
     setLoading(true);
     setIsInternetError(false); // Reset internet error state
     
-    refreshTokenIfExpired()
-    // await getGroups("en-en")
-    //   .then((response) => {
-    //     const result = response.data;
-    //     console.log(result)
-    //     setData(result);
-    //   })
-    //   .catch((error) => {
-    //     setIsInternetError(true);
-    //     console.error(error);
-    //     // console.log(JSON.stringify(error));  // for full error data
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    await getGroups("en-en")
+      .then((response) => {
+        const result = response.data;
+        console.log(result)
+        setData(result);
+      })
+      .catch((error) => {
+        setIsInternetError(true);
+        console.error(error);
+        // console.log(JSON.stringify(error));  // for full error data
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   
