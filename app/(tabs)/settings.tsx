@@ -1,5 +1,11 @@
-import { TouchableOpacity,Text,Button, View, StyleSheet } from 'react-native';
-import Animated, {useAnimatedStyle,useAnimatedScrollHandler, useSharedValue ,withSpring} from 'react-native-reanimated';
+import { Stack } from "expo-router";
+import { TouchableOpacity, Text, Button, View, StyleSheet } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useAnimatedScrollHandler,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 export default function settings() {
   const translationY = useSharedValue(0);
@@ -10,28 +16,26 @@ export default function settings() {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateY: -scrollY.value }],
-      };
+    };
   });
-  
-    return (
-      <View style={styles.container}>
-      <Animated.ScrollView
-        onScroll={scrollHandler}
-        scrollEventThrottle={16}
-        style={styles.scrollView}
-      >
-        <Animated.View style={[styles.content, animatedStyle]}>
-          {Array.from({ length: 20 }).map((_, index) => (
-            <View key={index} style={styles.item}>
-              <Text style={styles.itemText}>Item {index + 1}</Text>
-            </View>
-          ))}
-        </Animated.View>
-      </Animated.ScrollView>
-    </View>
-    );
-  
 
+  return (
+      <View style={styles.container}>
+        <Animated.ScrollView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          style={styles.scrollView}
+        >
+          <Animated.View style={[styles.content, animatedStyle]}>
+            {Array.from({ length: 20 }).map((_, index) => (
+              <View key={index} style={styles.item}>
+                <Text style={styles.itemText}>Item {index + 1}</Text>
+              </View>
+            ))}
+          </Animated.View>
+        </Animated.ScrollView>
+      </View>
+  );
 }
 const styles = StyleSheet.create({
   container: {
@@ -47,12 +51,12 @@ const styles = StyleSheet.create({
   item: {
     height: 100,
     marginBottom: 20,
-    backgroundColor: '#f9c2ff',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#f9c2ff",
+    justifyContent: "center",
+    alignItems: "center",
   },
   itemText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

@@ -1,14 +1,23 @@
-import React from 'react';
-import { View } from 'react-native';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Octicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
-import Animated, { useSharedValue, withSpring, withTiming, useAnimatedStyle, FadeIn, FadeOut } from 'react-native-reanimated';
-import { Colors } from '@/constants/Colors';
-import * as Haptics from 'expo-haptics';
+import React from "react";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Octicons } from "@expo/vector-icons";
+import { Stack, Tabs } from "expo-router";
+import Dart from "@/assets/svg/dart-board.svg";
+import Gold from "@/assets/svg/gold.svg";
+import Diamond from "@/assets/svg/diamond.svg";
+import Animated, {
+  useSharedValue,
+  withSpring,
+  withTiming,
+  useAnimatedStyle,
+  FadeIn,
+  FadeOut,
+} from "react-native-reanimated";
+import { Colors } from "@/constants/Colors";
+import * as Haptics from "expo-haptics";
+import { Image, View, Text } from "react-native";
 
-export default function TabLayout(){
-
+export default function TabLayout() {
   const widthHome = useSharedValue(32);
   const widthSettings = useSharedValue(32);
   const widthCommunity = useSharedValue(36);
@@ -40,14 +49,13 @@ export default function TabLayout(){
 
   const animatedStyleHome = useAnimatedStyle(() => {
     return {
-        fontSize: widthHome.value,
+      fontSize: widthHome.value,
     };
   });
 
   const animatedStyleSettings = useAnimatedStyle(() => {
     return {
       fontSize: widthSettings.value,
-      
     };
   });
 
@@ -58,16 +66,83 @@ export default function TabLayout(){
   });
 
   return (
-
-    <Tabs screenOptions={{tabBarStyle: { backgroundColor: Colors.dark.upper_background },
-    tabBarActiveTintColor: 'white', 
-    tabBarShowLabel: false}} >
-      
+    <Tabs
+      screenOptions={{
+        tabBarStyle: { backgroundColor: Colors.dark.upper_background },
+        tabBarActiveTintColor: "white",
+        tabBarShowLabel: false,
+        headerStyle: {
+          height: 120,
+          backgroundColor: Colors.dark.upper_background,
+        },
+        headerTitleAlign: "left",
+        
+        headerRight: () => (
+            <View
+            style={{
+              flex:1,
+              flexDirection: "row",
+              alignItems: "flex-end",
+              justifyContent: "flex-end",
+              // backgroundColor: "red",
+              gap: 27,
+              paddingBottom: 3,
+            }}
+          >
+            <View
+              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end"  }}
+            >
+              <Dart width={30} height={30}  />
+              <Text style={{ color: "white", fontSize: 26 }}>98</Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end" }}
+            >
+              <Gold width={30} height={30} />
+              <Text style={{ color: "white", fontSize: 26 }}>112</Text>
+            </View>
+            <View
+              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end" }}
+            >
+              <Diamond width={30} height={30} />
+              <Text style={{ color: "white", fontSize: 26 }}>112</Text>
+            </View>
+            <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              // backgroundColor: "red",
+            }}
+          >
+            <View
+              style={{
+                width: 70, // Circle size
+                height: 70, // Circle size
+                borderRadius: 35, // Half of the width/height to make it a circle
+                backgroundColor: "orange", // Circle color
+                justifyContent: "center", // Center the image vertically
+                alignItems: "center", // Center the image horizontally
+              }}
+            >
+              <Image
+                source={require("@/assets/images/user/user-photo.png")}
+                style={{ width: 60, height: 60, borderRadius: 30 }}
+              />
+            </View>
+          </View>
+          </View>
+          
+          
+        ),
+        headerTitle: () => (
+         <></>
+        ),
+      }}
+    >
       <Tabs.Screen /* Initializing home button */
         name="home"
         options={{
-          unmountOnBlur:true,
-          title: 'home',
+          title: "home",
           tabBarIcon: ({ color }) => (
             <AnimatedOctions
               name="home"
@@ -76,7 +151,7 @@ export default function TabLayout(){
               style={animatedStyleHome}
             />
           ),
-          headerShown: false,
+          headerShown: true,
         }}
         listeners={({ navigation, route }) => ({
           tabPress: (e) => {
@@ -88,8 +163,8 @@ export default function TabLayout(){
       <Tabs.Screen // initializing community button
         name="community"
         options={{
-          unmountOnBlur:true,
-          title: 'Community',
+          unmountOnBlur: true,
+          title: "Community",
           tabBarIcon: ({ color }) => (
             <AnimatedOctions
               name="people"
@@ -98,7 +173,7 @@ export default function TabLayout(){
               style={animatedStyleCommunity}
             />
           ),
-          headerShown: false,
+          headerShown: true,
         }}
         listeners={({ navigation, route }) => ({
           tabPress: (e) => {
@@ -106,13 +181,12 @@ export default function TabLayout(){
           },
         })}
       />
-      
 
       <Tabs.Screen // initializing settings button
         name="settings"
         options={{
-          unmountOnBlur:true,
-          title: 'Settings',
+          unmountOnBlur: true,
+          title: "Settings",
           tabBarIcon: ({ color }) => (
             <AnimatedOctions
               name="gear"
@@ -131,4 +205,4 @@ export default function TabLayout(){
       />
     </Tabs>
   );
-};
+}
