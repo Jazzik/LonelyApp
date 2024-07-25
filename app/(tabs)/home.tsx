@@ -6,12 +6,13 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import CircleButton from "../../components/CircleButton";
+
 import { StatusBar, StatusBarStyle } from "expo-status-bar";
 import React from "react";
 import { StyleSheet, View, Dimensions, Button, Text } from "react-native";
 import { ChallengeBar } from "@/components/ChallengeBar";
 import axios from "axios";
+import { AxiosResponse } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
@@ -21,7 +22,8 @@ import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { ip } from "@/ip.json";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
 import { ActivityIndicator } from "react-native";
-import { Navigator } from "expo-router";
+import {isExpired} from "@/utils/token";
+import {getGroups,refreshTokenIfExpired} from "@/api/apiv1"
 export default function Tab() {
   const nav = useNavigation();
   const { width, height } = Dimensions.get("window");
@@ -39,28 +41,26 @@ export default function Tab() {
   }, []);
 
   const fetchData = async () => {
-    const token = await AsyncStorage.getItem("accessToken");
-    // const token = await AsyncStorage.removeItem("accessToken")
+    //rawait AsyncStorage.removeItem("acessToken")
+    const token = await AsyncStorage.getItem("acessToken")
     setLoading(true);
     setIsInternetError(false); // Reset internet error state
-    console.log("sending request \n req: \nBearer " + token);
-    await axios
-      .get(`http://${ip}:8080/api/v1/tasks/groups/en-en`, {
-        headers: { Authorization: "Bearer " + token },
-      })
-      .then((response) => {
-        const result = response.data;
-        console.log(result, "result");
-        setData(result);
-      })
-      .catch((error) => {
-        setIsInternetError(true);
-        console.error(error);
-        // console.log(JSON.stringify(error));  // for full error data
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    
+    refreshTokenIfExpired()
+    // await getGroups("en-en")
+    //   .then((response) => {
+    //     const result = response.data;
+    //     console.log(result)
+    //     setData(result);
+    //   })
+    //   .catch((error) => {
+    //     setIsInternetError(true);
+    //     console.error(error);
+    //     // console.log(JSON.stringify(error));  // for full error data
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
   };
 
   
