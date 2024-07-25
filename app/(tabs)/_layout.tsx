@@ -76,11 +76,11 @@ export default function TabLayout() {
           backgroundColor: Colors.dark.upper_background,
         },
         headerTitleAlign: "left",
-        
+
         headerRight: () => (
-            <View
+          <View
             style={{
-              flex:1,
+              flex: 1,
               flexDirection: "row",
               alignItems: "flex-end",
               justifyContent: "flex-end",
@@ -90,9 +90,9 @@ export default function TabLayout() {
             }}
           >
             <View
-              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end"  }}
+              style={{ flexDirection: "row", gap: 5, alignItems: "flex-end" }}
             >
-              <Dart width={30} height={30}  />
+              <Dart width={30} height={30} />
               <Text style={{ color: "white", fontSize: 26 }}>98</Text>
             </View>
             <View
@@ -108,35 +108,37 @@ export default function TabLayout() {
               <Text style={{ color: "white", fontSize: 26 }}>112</Text>
             </View>
             <View
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              // backgroundColor: "red",
-            }}
-          >
-            <View
               style={{
-                width: 70, // Circle size
-                height: 70, // Circle size
-                borderRadius: 35, // Half of the width/height to make it a circle
-                backgroundColor: "orange", // Circle color
-                justifyContent: "center", // Center the image vertically
-                alignItems: "center", // Center the image horizontally
+                alignItems: "center",
+                justifyContent: "center",
+                // backgroundColor: "red",
               }}
             >
-              <Image
-                source={require("@/assets/images/user/user-photo.png")}
-                style={{ width: 60, height: 60, borderRadius: 30 }}
-              />
+              <View
+                style={{
+                  width: 60, // Circle size
+                  height: 60, // Circle size
+                  borderRadius: 30, // Half of the width/height to make it a circle
+                  backgroundColor: Colors.dark.background, // Circle color
+                  justifyContent: "center", // Center the image vertically
+                  alignItems: "center", // Center the image horizontally
+                }}
+              >
+                <Image
+                  source={require("@/assets/images/user/user-photo.png")}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 30,
+                    borderColor: "white",
+                    borderWidth: 2,
+                  }}
+                />
+              </View>
             </View>
           </View>
-          </View>
-          
-          
         ),
-        headerTitle: () => (
-         <></>
-        ),
+        headerTitle: () => <></>,
       }}
     >
       <Tabs.Screen /* Initializing home button */

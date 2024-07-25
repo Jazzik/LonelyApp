@@ -63,11 +63,7 @@ export default function Tab() {
       });
   };
 
-  // const animatedStyle = useAnimatedStyle(() => {
-  //   return {
-  //     transform: [{ translateY: -scrollY.value }],
-  //   };
-  // });
+  
 
   const retryConnection = () => {
     fetchData();
