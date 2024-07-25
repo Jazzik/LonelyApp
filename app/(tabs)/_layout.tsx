@@ -132,6 +132,7 @@ export default function TabLayout() {
                     borderRadius: 30,
                     borderColor: "white",
                     borderWidth: 2,
+                   
                   }}
                 />
               </View>
