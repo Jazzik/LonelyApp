@@ -12,6 +12,8 @@ import Dart from "@/assets/svg/dart-board.svg";
 import Gold from "@/assets/svg/gold.svg";
 import Diamond from "@/assets/svg/diamond.svg";
 import { Colors } from "@/constants/Colors";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation
+
 
 interface HeaderItemsProps {
   dartValue: number;
@@ -28,10 +30,13 @@ export function HeaderItems(props: HeaderItemsProps) {
     userPhotoIsLoaded: userPhoto,
   } = props;
 
+  const navigator = useNavigation();
+
   const scalePhoto = useSharedValue(1);
   const scaleGold = useSharedValue(1);
   const scaleDart = useSharedValue(1);
   const scaleDiamonds = useSharedValue(1);
+  
   const animatedStyleDart = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scaleDart.value }],
@@ -56,7 +61,7 @@ export function HeaderItems(props: HeaderItemsProps) {
     };
   });
   return (
-    <View
+    <View // header container
       style={{
         flex: 1,
         flexDirection: "row",
@@ -64,10 +69,10 @@ export function HeaderItems(props: HeaderItemsProps) {
         // justifyContent: "",
         // backgroundColor: "red",
         gap: 27,
-        paddingBottom: 3,
+        paddingBottom: 10,
       }}
     >
-      <Pressable
+      <Pressable // dart
         onPressIn={() => {
           scaleDart.value = 0.9;
         }}
@@ -89,7 +94,7 @@ export function HeaderItems(props: HeaderItemsProps) {
         </Animated.View>
       </Pressable>
 
-      <Pressable
+      <Pressable // gold
         onPressIn={() => {
           scaleGold.value = 0.9;
         }}
@@ -111,7 +116,7 @@ export function HeaderItems(props: HeaderItemsProps) {
         </Animated.View>
       </Pressable>
 
-      <Pressable
+      <Pressable // diamond
         onPressIn={() => {
           scaleDiamonds.value = 0.9;
         }}
@@ -133,12 +138,14 @@ export function HeaderItems(props: HeaderItemsProps) {
         </Animated.View>
       </Pressable>
 
-      <Pressable
+      <Pressable // user photo
         onPressIn={() => {
           scalePhoto.value = 0.9;
         }}
         onPress={() => {
+          // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          navigator.navigate("user_profile");
         }}
         onPressOut={() => {
           scalePhoto.value = 1;

@@ -65,7 +65,7 @@ export function ChallengeBar({
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }, 30);
 
-        navigation.navigate("tasks");
+        navigation.navigate("tasks", { tasksName: title });
       }}
     >
       <Animated.View style={[styles.container, animatedStyle]}>

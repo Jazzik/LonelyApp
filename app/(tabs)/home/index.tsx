@@ -24,10 +24,10 @@ import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
 import { ActivityIndicator } from "react-native";
 import { isExpired } from "@/utils/token";
 import { getGroups, refreshTokenIfExpired } from "@/api/apiv1";
+import {styles} from "@/constants/Style"
+export let tasksName = "Task Group Name";
+      
 export default function Tab() {
-  const nav = useNavigation();
-  const { width, height } = Dimensions.get("window");
-  const translationY = useSharedValue(0);
   const scrollY = useSharedValue(0);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +51,8 @@ export default function Tab() {
         const result = response.data;
         console.log(result);
         setData(result);
+        tasksName = result
+        
       })
       .catch((error) => {
         setIsInternetError(true);
@@ -123,36 +125,4 @@ export default function Tab() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.dark.background,
-    flex: 1,
-    position: "relative", // Ensure the container is relative
-  },
-  buttonContainer: {
-    position: "absolute",
-  },
-  loadingContainer: {
-    flex: 1,
-    // backgroundColor: 'red',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-    flexGrow: 1,
-    padding: 20,
-  },
-  item: {
-    height: 100,
-    marginBottom: 20,
-    backgroundColor: "#f9c2ff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  itemText: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});
+

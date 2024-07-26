@@ -64,24 +64,32 @@ export default function TabLayout() {
     };
   });
 
+  const userValues = {
+    dartValue: 100,
+    goldValue: 150,
+    diamondValue: 60,
+    userPhotoIsLoaded: true,
+  };
+
   return (
     <Tabs
       screenOptions={{
+        headerShadowVisible: false,
         tabBarStyle: { backgroundColor: Colors.dark.upper_background },
         tabBarActiveTintColor: "white",
         tabBarShowLabel: false,
         headerStyle: {
-          height: 120,
+          height: 100,
           backgroundColor: Colors.dark.upper_background,
         },
         headerTitleAlign: "left",
 
         headerRight: () => (
           <HeaderItems
-            dartValue={100}
-            goldValue={150}
-            diamondValue={60}
-            userPhotoIsLoaded={true}
+            dartValue={userValues.dartValue}
+            goldValue={userValues.goldValue}
+            diamondValue={userValues.diamondValue}
+            userPhotoIsLoaded={userValues.userPhotoIsLoaded}
           />
         ),
         headerTitle: () => <></>,
@@ -151,6 +159,9 @@ export default function TabLayout() {
           },
         })}
       />
+      
     </Tabs>
+
+    
   );
 }

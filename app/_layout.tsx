@@ -1,7 +1,9 @@
+import { HeaderItems } from "@/components/headerItems/HeaderItems";
 import { Colors } from "@/constants/Colors";
 import { Stack } from "expo-router";
 import { Image, View } from "react-native"; // Import the correct component for Image
-export default function Layout() {
+
+export default () => {
   return (
     <Stack screenOptions={{}}>
       <Stack.Screen
@@ -19,14 +21,21 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
-        name="tasks"
+        name="user_profile"
         options={{
-          headerShown: false,
-          headerStyle: { backgroundColor: Colors.dark.upper_background },
           headerBackTitle: "Back",
-          headerBackTitleStyle: { fontSize: 20 },
+          
+          headerBackButtonMenuEnabled: true,
+          headerBackTitleVisible: true,
+          headerBackVisible: true,
+          // headerBackButtonMenuEnabled: true,
+          headerShown: true,
         }}
       />
+      
+ 
+     
+   
     </Stack>
   );
 }

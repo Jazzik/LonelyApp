@@ -22,8 +22,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/i18n";
 import { ip } from "@/ip.json";
-import { Colors } from "@/constants/Colors";
-
+import { loginStyles } from "@/constants/Style";
 console.log("login.tsx");
 
 const LoginSchema = Yup.object().shape({
@@ -97,8 +96,8 @@ export default function LoginScreen() {
   };
 
   return (
-    <Animated.ScrollView scrollEventThrottle={16} style={styles.scrollView}>
-      <SafeAreaView style={styles.container}>
+    <Animated.ScrollView scrollEventThrottle={16} style={loginStyles.loginScrollView}>
+      <SafeAreaView style={loginStyles.loginContainer}>
         <View>
           <Formik
             initialValues={{ email: "", password: "" }}
@@ -113,11 +112,11 @@ export default function LoginScreen() {
               errors,
               touched,
             }) => (
-              <View style={styles.loginBox}>
+              <View style={loginStyles.loginBox}>
                 <TextInput
                   placeholderTextColor="#000"
                   style={{
-                    ...styles.loginItem,
+                    ...loginStyles.loginItem,
                     borderTopStartRadius: 20,
                     borderTopEndRadius: 20,
                   }}
@@ -130,11 +129,11 @@ export default function LoginScreen() {
                   value={values.email}
                 />
                 {errors.email && touched.email ? (
-                  <Text style={styles.errorText}>{errors.email}</Text>
+                  <Text style={loginStyles.loginErrorText}>{errors.email}</Text>
                 ) : null}
                 <TextInput
                   placeholderTextColor="#000"
-                  style={{ ...styles.loginItem, borderTopWidth: 1 }}
+                  style={{ ...loginStyles.loginItem, borderTopWidth: 1 }}
                   secureTextEntry={true}
                   autoComplete="current-password"
                   placeholder={i18n.t("password")}
@@ -143,7 +142,7 @@ export default function LoginScreen() {
                   value={values.password}
                 />
                 {errors.password && touched.password ? (
-                  <Text style={styles.errorText}>{errors.password}</Text>
+                  <Text style={loginStyles.loginErrorText}>{errors.password}</Text>
                 ) : null}
                 <View style={{ borderTopWidth: 1 }}>
                   <Button
@@ -163,7 +162,7 @@ export default function LoginScreen() {
               AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
             }
             cornerRadius={30}
-            style={styles.button}
+            style={loginStyles.loginButton}
             onPress={async () => {
               try {
                 const credential = await AppleAuthentication.signInAsync({
@@ -184,43 +183,4 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: "60%",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-  },
-  scrollView: {
-    flex: 1,
-    backgroundColor: Colors.dark.upper_background,
-  },
-  loginBox: {
-    backgroundColor: "#fff",
-    borderColor: "#000",
-    borderWidth: 1,
-    width: 300,
-    borderRadius: 20,
-  },
-  loginItem: {
-    backgroundColor: "#fff",
-    paddingHorizontal: 16,
-    paddingVertical: 24,
-    color: "#000",
-  },
-  content: {
-    flexGrow: 1,
-    padding: 20,
-  },
-  button: {
-    width: 300,
-    height: 44,
-    marginTop: 20,
-  },
-  errorText: {
-    color: "red",
-    paddingHorizontal: 16,
-    paddingTop: 8,
-  },
-});
+
