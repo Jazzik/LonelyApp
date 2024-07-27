@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Pressable, TouchableOpacity, View, StyleSheet} from "react-native";
-import { useNavigation } from "expo-router";
+import { Pressable, TouchableOpacity, View, StyleSheet } from "react-native";
 type CustomBackButtonProps = {
   navigation: StackNavigationProp<any, any>;
 };
@@ -14,37 +13,31 @@ export const CustomBackButton: React.FC<CustomBackButtonProps> = ({
       style={({ pressed }) => [
         styles.circleButton,
         {
-          backgroundColor: pressed ? "#fff" : "#fff",
+          
           shadowOffset: pressed
             ? { width: 0, height: 0 }
-            : { width: 0, height: 3 },
-          // shadowOpacity: pressed ? '0.5' : '1',
+            : { width: 0, height: 7 },
+
           flex: pressed ? 0.8 : 0.9,
-          transform: [{ translateY: pressed ? 1 : 0 }],
-          // width: pressed ? 84 : 90,
+          transform: [{ translateY: pressed ? 5 : 0 }],
         }, // Change the colors as needed
       ]}
-      onPress={
-        () => {
-          navigation.goBack();
-        }
-      }
+      onPress={() => {
+        navigation.goBack();
+      }}
     >
-        <Ionicons name="arrow-back" size={24} color="black" />
+      <Ionicons name="arrow-back" size={24} color="black" />
     </Pressable>
   </View>
 );
 
 const styles = StyleSheet.create({
   circleButtonContainer: {
-    width: 40,
-    height: 40,
-    // borderWidth: 4,
-    // borderColor: '#ffd33d',
-    borderRadius: 21,
+    width: 80,
+    height: 80,
+    // borderRadius: 40,
     padding: 1,
     marginBottom: 5,
-    // backgroundColor: 'grey'
     justifyContent: "flex-end",
   },
   circleButton: {
@@ -55,16 +48,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#000",
     flex: 0.8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    backgroundColor: "white",
   },
   buttontext: {
     flex: 1,
-    // justifyContent: "flex",
-    // borderColor: 'red',
-    // borderWidth: 1,
+
     textAlign: "center",
     fontSize: 32,
     color: "#25292e",

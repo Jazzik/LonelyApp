@@ -22,14 +22,14 @@ export default function HomeLayout() {
       <Stack.Screen
         name="tasks"
         options={{
-          headerTitle: () => <TasksHeader tasksGroupName="Some name" />,
+          
           headerShown: false,
           headerStyle: {
             backgroundColor: Colors.dark.upper_background,
           },
           headerBackTitle: "Back",
           headerBackTitleStyle: { fontSize: 20 },
-          headerLeft: () => <CustomBackButton navigation={useNavigation()} />,
+          
           headerBackTitleVisible: false,
           
         }}

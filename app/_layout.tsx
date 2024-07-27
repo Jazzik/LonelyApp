@@ -1,6 +1,7 @@
 import { HeaderItems } from "@/components/headerItems/HeaderItems";
+import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import { Colors } from "@/constants/Colors";
-import { Stack } from "expo-router";
+import { Stack, useNavigation } from "expo-router";
 import { Image, View } from "react-native"; // Import the correct component for Image
 
 export default () => {
@@ -24,18 +25,22 @@ export default () => {
         name="user_profile"
         options={{
           headerBackTitle: "Back",
-          
+          headerStyle: {
+            backgroundColor: Colors.dark.upper_background,
+          },
+
           headerBackButtonMenuEnabled: true,
           headerBackTitleVisible: true,
-          headerBackVisible: true,
+          headerBackVisible: false,
           // headerBackButtonMenuEnabled: true,
           headerShown: true,
+          headerLeft: () => (
+        
+              <CustomBackButton navigation={useNavigation()} />
+         
+          ),
         }}
       />
-      
- 
-     
-   
     </Stack>
   );
-}
+};

@@ -14,39 +14,37 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
 export default function Tasks() {
-  const [data, setData] = useState([])
-  const {tasksGroupName} = useLocalSearchParams();
+  const [data, setData] = useState([]);
+  const { tasksGroupName } = useLocalSearchParams();
   const navigation = useNavigation();
   useEffect(() => {
     fetchData();
-  
   }, []);
-  const locateButton = (index:number)=>{
-    if (index%2==1){
-      return "flex-start"
+  const locateButton = (index: number) => {
+    if (index % 2 == 1) {
+      return "flex-start";
+    } else {
+      return "flex-end";
     }
-    else{
-      return "flex-end"
-    }
-    
-  }
+  };
   const fetchData = async () => {
     // await AsyncStorage.removeItem("accessToken")
     await AsyncStorage.getItem("accessToken");
-    setData(await getTasksByGroup(tasksGroupName))
-
-
+    setData(await getTasksByGroup(tasksGroupName));
   };
   return (
     <View style={styles.container}>
-      <Animated.View style={{backgroundColor: 'rgba(0, 0, 0, 0)',
-        marginTop: 5,
-        marginLeft: 15,
-        marginRight: 15,
-      }}> 
-        <TasksHeader tasksGroupName={tasksGroupName} navigation = {navigation}  />
+      <Animated.View
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0)",
+          marginTop: 5,
+          marginLeft: 15,
+          marginRight: 15,
+        }}
+      >
+        <TasksHeader tasksGroupName={tasksGroupName} navigation={navigation} />
       </Animated.View>
-      
+
       <Animated.ScrollView
         // onScroll={scrollHandler}
         scrollEventThrottle={16}
@@ -58,19 +56,38 @@ export default function Tasks() {
             // exiting={FadeOut.duration(1000)}
             style={styles.container}
           >
-            {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
-              <CircleButton
-                onPress={() => navigation.navigate("settings")}
-                text={item["number"]}
+            {data.map((item, index) => (
+              <View
                 key={item["number"]}
-              />
-            </View>))}
-
-
-            
+                style={{
+                  flex: 1,
+                  alignItems: locateButton(item["number"]),
+                  height: 150,
+                }}
+              >
+                <CircleButton
+                  onPress={() => navigation.navigate("settings")}
+                  text={item["number"]}
+                  key={item["number"]}
+                />
+              </View>
+            ))}
           </Animated.View>
         </Animated.View>
       </Animated.ScrollView>
+      <View
+        style={{
+          position: "absolute",
+          flexDirection: "row",
+          bottom: 0,
+          paddingLeft: 15,
+          paddingBottom: 35,
+          backgroundColor: "rgba(0,0,0,0.0)",
+          
+        }}
+      >
+        <CustomBackButton navigation={navigation} />
+      </View>
     </View>
   );
 }

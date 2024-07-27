@@ -1,7 +1,8 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { View, Text } from "react-native";
-
+import { CustomBackButton } from "@/components/navigation/custiomBackButton";
+import { useNavigation } from "expo-router";
 export default function UserProfileLayout() {
   return (
     <Stack>
@@ -14,7 +15,10 @@ export default function UserProfileLayout() {
           headerBackVisible: true,
           // headerBackButtonMenuEnabled: true,
           headerShown: false,
+          
+          
         }}
+        
       />
       
     </Stack>

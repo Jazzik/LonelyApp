@@ -83,19 +83,13 @@ export default function TasksHeader(props: TasksProps) {
             // marginBottom: 10,
             borderRadius: 15,
             height: 50,
+            borderWidth: 2,
+            borderColor: Colors.dark.upper_background,
           },
           animatedStyleButton,
         ]}
       >
-        <View
-          style={{
-            paddingLeft: 10,
-            justifyContent: "center",
-            // backgroundColor: "red"
-          }}
-        >
-          <CustomBackButton navigation={navigation} />
-        </View>
+        
 
         <View
           style={{
