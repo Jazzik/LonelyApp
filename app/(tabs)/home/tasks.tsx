@@ -10,6 +10,7 @@ import { Colors } from "@/constants/Colors";
 import CircleButton from "@/components/CircleButton";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
+import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
 
 export default function Tasks() {
   
@@ -18,11 +19,10 @@ export default function Tasks() {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={{backgroundColor: 'red',
+      <Animated.View style={{backgroundColor: 'rgba(0, 0, 0, 0)',
         marginTop: 5,
         marginLeft: 15,
         marginRight: 15,
-        borderRadius: 1000,
       }}> 
         <TasksHeader tasksGroupName={tasksGroupName} navigation = {navigation}  />
       </Animated.View>
