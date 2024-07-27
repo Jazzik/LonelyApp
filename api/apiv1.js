@@ -18,6 +18,7 @@ export async function getTasksByGroup(group) {
   });
   const dat = await req.data
   dat.sort((a, b) => a.number - b.number);
+  console.log(dat[0]['title'])
   return dat
 
 }
