@@ -105,23 +105,13 @@ export default function TasksHeader(props: TasksProps) {
             paddingLeft: 20,
           }}
         >
-          <Pressable // name
-            onPressIn={() => {
-              scaleName.value = 0.9;
-            }}
-            onPress={() => {
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-            }}
-            onPressOut={() => {
-              scaleName.value = 1;
-            }}
-          >
+          
             <Animated.View style={[animatedStyleName]}>
               <Text style={{ color: "white", fontSize: 26 }}>
                 {tasksGroupName}
               </Text>
             </Animated.View>
-          </Pressable>
+        
         </View>
       </Animated.View>
     </Pressable>
