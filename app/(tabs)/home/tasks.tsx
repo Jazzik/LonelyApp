@@ -42,7 +42,7 @@ export default function Tasks() {
           marginRight: 15,
         }}
       >
-        <TasksHeader tasksGroupName={tasksGroupName} navigation={navigation} />
+        <TasksHeader tasksGroupName={tasksGroupName}  />
       </Animated.View>
 
       <Animated.ScrollView
@@ -64,7 +64,7 @@ export default function Tasks() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text>{data.}</Text>
+            <Text>{data}</Text>
             <Button title="Close" onPress={() => {setVisible(false)}} />
           </View>
         </View>
@@ -96,7 +96,7 @@ export default function Tasks() {
           
         }}
       >
-        <CustomBackButton navigation={navigation} />
+        <CustomBackButton  />
       </View>
     </View>
   );
