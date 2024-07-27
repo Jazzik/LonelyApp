@@ -9,7 +9,7 @@ import { useNavigation } from "expo-router";
 import { Colors } from "@/constants/Colors";
 
 interface TasksProps {
-  tasksGroupName: string;
+  tasksGroupName: string|string[]|undefined;
   navigation: any;
 }
 export default function TasksHeader(props: TasksProps) {
