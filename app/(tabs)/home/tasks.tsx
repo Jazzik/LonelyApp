@@ -1,9 +1,8 @@
 import React from "react";
-import { Button, View, Text, StyleSheet } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import { Button, Modal, View, Text, StyleSheet } from "react-native";
+
 import { StackScreenProps } from "@react-navigation/stack";
-import { useLocalSearchParams, useNavigation } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import StatusBar from "expo-status-bar";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
@@ -14,9 +13,10 @@ import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
 export default function Tasks() {
-  const [data, setData] = useState([]);
-  const { tasksGroupName } = useLocalSearchParams();
-  const navigation = useNavigation();
+  const [data, setData] = useState([])
+  const [modalVisible, setVisible] = useState(false)
+  const {tasksGroupName} = useLocalSearchParams();
+  const router = useRouter();
   useEffect(() => {
     fetchData();
   }, []);
@@ -28,9 +28,9 @@ export default function Tasks() {
     }
   };
   const fetchData = async () => {
-    // await AsyncStorage.removeItem("accessToken")
-    await AsyncStorage.getItem("accessToken");
-    setData(await getTasksByGroup(tasksGroupName));
+    setData(await getTasksByGroup(tasksGroupName))
+
+
   };
   return (
     <View style={styles.container}>
@@ -56,22 +56,32 @@ export default function Tasks() {
             // exiting={FadeOut.duration(1000)}
             style={styles.container}
           >
-            {data.map((item, index) => (
-              <View
-                key={item["number"]}
-                style={{
-                  flex: 1,
-                  alignItems: locateButton(item["number"]),
-                  height: 150,
+      <Modal
+        transparent={true}
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => {setVisible(false)}}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text>{data.}</Text>
+            <Button title="Close" onPress={() => {setVisible(false)}} />
+          </View>
+        </View>
+      </Modal>
+            {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
+              <CircleButton
+                onPress={() => { 
+                  setVisible(true)
                 }}
-              >
-                <CircleButton
-                  onPress={() => navigation.navigate("settings")}
-                  text={item["number"]}
-                  key={item["number"]}
-                />
-              </View>
-            ))}
+  
+                text={item["number"]}
+                key={item["number"]}
+              />
+            </View>))}
+
+
+            
           </Animated.View>
         </Animated.View>
       </Animated.ScrollView>
@@ -99,5 +109,32 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#007BFF',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    alignItems: 'center',
   },
 });

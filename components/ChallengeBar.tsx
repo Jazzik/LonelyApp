@@ -13,7 +13,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
-import { useNavigation } from "expo-router";
+import { useRouter } from "expo-router";
 
 export function ChallengeBar({
   progress,
@@ -24,7 +24,7 @@ export function ChallengeBar({
 }) {
   const [isEnabled, setIsEnabled] = useState(false);
   const scale = useSharedValue(1);
-  const navigation = useNavigation();
+  const router = useRouter();
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -65,8 +65,8 @@ export function ChallengeBar({
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }, 30);
         console.log("title:", title);
-        navigation.navigate("tasks", 
-          {tasksGroupName: title});
+        router.push( 
+          {pathname:"home/tasks", params:{tasksGroupName: title}});
       }}
     >
       <Animated.View style={[styles.container, animatedStyle]}>

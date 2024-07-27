@@ -1,13 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Pressable, TouchableOpacity, View, StyleSheet } from "react-native";
-type CustomBackButtonProps = {
-  navigation: StackNavigationProp<any, any>;
-};
+import { Pressable, TouchableOpacity, View, StyleSheet} from "react-native";
+import { useRouter } from "expo-router";
 
-export const CustomBackButton: React.FC<CustomBackButtonProps> = ({
-  navigation,
-}) => (
+
+export const CustomBackButton = ()=> {
+  const router = useRouter();
+  return (
   <View style={styles.circleButtonContainer}>
     <Pressable
       style={({ pressed }) => [
@@ -22,14 +21,17 @@ export const CustomBackButton: React.FC<CustomBackButtonProps> = ({
           transform: [{ translateY: pressed ? 5 : 0 }],
         }, // Change the colors as needed
       ]}
-      onPress={() => {
-        navigation.goBack();
-      }}
+      onPress={
+        () => {
+          router.back()
+        }
+      }
     >
       <Ionicons name="arrow-back" size={24} color="black" />
     </Pressable>
   </View>
 );
+}
 
 const styles = StyleSheet.create({
   circleButtonContainer: {

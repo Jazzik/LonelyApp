@@ -14,11 +14,10 @@ import {Animated as ReactAnimated} from "react-native"
 
 interface TasksProps {
   tasksGroupName: string|string[]|undefined;
-  navigation: any;
 }
 export default function TasksHeader(props: TasksProps) {
   // give an array
-  const { tasksGroupName, navigation } = props;
+  const { tasksGroupName } = props;
 
   const scaleName = useSharedValue(1);
 
@@ -91,8 +90,7 @@ export default function TasksHeader(props: TasksProps) {
       >
         
 
-        <View
-          style={{
+        <View style={{
             flex: 1,
             justifyContent: "center",
             alignItems: "left",
