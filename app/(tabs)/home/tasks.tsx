@@ -64,7 +64,7 @@ export default function Tasks() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text>{data.}</Text>
+            <Text>sex</Text>
             <Button title="Close" onPress={() => {setVisible(false)}} />
           </View>
         </View>
