@@ -10,13 +10,33 @@ import { Colors } from "@/constants/Colors";
 import CircleButton from "@/components/CircleButton";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
-import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
-
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getTasksByGroup } from "@/api/apiv1";
 export default function Tasks() {
-  
+  const [data, setData] = useState([])
   const {tasksGroupName} = useLocalSearchParams();
   const navigation = useNavigation();
+  useEffect(() => {
+    fetchData();
+  
+  }, []);
+  const locateButton = (index:number)=>{
+    if (index%2==1){
+      return "flex-start"
+    }
+    else{
+      return "flex-end"
+    }
+    
+  }
+  const fetchData = async () => {
+    // await AsyncStorage.removeItem("accessToken")
+    await AsyncStorage.getItem("accessToken");
+    setData(await getTasksByGroup(tasksGroupName))
 
+
+  };
   return (
     <View style={styles.container}>
       <Animated.View style={{backgroundColor: 'rgba(0, 0, 0, 0)',
@@ -38,47 +58,16 @@ export default function Tasks() {
             // exiting={FadeOut.duration(1000)}
             style={styles.container}
           >
-            <View style={{ flex: 1, alignItems: "flex-start", height: 150 }}>
+            {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
               <CircleButton
                 onPress={() => navigation.navigate("settings")}
-                text="1"
+                text={item["number"]}
+                key={item["number"]}
               />
-            </View>
+            </View>))}
 
-            <View style={{ flex: 1, alignItems: "flex-end", height: 150 }}>
-              <CircleButton
-                onPress={() => navigation.navigate("settings")}
-                text="2"
-              />
-            </View>
 
-            <View style={{ flex: 1, alignItems: "flex-start", height: 150 }}>
-              <CircleButton
-                onPress={() => navigation.navigate("settings")}
-                text="3"
-              />
-            </View>
-
-            <View style={{ flex: 1, alignItems: "flex-end", height: 150 }}>
-              <CircleButton
-                onPress={() => navigation.navigate("settings")}
-                text="3"
-              />
-            </View>
-
-            <View style={{ flex: 1, alignItems: "flex-start", height: 150 }}>
-              <CircleButton
-                onPress={() => navigation.navigate("settings")}
-                text="3"
-              />
-            </View>
-
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
-              <CircleButton
-                onPress={() => navigation.navigate("settings")}
-                text="3"
-              />
-            </View>
+            
           </Animated.View>
         </Animated.View>
       </Animated.ScrollView>

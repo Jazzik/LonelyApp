@@ -10,6 +10,17 @@ export async function getGroups(lang) {
   });
 }
 
+export async function getTasksByGroup(group) {
+  await refreshTokenIfExpired();
+  const token = await AsyncStorage.getItem("accessToken");
+  const req =  await axios.get(`http://${ip}:8080/api/v1/tasks/group/${group}`, {
+    headers: { Authorization: "Bearer " + token },
+  });
+  const dat = await req.data
+  dat.sort((a, b) => a.number - b.number);
+  return dat
+
+}
 export async function refreshTokenIfExpired() {
   const token = await AsyncStorage.getItem("accessToken");
   const refreshToken = await AsyncStorage.getItem("refreshToken");

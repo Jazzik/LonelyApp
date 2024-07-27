@@ -13,7 +13,7 @@ import { use } from "i18next";
 import {Animated as ReactAnimated} from "react-native"
 
 interface TasksProps {
-  tasksGroupName: string;
+  tasksGroupName: string|string[]|undefined;
   navigation: any;
 }
 export default function TasksHeader(props: TasksProps) {
