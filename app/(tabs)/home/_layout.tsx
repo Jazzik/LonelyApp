@@ -29,7 +29,7 @@ export default function HomeLayout() {
           },
           headerBackTitle: "Back",
           headerBackTitleStyle: { fontSize: 20 },
-          headerLeft: () => <CustomBackButton navigation={useNavigation()} />,
+          headerLeft: () => <CustomBackButton/>,
           headerBackTitleVisible: false,
           
         }}
