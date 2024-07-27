@@ -15,6 +15,8 @@ import { getTasksByGroup } from "@/api/apiv1";
 export default function Tasks() {
   const [data, setData] = useState([])
   const [modalVisible, setVisible] = useState(false)
+  const [taskNumber, setTaskNumber] = useState(0)
+
   const {tasksGroupName} = useLocalSearchParams();
   const router = useRouter();
   useEffect(() => {
@@ -64,7 +66,9 @@ export default function Tasks() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text>{data}</Text>
+          {data.length > 0  ? (
+                    <Text>{data[taskNumber]['title']}</Text>
+                  ):<Text>No data</Text>  }        
             <Button title="Close" onPress={() => {setVisible(false)}} />
           </View>
         </View>
@@ -73,6 +77,7 @@ export default function Tasks() {
               <CircleButton
                 onPress={() => { 
                   setVisible(true)
+                  setTaskNumber(index)
                 }}
   
                 text={item["number"]}
