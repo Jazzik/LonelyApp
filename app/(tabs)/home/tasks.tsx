@@ -3,15 +3,30 @@ import { Button, View, Text, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { useNavigation } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import StatusBar from "expo-status-bar";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
 import CircleButton from "@/components/CircleButton";
+import { CustomBackButton } from "@/components/navigation/custiomBackButton";
+import TasksHeader from "@/components/headerItems/TasksHeader";
+
 export default function Tasks() {
+  
+  const {tasksGroupName} = useLocalSearchParams();
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
+      <Animated.View style={{backgroundColor: 'red',
+        marginTop: 5,
+        marginLeft: 15,
+        marginRight: 15,
+        borderRadius: 1000,
+      }}> 
+        <TasksHeader tasksGroupName={tasksGroupName} navigation = {navigation}  />
+      </Animated.View>
+      
       <Animated.ScrollView
         // onScroll={scrollHandler}
         scrollEventThrottle={16}

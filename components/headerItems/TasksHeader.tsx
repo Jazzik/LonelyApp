@@ -4,14 +4,17 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
+import { CustomBackButton } from "../navigation/custiomBackButton";
+import { useNavigation } from "expo-router";
+import { Colors } from "@/constants/Colors";
 
 interface TasksProps {
   tasksGroupName: string;
+  navigation: any;
 }
 export default function TasksHeader(props: TasksProps) {
   // give an array
-  const { tasksGroupName } = props;
-
+  const { tasksGroupName, navigation } = props;
 
   const scaleName = useSharedValue(1);
 
@@ -25,34 +28,55 @@ export default function TasksHeader(props: TasksProps) {
     <View // header container
       style={{
         // flex: 1,
-        // flexDirection: "column",
-        alignItems: "center",
+        flexDirection: "row",
+        // alignItems: "center",
         // justifyContent: "",
         // backgroundColor: "red",
-        gap: 0,
+        backgroundColor: Colors.dark.third_color,
+        gap: 10,
         paddingBottom: 5,
+        // marginBottom: 10,
+        borderRadius: 15,
+        height: 50,
+        
       }}
     >
-      <Pressable // name
-        onPressIn={() => {
-          scaleName.value = 0.9;
-        }}
-        onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }}
-        onPressOut={() => {
-          scaleName.value = 1;
+      <View
+        style={{
+          paddingLeft: 10,
+          justifyContent: "center",
+          // backgroundColor: "red"
         }}
       >
-        <Animated.View
-          style={[
-            {  },
-            animatedStyleName,
-          ]}
+        <CustomBackButton navigation={navigation} />
+      </View>
+
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "left",
+          paddingLeft: 20,
+        }}
+      >
+        <Pressable // name
+          onPressIn={() => {
+            scaleName.value = 0.9;
+          }}
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
+          onPressOut={() => {
+            scaleName.value = 1;
+          }}
         >
-          <Text style={{ color: "white", fontSize: 26 }}>{tasksGroupName}</Text>
-        </Animated.View>
-      </Pressable>
+          <Animated.View style={[{}, animatedStyleName]}>
+            <Text style={{ color: "white", fontSize: 26 }}>
+              {tasksGroupName}
+            </Text>
+          </Animated.View>
+        </Pressable>
+      </View>
     </View>
   );
 }

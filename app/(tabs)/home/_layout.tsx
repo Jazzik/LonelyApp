@@ -23,7 +23,7 @@ export default function HomeLayout() {
         name="tasks"
         options={{
           headerTitle: () => <TasksHeader tasksGroupName="Some name" />,
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
             backgroundColor: Colors.dark.upper_background,
           },
