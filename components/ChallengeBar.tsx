@@ -58,7 +58,7 @@ export function ChallengeBar({
       onPress={() => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         scale.value = 0.9;
-
+        //check
         //wait 1 second
         setTimeout(() => {
           scale.value = 1;
