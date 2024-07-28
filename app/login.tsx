@@ -14,7 +14,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
-import { Link, Stack, router } from "expo-router";
+import {  router } from "expo-router";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -35,17 +35,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function LoginScreen() {
-  const translationY = useSharedValue(0);
-  const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    scrollY.value = event.contentOffset.y;
-  });
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateY: -scrollY.value }],
-    };
-  });
-
+ 
   interface LoginFormValues {
     email: string;
     password: string;
@@ -74,6 +64,9 @@ export default function LoginScreen() {
         if (error.response.status === 401) {
           console.log("incorrect email or password");
           Alert.alert(
+            // get this device language 
+            
+
             i18n.t("Login_failed"),
             i18n.t("Incorrect_email_or_password")
           );

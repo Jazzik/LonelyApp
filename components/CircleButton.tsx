@@ -1,7 +1,7 @@
 import { View, Pressable, StyleSheet, TextComponent } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Text } from "react-native";
-export default function CircleButton({ onPress, text }) {
+export default function CircleButton({ press, text }: {press: () => void, text: string}) {
   return (
     <View style={styles.circleButtonContainer}>
       <Pressable
@@ -18,7 +18,7 @@ export default function CircleButton({ onPress, text }) {
             // width: pressed ? 84 : 90,
           }, // Change the colors as needed
         ]}
-        onPress={onPress}
+        onPress={press}
       >
         <Text style={styles.buttontext}>{text}</Text>
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   buttontext: {
     flex: 1,
-    justifyContent: "flex",
+    // justifyContent: "flex",
     // borderColor: 'red',
     // borderWidth: 1,
     textAlign: "center",

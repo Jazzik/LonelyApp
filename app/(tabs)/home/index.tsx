@@ -41,7 +41,7 @@ export default function Tab() {
   }, []);
 
   const fetchData = async () => {
-    // await AsyncStorage.removeItem("accessToken")
+    
     await AsyncStorage.getItem("accessToken");
     setLoading(true);
     setIsInternetError(false); // Reset internet error state

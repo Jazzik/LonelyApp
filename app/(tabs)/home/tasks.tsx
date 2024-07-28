@@ -75,7 +75,7 @@ export default function Tasks() {
       </Modal>
             {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
               <CircleButton
-                onPress={() => { 
+                press={() => { 
                   setVisible(true)
                   setTaskNumber(index)
                 }}
