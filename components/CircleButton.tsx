@@ -18,7 +18,7 @@ export default function CircleButton({
   text: string;
 }) {
   const buttonTranslate = useSharedValue(0);
-  const shadowheight = useSharedValue(50);
+  const shadowheight = useSharedValue(40);
   const shadowOpacity = useSharedValue(1);
   const animatedStyleShadow = useAnimatedStyle(() => {
     return {
@@ -54,7 +54,7 @@ export default function CircleButton({
         }}
         onPressOut={() => {
           // buttonTranslate.value = withSpring(0);
-          shadowheight.value = withSpring(50);
+          shadowheight.value = withSpring(40);
           shadowOpacity.value = withSpring(1);
           buttonTranslate.value = withSpring(0);
 
