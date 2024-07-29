@@ -13,6 +13,7 @@ import Animated, {
 } from "react-native-reanimated";
 export default function CircleButton({
   text,
+  press,
 }: {
   press: () => void;
   text: string;
@@ -49,9 +50,7 @@ export default function CircleButton({
 
 
         }}
-        onPress={() => {
-
-        }}
+        onPress={press}
         onPressOut={() => {
           // buttonTranslate.value = withSpring(0);
           shadowheight.value = withSpring(40);
