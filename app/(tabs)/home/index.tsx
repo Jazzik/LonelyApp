@@ -1,23 +1,16 @@
 import Animated, {
   FadeIn,
-  FadeOut,
-  useAnimatedStyle,
   useAnimatedScrollHandler,
   useSharedValue,
-  withSpring,
 } from "react-native-reanimated";
 
-import { StatusBar, StatusBarStyle } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, View, Dimensions, Button, Text } from "react-native";
+import {  View,  Button } from "react-native";
 import { ChallengeBar } from "@/components/ChallengeBar";
-import axios from "axios";
-import { AxiosResponse } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
-// import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from "@react-navigation/native"; // Import useNavigation
 import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { ip } from "@/ip.json";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";

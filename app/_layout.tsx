@@ -8,6 +8,13 @@ export default () => {
   return (
     <Stack screenOptions={{}}>
       <Stack.Screen
+        name="index"
+        options={{
+          headerShown: false,
+          headerStyle: { backgroundColor: Colors.dark.upper_background },
+        }}
+      />
+      <Stack.Screen
         name="(tabs)"
         options={{
           headerShown: false,

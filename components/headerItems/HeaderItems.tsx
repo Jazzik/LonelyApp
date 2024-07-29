@@ -1,4 +1,4 @@
-import { Pressable, Text, View, Image } from "react-native";
+import { Pressable, Text, View, Image, Platform } from "react-native";
 import Animated, {
   useSharedValue,
   withSpring,
@@ -77,7 +77,8 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleDart.value = 0.9;
         }}
         onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          if (Platform.OS === "ios") {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
         }}
         onPressOut={() => {
           scaleDart.value = 1;
@@ -99,7 +100,8 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleGold.value = 0.9;
         }}
         onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          if (Platform.OS === "ios") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
         }}
         onPressOut={() => {
           scaleGold.value = 1;
@@ -121,7 +123,8 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleDiamonds.value = 0.9;
         }}
         onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          if (Platform.OS === "ios") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
         }}
         onPressOut={() => {
           scaleDiamonds.value = 1;
@@ -144,7 +147,8 @@ export function HeaderItems(props: HeaderItemsProps) {
         }}
         onPress={() => {
           // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          if (Platform.OS === "ios") {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
           navigator.navigate("user_profile");
         }}
         onPressOut={() => {
