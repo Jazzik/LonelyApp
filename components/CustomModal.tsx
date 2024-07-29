@@ -29,15 +29,28 @@ export default function CustomModal( {visible, title, description, onClose }: {v
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: Colors.light.tabIconDefault,
+
+    },
+    descContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+
     },
     modalContent: {
       width: 300,
       padding: 20,
+      height:400,
       backgroundColor: '#FFFFFF',
       borderRadius: 10,
       alignItems: 'center',
     },
+    textTitle:{
+      fontSize: 20,
+    },
+    textDescription:{
+      marginBottom:0
+    }
   });
 
   return (
@@ -49,10 +62,15 @@ export default function CustomModal( {visible, title, description, onClose }: {v
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
-          <Text>{title}</Text>
+          <Text style={styles.textTitle}>{title}</Text>
+          <View style={styles.descContainer} >
+            <Text style={styles.textDescription}>{description}</Text>
+          </View>
         </View>
+
         <Button title="Close" onPress={onClose} />
       </View>
     </Modal>
   );
+  
 }

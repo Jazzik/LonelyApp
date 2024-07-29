@@ -12,11 +12,19 @@ import TasksHeader from "@/components/headerItems/TasksHeader";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
+import CustomModal from "@/components/CustomModal";
 export default function Tasks() {
   const [data, setData] = useState([])
   const [modalVisible, setVisible] = useState(false)
   const [taskNumber, setTaskNumber] = useState(0)
-
+  const getDataIfLoaded = (index:number,key:string)=>{
+    if(data.length>0){
+      return data[index][key]
+    }
+    else{
+      return 'no data'
+    }
+  }
   const {tasksGroupName} = useLocalSearchParams();
   const router = useRouter();
   useEffect(() => {
@@ -58,31 +66,19 @@ export default function Tasks() {
             // exiting={FadeOut.duration(1000)}
             style={styles.container}
           >
-      <Modal
-        transparent={true}
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => {setVisible(false)}}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-          {data.length > 0  ? (
-                    <Text>{data[taskNumber]['title']}</Text>
-                  ):<Text>No data</Text>  }        
-            <Button title="Close" onPress={() => {setVisible(false)}} />
-          </View>
-        </View>
-      </Modal>
-            {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
-              <CircleButton
-                press={() => { 
+          <CustomModal visible={modalVisible} 
+            title={getDataIfLoaded(taskNumber,"title")}
+            description={ getDataIfLoaded(taskNumber,"description") }
+            onClose={()=>{setVisible(false)}}/> 
+              {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
+                <CircleButton
+                  press={() => { 
                   setVisible(true)
                   setTaskNumber(index)
-                }}
+                  }}
   
-                text={item["number"]}
-                key={item["number"]}
-              />
+                  text={item["number"]}
+                  key={item["number"]}/>
             </View>))}
 
 
@@ -128,18 +124,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#FFFFFF',
     fontSize: 16,
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: 300,
-    padding: 20,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    alignItems: 'center',
   },
 });
