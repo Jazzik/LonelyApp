@@ -77,8 +77,6 @@ export default function LoginScreen() {
     axios
       .post(`http://${ip}:8080/api/v1/auth/register`, values)
       .then((response) => {
-        console.log("succesfull register");
-        console.log(response.data);
         succesfullLogin(values);
       })
       .catch((error) => {
