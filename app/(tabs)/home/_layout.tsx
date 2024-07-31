@@ -1,9 +1,6 @@
-import TasksHeader from "@/components/headerItems/TasksHeader";
 import { Colors } from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
-import { Stack, useNavigation } from "expo-router";
+import { Stack } from "expo-router";
 import React from "react";
-import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 export default function HomeLayout() {
   return (
     <Stack>

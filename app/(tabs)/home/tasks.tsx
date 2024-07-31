@@ -73,7 +73,26 @@ export default function Tasks() {
           </Animated.View>
           <Animated.ScrollView>
             <Animated.View style={styles1.container}>
-              
+              {data.map((item, index) => (
+                <View
+                  key={item["number"]}
+                  style={{
+                    flex: 1,
+                    alignItems: locateButton(item["number"]),
+                    height: 150,
+                  }}
+                >
+                  <TaskButton
+                    accessible={true}
+                    press={() => {
+                      setVisible(true);
+                      setTaskNumber(index);
+                    }}
+                    text={item["number"]}
+                    key={item["number"]}
+                  />
+                </View>
+              ))}
               {data.map((item, index) => (
                 <View
                   key={item["number"]}
@@ -96,11 +115,12 @@ export default function Tasks() {
               ))}
               <ConfettiCannon
                 count={20}
-                explosionSpeed={800}
+                explosionSpeed={0}
                 fallSpeed={1500}
-                origin={{ x: 0, y: 0 }}
-                
+                fadeOut={true}
+                origin={{ x: -50, y: 0 }}
               />
+              <View style={{ padding: 10 }} />
             </Animated.View>
           </Animated.ScrollView>
         </Animated.View>
