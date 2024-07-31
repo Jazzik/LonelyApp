@@ -43,7 +43,7 @@ export default () => {
           headerShown: true,
           headerLeft: () => (
         
-              <CustomBackButton navigation={useNavigation()} />
+              <CustomBackButton />
          
           ),
         }}

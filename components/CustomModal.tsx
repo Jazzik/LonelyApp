@@ -1,12 +1,19 @@
 import { Modal } from "react-native"
 import { View, Button, Text, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
-
+import Animated from "react-native-reanimated";
+import { TouchableOpacity } from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 export default function CustomModal( {visible, title, description, onClose }: {visible:boolean,title:string, description:string, onClose:()=>void }) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: Colors.dark.background,
+    },
+    closeButton: {
+      position: 'absolute',
+      top: 10,
+      left: 10,
     },
     scrollView: {
       flex: 1,
@@ -38,9 +45,9 @@ export default function CustomModal( {visible, title, description, onClose }: {v
 
     },
     modalContent: {
-      width: 300,
+      width: '80%',
       padding: 20,
-      height:400,
+      height:'70%',
       backgroundColor: '#FFFFFF',
       borderRadius: 10,
       alignItems: 'center',
@@ -62,13 +69,21 @@ export default function CustomModal( {visible, title, description, onClose }: {v
     >
       <View style={styles.modalOverlay}>
         <View style={styles.modalContent}>
+        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+          <Ionicons name="close-circle" size={30} color="black" />
+        </TouchableOpacity>
           <Text style={styles.textTitle}>{title}</Text>
-          <View style={styles.descContainer} >
-            <Text style={styles.textDescription}>{description}</Text>
-          </View>
+          <Animated.ScrollView
+        // onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        style={styles.scrollView}
+      >
+          <Animated.View style={styles.descContainer} >
+          <Text style={styles.textDescription}>{description}</Text>
+          <Button title="Start" onPress={onClose} />
+          </Animated.View>
+        </Animated.ScrollView>
         </View>
-
-        <Button title="Close" onPress={onClose} />
       </View>
     </Modal>
   );

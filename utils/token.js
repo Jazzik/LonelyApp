@@ -26,8 +26,6 @@ export function isExpired(token) {
   // Decode the payload part (second part)
   const payload = parts[1];
   const decodedPayload = base64UrlDecode(payload);
-  console.log("past" + JSON.parse(decodedPayload).exp);
-  console.log("now:" + Math.floor(new Date().getTime() / 1000));
   // Parse the JSON string
   return (
     JSON.parse(decodedPayload).exp < Math.floor(new Date().getTime() / 1000)
