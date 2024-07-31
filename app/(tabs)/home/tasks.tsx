@@ -6,36 +6,26 @@ import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
 import TaskButton from "@/components/TaskButton";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
-import CircleButton from "@/components/CircleButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
 import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
-import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 export default function Tasks() {
-  const [data, setData] = useState([]);
-  const [modalVisible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [taskNumber, setTaskNumber] = useState(0);
-  const getDataIfLoaded = (index: number, key: string) => {
-    if (data.length > 0) {
-      return data[index][key];
-    } else {
-      return 'no data';
+
   const [data, setData] = useState([]);
   const [modalVisible, setVisible] = useState(false);
   const [taskNumber, setTaskNumber] = useState(0);
+  const[loading,setLoading] = useState(true)
   const getDataIfLoaded = (index: number, key: string) => {
     if (data.length > 0) {
       return data[index][key];
     } else {
       return "no data";
     }
-  };
+  }
   const { tasksGroupName } = useLocalSearchParams();
-  };
-  const { tasksGroupName } = useLocalSearchParams();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -86,7 +76,8 @@ export default function Tasks() {
 
           {data.map((item, index) => (
             <View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
-              <CircleButton
+              <TaskButton
+                accessible = {false}
                 press={() => {
                   setVisible(true);
                   setTaskNumber(index);
@@ -101,7 +92,7 @@ export default function Tasks() {
       </Animated.View>
       )}
       
-      {/* <View
+      <View
         style={{
           position: "absolute",
           flexDirection: "row",
@@ -112,11 +103,11 @@ export default function Tasks() {
         }}
       >
         <CustomBackButton />
-      </View> */}
+      </View>
     </View>
   );
-}
 
+}
 const styles1 = StyleSheet.create({
   container: {
     flex: 1,
