@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { ActivityIndicator } from "react-native";
-import ConfettiCannon from 'react-native-confetti-cannon'
+import ConfettiCannon from "react-native-confetti-cannon";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
@@ -13,18 +13,17 @@ import { getTasksByGroup } from "@/api/apiv1";
 import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
 export default function Tasks() {
-
   const [data, setData] = useState([]);
   const [modalVisible, setVisible] = useState(false);
   const [taskNumber, setTaskNumber] = useState(0);
-  const[loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const getDataIfLoaded = (index: number, key: string) => {
     if (data.length > 0) {
       return data[index][key];
     } else {
       return "no data";
     }
-  }
+  };
   const { tasksGroupName } = useLocalSearchParams();
 
   const router = useRouter();
@@ -54,45 +53,59 @@ export default function Tasks() {
           style={styles.scrollView} // Corrected style object reference
           contentContainerStyle={{ flexGrow: 1 }}
         >
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
             <ActivityIndicator size="large" color={Colors.dark.text} />
           </View>
-          
         </Animated.ScrollView>
       ) : (
         <Animated.View>
           <Animated.View
-          style={{
-            backgroundColor: "rgba(0, 0, 0, 0)",
-            marginTop: 5,
-            marginLeft: 15,
-            marginRight: 15,
-          }}
+            style={{
+              backgroundColor: "rgba(0, 0, 0, 0)",
+              marginTop: 5,
+              marginLeft: 15,
+              marginRight: 15,
+            }}
           >
-          <TasksHeader tasksGroupName={tasksGroupName} />
+            <TasksHeader tasksGroupName={tasksGroupName} />
           </Animated.View>
           <Animated.ScrollView>
-
-          <Animated.View style={styles1.container}>
-
-          {data.map((item, index) => (
-            <View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
-              <TaskButton
-                accessible = {false}
-                press={() => {
-                  setVisible(true);
-                  setTaskNumber(index);
-                }}
-                text={item["number"]}
-                key={item["number"]}
+            <Animated.View style={styles1.container}>
+              
+              {data.map((item, index) => (
+                <View
+                  key={item["number"]}
+                  style={{
+                    flex: 1,
+                    alignItems: locateButton(item["number"]),
+                    height: 150,
+                  }}
+                >
+                  <TaskButton
+                    accessible={false}
+                    press={() => {
+                      setVisible(true);
+                      setTaskNumber(index);
+                    }}
+                    text={item["number"]}
+                    key={item["number"]}
+                  />
+                </View>
+              ))}
+              <ConfettiCannon
+                count={20}
+                explosionSpeed={800}
+                fallSpeed={1500}
+                origin={{ x: 0, y: 0 }}
+                
               />
-            </View>
-          ))}
+            </Animated.View>
+          </Animated.ScrollView>
         </Animated.View>
-        </Animated.ScrollView>
-      </Animated.View>
       )}
-      
+
       <View
         style={{
           position: "absolute",
@@ -107,7 +120,6 @@ export default function Tasks() {
       </View>
     </View>
   );
-
 }
 const styles1 = StyleSheet.create({
   container: {
