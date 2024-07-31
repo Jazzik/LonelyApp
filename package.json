@@ -43,6 +43,7 @@
     "react-dom": "18.2.0",
     "react-i18next": "^14.1.2",
     "react-native": "0.74.3",
+    "react-native-confetti-cannon": "^1.5.2",
     "react-native-gesture-handler": "~2.16.1",
     "react-native-google-signin": "^2.1.1",
     "react-native-linear-gradient": "^2.8.3",

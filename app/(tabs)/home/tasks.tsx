@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Modal, View, Text, StyleSheet } from "react-native";
-
-import { StackScreenProps } from "@react-navigation/stack";
+import ConfettiCannon from 'react-native-confetti-cannon'
 import { useLocalSearchParams, useRouter } from "expo-router";
 import StatusBar from "expo-status-bar";
 import Animated from "react-native-reanimated";
@@ -49,20 +48,31 @@ export default function Tasks() {
           marginRight: 15,
         }}
       >
+         
         <TasksHeader tasksGroupName={tasksGroupName} />
       </Animated.View>
-
+      
       <Animated.ScrollView
         // onScroll={scrollHandler}
         scrollEventThrottle={16}
         style={styles.scrollView}
       >
+        
+        
         <Animated.View>
+        
           <Animated.View
             // entering={FadeIn.duration(100)}
             // exiting={FadeOut.duration(1000)}
             style={styles.container}
           >
+            <ConfettiCannon 
+                fadeOut={true}
+            autoStart={true}
+            fallSpeed={1500}
+            explosionSpeed={900}
+            count={20} origin={{x: 0, y: 0}} />
+
             <CustomModal
               visible={modalVisible}
               title={getDataIfLoaded(taskNumber, "title")}
@@ -71,6 +81,7 @@ export default function Tasks() {
                 setVisible(false);
               }}
             />
+           
             {data.map((item, index) => (
               <View
                 key={item["number"]}
@@ -79,7 +90,8 @@ export default function Tasks() {
                   alignItems: locateButton(item["number"]),
                   height: 150,
                 }}
-              >
+              > 
+                
                 <TaskButton
                   press={() => {
                     setVisible(true);
@@ -89,8 +101,10 @@ export default function Tasks() {
                   key={item["number"]}
                   accessible={true}
                 />
+                
               </View>
             ))}
+            
             {data.map((item, index) => (
               <View
                 key={item["number"]}
@@ -111,6 +125,7 @@ export default function Tasks() {
                 />
               </View>
             ))}
+            
           </Animated.View>
         </Animated.View>
       </Animated.ScrollView>
