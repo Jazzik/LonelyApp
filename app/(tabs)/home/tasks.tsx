@@ -6,7 +6,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import StatusBar from "expo-status-bar";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
-import CircleButton from "@/components/CircleButton";
+import TaskButton from "@/components/TaskButton";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
 import { useEffect, useState } from "react";
@@ -14,18 +14,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
 import CustomModal from "@/components/CustomModal";
 export default function Tasks() {
-  const [data, setData] = useState([])
-  const [modalVisible, setVisible] = useState(false)
-  const [taskNumber, setTaskNumber] = useState(0)
-  const getDataIfLoaded = (index:number,key:string)=>{
-    if(data.length>0){
-      return data[index][key]
+  const [data, setData] = useState([]);
+  const [modalVisible, setVisible] = useState(false);
+  const [taskNumber, setTaskNumber] = useState(0);
+  const getDataIfLoaded = (index: number, key: string) => {
+    if (data.length > 0) {
+      return data[index][key];
+    } else {
+      return "no data";
     }
-    else{
-      return 'no data'
-    }
-  }
-  const {tasksGroupName} = useLocalSearchParams();
+  };
+  const { tasksGroupName } = useLocalSearchParams();
   const router = useRouter();
   useEffect(() => {
     fetchData();
@@ -38,9 +37,7 @@ export default function Tasks() {
     }
   };
   const fetchData = async () => {
-    setData(await getTasksByGroup(tasksGroupName))
-
-
+    setData(await getTasksByGroup(tasksGroupName));
   };
   return (
     <View style={styles.container}>
@@ -52,7 +49,7 @@ export default function Tasks() {
           marginRight: 15,
         }}
       >
-        <TasksHeader tasksGroupName={tasksGroupName}  />
+        <TasksHeader tasksGroupName={tasksGroupName} />
       </Animated.View>
 
       <Animated.ScrollView
@@ -66,23 +63,54 @@ export default function Tasks() {
             // exiting={FadeOut.duration(1000)}
             style={styles.container}
           >
-          <CustomModal visible={modalVisible} 
-            title={getDataIfLoaded(taskNumber,"title")}
-            description={ getDataIfLoaded(taskNumber,"description") }
-            onClose={()=>{setVisible(false)}}/> 
-              {data.map((item,index)=>(<View key={item["number"]} style={{ flex: 1, alignItems: locateButton(item["number"]), height: 150 }}>
-                <CircleButton
-                  press={() => { 
-                  setVisible(true)
-                  setTaskNumber(index)
+            <CustomModal
+              visible={modalVisible}
+              title={getDataIfLoaded(taskNumber, "title")}
+              description={getDataIfLoaded(taskNumber, "description")}
+              onClose={() => {
+                setVisible(false);
+              }}
+            />
+            {data.map((item, index) => (
+              <View
+                key={item["number"]}
+                style={{
+                  flex: 1,
+                  alignItems: locateButton(item["number"]),
+                  height: 150,
+                }}
+              >
+                <TaskButton
+                  press={() => {
+                    setVisible(true);
+                    setTaskNumber(index);
                   }}
-  
                   text={item["number"]}
-                  key={item["number"]}/>
-            </View>))}
-
-
-            
+                  key={item["number"]}
+                  accessible={true}
+                />
+              </View>
+            ))}
+            {data.map((item, index) => (
+              <View
+                key={item["number"]}
+                style={{
+                  flex: 1,
+                  alignItems: locateButton(item["number"]),
+                  height: 150,
+                }}
+              >
+                <TaskButton
+                  press={() => {
+                    setVisible(true);
+                    setTaskNumber(index);
+                  }}
+                  text={item["number"]}
+                  key={item["number"]}
+                  accessible={false}
+                />
+              </View>
+            ))}
           </Animated.View>
         </Animated.View>
       </Animated.ScrollView>
@@ -94,10 +122,9 @@ export default function Tasks() {
           paddingLeft: 15,
           paddingBottom: 35,
           backgroundColor: "rgba(0,0,0,0.0)",
-          
         }}
       >
-        <CustomBackButton  />
+        <CustomBackButton />
       </View>
     </View>
   );
@@ -113,16 +140,16 @@ const styles = StyleSheet.create({
   },
   container1: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
-    backgroundColor: '#007BFF',
+    backgroundColor: "#007BFF",
     padding: 10,
     borderRadius: 5,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: "#FFFFFF",
     fontSize: 16,
   },
 });
