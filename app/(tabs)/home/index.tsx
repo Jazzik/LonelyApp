@@ -16,13 +16,16 @@ import { ip } from "@/ip.json";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
 import { ActivityIndicator } from "react-native";
 import { isExpired } from "@/utils/token";
-import { getGroups, refreshTokenIfExpired } from "@/api/apiv1";
+import { getGroups, getProgress } from "@/api/apiv1";
 import {styles} from "@/constants/Style"
+import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
       
 export default function Tab() {
   const scrollY = useSharedValue(0);
-  const [data, setData] = useState([]);
+  const [inactive, setInactive] = useState([]);
+  const [active, setActive] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [isInternetError, setIsInternetError] = useState(false);
 
@@ -35,26 +38,34 @@ export default function Tab() {
 
   const fetchData = async () => {
     
-    await AsyncStorage.getItem("accessToken");
     setLoading(true);
     setIsInternetError(false); // Reset internet error state
+    let data = await getProgress()
+    let activegroups: string[] = []
+    data.map((item:Dict, index:number)=>{
+      console.log(item)
+      if(!activegroups.includes(item.tgroup)){
+      activegroups.push(item.tgroup)}
+  })
 
-    await getGroups("en-en")
-      .then((response) => {
-        const result = response.data;
-        console.log(result);
-        setData(result);
-        tasksName = result
+    setActive(activegroups)
+    setLoading(false)
+    // await getGroups("en-en")
+    //   .then((response) => {
+    //     const result = response.data;
+    //     console.log(result);
+    //     setInactive(result);
+    //     tasksName = result
         
-      })
-      .catch((error) => {
-        setIsInternetError(true);
-        console.error(error);
-        // console.log(JSON.stringify(error));  // for full error data
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    //   })
+    //   .catch((error) => {
+    //     setIsInternetError(true);
+    //     console.error(error);
+    //     // console.log(JSON.stringify(error));  // for full error data
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
   };
 
   const retryConnection = () => {
@@ -101,7 +112,7 @@ export default function Tab() {
                 // exiting={FadeOut.duration(1000)}
                 style={styles.container}
               >
-                {data.map((item, index) => (
+              {active.map((item, index) => (
                   <ChallengeBar
                     key={index}
                     title={item}
