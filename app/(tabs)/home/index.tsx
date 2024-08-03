@@ -64,17 +64,31 @@ export default function Tab() {
     fetchData();
   };
   const scrollY = useSharedValue(0);
+  const debounce = (func: Function, delay: number) => {
+    let debounceTimer: string | number | NodeJS.Timeout | undefined;
+    return () => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func(), delay);
+    };
+  }
   const refreshPage = () => {
     // Logic to refresh the page
     console.log("Refreshing page...");
+    
     fetchData();
+    
   };
+  const debouncedRefreshPage = debounce(refreshPage, 500);
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
       if (event.contentOffset.y < -150) {
         // Threshold for triggering refresh
-        runOnJS(refreshPage)();
+        runOnJS(debouncedRefreshPage)();
+        
+        //wait 1 second async before allowing another refresh
+       
+        
       }
     },
   });
