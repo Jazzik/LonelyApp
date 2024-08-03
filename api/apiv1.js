@@ -22,23 +22,39 @@ export async function getTasksByGroup(group) {
   return dat
 
 }
+export async function getProgress(){
+  if(await refreshTokenIfExpired()){
+  const token = await AsyncStorage.getItem("accessToken");
+  console.log(token)
+  var req =  await axios.get(`http://${ip}:8080/api/v1/progress`, {
+    headers: { Authorization: "Bearer " + token },
+  })
+    .catch((error)=>{console.log(error," getProgress")});
+  console.log("requested")
+  const resp = req.data
+  return resp
+}
+}
 export async function refreshTokenIfExpired() {
   const token = await AsyncStorage.getItem("accessToken");
   const refreshToken = await AsyncStorage.getItem("refreshToken");
   if (isExpired(token)) {
-    console.log("refreshtoken: ", refreshToken);
-
-    await axios
+   var flag  
+   const req = await axios
       .post(`http://${ip}:8080/api/v1/tokens/refresh`, {
         accessToken: token,
         refreshToken: refreshToken,
-      })
-      .then(async (response) => {
+      }).then(async (response)=>{
+        console.log("Updated token")
         const newAccessToken = response.data.accessToken;
-        await AsyncStorage.setItem("accessToken", newAccessToken);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        flag = true
+        await AsyncStorage.setItem("accessToken", newAccessToken);})
+        .catch((error)=>{
+          console.log(error)
+          flag = false
+        })
+    return flag
+    
   }
+  return true
 }

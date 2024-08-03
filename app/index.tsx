@@ -4,18 +4,30 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect } from "expo-router";
 import { useState, useEffect } from "react";
 console.log("index.tsx");
-
+import { isExpired } from "@/utils/token";
+import { refreshTokenIfExpired } from "@/api/apiv1";
 const checkLoginStatus = async () => {
+  console.log("check");
   const token = await AsyncStorage.getItem("accessToken");
+  
   // let token = false;
-  if (token) {
-    console.log("token found: ", token);
+  if (token && !isExpired(token) ) {
+    console.log("Succesfuly authentified");
     // Optionally validate the token
     // Navigate to the home screen or wherever appropriate
     return "/home";
-  } else {
+  } else  if(!token) {
     console.log("token not found");
     return "/login";
+  }else{
+    console.log(await refreshTokenIfExpired())
+    if(!await refreshTokenIfExpired()){
+      console.log("Wasn't able to refresh returning to login")
+      return "/login";
+    }
+    else{
+      console.log("Succesfuly authentified");
+      return "/home"}
   }
 };
 
