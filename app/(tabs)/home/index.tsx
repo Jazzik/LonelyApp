@@ -16,10 +16,16 @@ import { getGroups, getProgress } from "@/api/apiv1";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
+import {
+  storeDataInStorage as storeDataToStorage,
+  getDataFromStorage,
+  deleteDataInStorage as deleteDataFromStorage,
+  isStoredDataExpired
+} from "@/utils/storageActions";
 
 export default function Tab() {
-  const [inactive, setInactive] = useState([]);
-  const [active, setActive] = useState([]);
+  const [inactive, setInactive] = useState<string[]>([]);
+  const [active, setActive] = useState<string[]>([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isInternetError, setIsInternetError] = useState(false);
@@ -30,34 +36,53 @@ export default function Tab() {
 
   const fetchData = async () => {
     await AsyncStorage.getItem("accessToken");
-    setLoading(true);
-    setIsInternetError(false); // Reset internet error state
-    let data = await getProgress();
-    let activegroups: string[] = [];
-    data.map((item: Dict, index: number) => {
-      console.log(item);
-      if (!activegroups.includes(item.tgroup)) {
-        activegroups.push(item.tgroup);
-      }
-    });
 
-    setActive(activegroups);
-    setLoading(false);
-    await getGroups("en-en")
-      .then((response) => {
-        const result = response.data;
-        console.log(result);
-        setInactive(result);
-        tasksName = result;
-      })
-      .catch((error) => {
-        setIsInternetError(true);
-        console.error(error);
-        // console.log(JSON.stringify(error));  // for full error data
-      })
-      .finally(() => {
-        setLoading(false);
+    // console.log(await AsyncStorage.getItem("tasksGroups"))
+    if (
+      (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
+      (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
+      !(await isStoredDataExpired(10800)) 
+    ) {
+      console.log("loading from storage");
+      setLoading(false);
+      setIsInternetError(false);
+      setActive(await getDataFromStorage("ActiveTaskGroups"));
+      setInactive(await getDataFromStorage("InactiveTaskGroups"));
+  
+    }else{
+      console.log("loading from api");
+      setLoading(true);
+      setIsInternetError(false); // Reset internet error state
+      let data = await getProgress();
+
+      let activegroups: string[] = [];
+      data.map((item: Dict, index: number) => {
+        console.log(item, "active");
+        if (!activegroups.includes(item.tgroup)) {
+          activegroups.push(item.tgroup);
+        }
       });
+      storeDataToStorage("ActiveTaskGroups", activegroups);
+      
+      setActive(activegroups);
+      setLoading(false);
+      await getGroups("en-en")
+        .then((response) => {
+          const result = response.data;
+          console.log(result, "inactive");
+          storeDataToStorage("InactiveTaskGroups", result);
+          setInactive(result);
+          tasksName = result;
+        })
+        .catch((error) => {
+          setIsInternetError(true);
+          console.error(error);
+          // console.log(JSON.stringify(error));  // for full error data
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } 
   };
 
   const retryConnection = () => {
@@ -70,13 +95,13 @@ export default function Tab() {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => func(), delay);
     };
-  }
+  };
   const refreshPage = () => {
     // Logic to refresh the page
     console.log("Refreshing page...");
-    
+    deleteDataFromStorage("ActiveTaskGroups");
+    deleteDataFromStorage("InactiveTaskGroups");
     fetchData();
-    
   };
   const debouncedRefreshPage = debounce(refreshPage, 500);
   const scrollHandler = useAnimatedScrollHandler({
@@ -85,10 +110,8 @@ export default function Tab() {
       if (event.contentOffset.y < -150) {
         // Threshold for triggering refresh
         runOnJS(debouncedRefreshPage)();
-        
+
         //wait 1 second async before allowing another refresh
-       
-        
       }
     },
   });
@@ -139,7 +162,7 @@ export default function Tab() {
                   <ChallengeBar
                     key={index}
                     title={item}
-                    progress={0}
+                    progress={90}
                   ></ChallengeBar>
                 ))}
                 {inactive.map((item, index) => (

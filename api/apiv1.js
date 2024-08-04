@@ -30,7 +30,7 @@ export async function getProgress(){
     headers: { Authorization: "Bearer " + token },
   })
     .catch((error)=>{console.log(error," getProgress")});
-  console.log("requested")
+  console.log("requested", req.data)
   const resp = req.data
   return resp
 }

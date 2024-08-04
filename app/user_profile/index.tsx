@@ -3,13 +3,11 @@ import Animated from "react-native-reanimated";
 import {styles} from "@/constants/Style"
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {  useNavigationContainerRef } from "expo-router";
-
+import { resetStorage } from "@/utils/storageActions";
 export default function UserProfile() {
   const router = useNavigationContainerRef();
 const LogOutUser = async () => {
-  
-    await AsyncStorage.removeItem("accessToken")
-    await AsyncStorage.removeItem("refreshToken")
+  resetStorage();
   router.reset({ index: 0, routes: [{ name: "login" }] });
 }
   return (

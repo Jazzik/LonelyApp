@@ -41,7 +41,10 @@ export default function Tasks() {
   };
 
   const fetchData = async () => {
+
     setData(await getTasksByGroup(tasksGroupName));
+    // console.log(String(data))
+    // AsyncStorage.setItem("tasksGroups", data);
     setLoading(false);
   };
 

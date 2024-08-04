@@ -1,0 +1,59 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+export const storeDataInStorage = async (key: string, value: any) => {
+  try {
+    const jsonValue = JSON.stringify(value);
+    await AsyncStorage.setItem(`${key}`, jsonValue);
+    saveDataStoredTimeToStorage();
+  } catch (e) {
+    // saving error
+    console.error("Error storing data", e);
+  }
+};
+export const getDataFromStorage = async (key: string) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(`${key}`);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+    console.error("Error reading data", e);
+  }
+};
+export const deleteDataInStorage = async (key: string) => {
+  try {
+    await AsyncStorage.removeItem(`${key}`);
+  } catch (e) {
+    // error reading value
+    console.error(`Error deleting this key ${key}`, e);
+  }
+};
+
+export const resetStorage = async () => {
+  await AsyncStorage.clear();
+};
+const saveDataStoredTimeToStorage = async () => {
+  try {
+    const currentTime = new Date().getTime();
+    const jsonValue = JSON.stringify(currentTime);
+    await AsyncStorage.setItem("dataStoredTime", jsonValue);
+  } catch (e) {
+    // saving error
+    console.error("Error storing data", e);
+  }
+};
+
+
+export const isStoredDataExpired = async (time: number ) => {
+  const dataStoredTime = await getDataFromStorage("dataStoredTime");
+  if (dataStoredTime) {
+    const currentTime = new Date().getTime();
+    const difference = currentTime - dataStoredTime;
+    if (difference > time*1000) {
+      console.log("stored data expired");
+      return true;
+    }
+  }
+  console.log("stored data is not expired");
+  return false;
+  
+}
+
