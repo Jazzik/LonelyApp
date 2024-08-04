@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
-import { getGroups, getProgress } from "@/api/apiv1";
+import { getGroups, getProgress, getTasksByGroup } from "@/api/apiv1";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
@@ -20,13 +20,12 @@ import {
   storeDataInStorage as storeDataToStorage,
   getDataFromStorage,
   deleteDataInStorage as deleteDataFromStorage,
-  isStoredDataExpired
+  isStoredDataExpired,
 } from "@/utils/storageActions";
 
 export default function Tab() {
-  const [inactive, setInactive] = useState<string[]>([]);
-  const [active, setActive] = useState<string[]>([]);
-  const [data, setData] = useState([]);
+  const [inactive, setInactive] = useState<Dict>({});
+  const [active, setActive] = useState<Dict>({});
   const [loading, setLoading] = useState(true);
   const [isInternetError, setIsInternetError] = useState(false);
 
@@ -41,48 +40,30 @@ export default function Tab() {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
-      !(await isStoredDataExpired(10800)) 
+      !(await isStoredDataExpired(10800))
     ) {
       console.log("loading from storage");
       setLoading(false);
       setIsInternetError(false);
       setActive(await getDataFromStorage("ActiveTaskGroups"));
       setInactive(await getDataFromStorage("InactiveTaskGroups"));
-  
-    }else{
+    } else {
       console.log("loading from api");
       setLoading(true);
       setIsInternetError(false); // Reset internet error state
-      let data = await getProgress();
-
-      let activegroups: string[] = [];
-      data.map((item: Dict, index: number) => {
-        console.log(item, "active");
-        if (!activegroups.includes(item.tgroup)) {
-          activegroups.push(item.tgroup);
-        }
-      });
-      storeDataToStorage("ActiveTaskGroups", activegroups);
-      
-      setActive(activegroups);
+      const activeTaskGroups = await getProgress();
+      setActive(activeTaskGroups);
+      storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
       setLoading(false);
-      await getGroups("en-en")
-        .then((response) => {
-          const result = response.data;
-          console.log(result, "inactive");
-          storeDataToStorage("InactiveTaskGroups", result);
-          setInactive(result);
-          tasksName = result;
-        })
-        .catch((error) => {
-          setIsInternetError(true);
-          console.error(error);
-          // console.log(JSON.stringify(error));  // for full error data
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } 
+      const InactiveTaskGroups = await getGroups("en-en");
+      setInactive(InactiveTaskGroups);
+      storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
+      // setIsInternetError(true);
+      // console.log(groups["Socialization"].length);
+      
+      // console.log(progr["Socialization"].length);
+      setLoading(false);
+    }
   };
 
   const retryConnection = () => {
@@ -155,23 +136,26 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-                <View style={{ transform: [{ translateY: -120 }], height: 0 }}>
-                  <ActivityIndicator size="large" color={Colors.dark.text} />
-                </View>
-                {active.map((item, index) => (
+                {Object.entries(active).map(([key, value]: [string, any]) => (
                   <ChallengeBar
-                    key={index}
-                    title={item}
-                    progress={90}
+                    key={Math.random()}
+                    title={key}
+                    completedTasks={value}
+                    progress={active[key].length/inactive[key].length*100}
                   ></ChallengeBar>
                 ))}
-                {inactive.map((item, index) => (
-                  <ChallengeBar
-                    key={index}
-                    title={item}
-                    progress={0}
-                  ></ChallengeBar>
-                ))}
+                {Object.entries(inactive).map(([key, value]: [string, any]) => {
+                  if (!(key in active)) {
+                    return (
+                      <ChallengeBar
+                        key={value["taskid"]}
+                        title={key}
+                        completedTasks={[]}
+                        progress={0}
+                      ></ChallengeBar>
+                    );
+                  }
+                })}
               </Animated.View>
             </Animated.View>
           )}

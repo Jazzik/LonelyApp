@@ -14,7 +14,7 @@ import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
 export default function Tasks() {
   const [data, setData] = useState([]);
-  const [modalVisible, setVisible] = useState(false);
+  const [completed, setCompleted] = useState([]);
   const [taskNumber, setTaskNumber] = useState(0);
   const [loading, setLoading] = useState(true);
   const getDataIfLoaded = (index: number, key: string) => {
@@ -25,7 +25,7 @@ export default function Tasks() {
     }
   };
   const { tasksGroupName } = useLocalSearchParams();
-
+  const {completedTasks} = useLocalSearchParams();
   const router = useRouter();
 
   useEffect(() => {
@@ -88,7 +88,6 @@ export default function Tasks() {
                   <TaskButton
                     accessible={true}
                     press={() => {
-                      setVisible(true);
                       setTaskNumber(index);
                     }}
                     text={item["number"]}
@@ -108,7 +107,6 @@ export default function Tasks() {
                   <TaskButton
                     accessible={false}
                     press={() => {
-                      setVisible(true);
                       setTaskNumber(index);
                     }}
                     text={item["number"]}
