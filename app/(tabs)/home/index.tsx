@@ -40,7 +40,7 @@ export default function Tab() {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
-      !(await isStoredDataExpired(10800))
+      !(await isStoredDataExpired(1))
     ) {
       console.log("loading from storage");
       setLoading(false);
@@ -136,19 +136,27 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-                {Object.entries(active).map(([key, value]: [string, any]) => (
-                  <ChallengeBar
-                    key={Math.random()}
-                    title={key}
-                    completedTasks={value}
-                    progress={active[key].length/inactive[key].length*100}
-                  ></ChallengeBar>
-                ))}
+                {Object.entries(active).map(([key, value]: [string, any]) => {
+                  //if inactive exists
+                  if (key in inactive) {
+                    console.log(active,"STATHAM", inactive);
+                    // console.log(active[key],"STATHAM", inactive[key]);
+                  return (
+                    
+                      <ChallengeBar
+                      key={Math.random()}
+                      title={key}
+                      completedTasks={value}
+                      progress={active[key].length/inactive[key].length*100}
+                      ></ChallengeBar>
+                  )
+                }})}
                 {Object.entries(inactive).map(([key, value]: [string, any]) => {
                   if (!(key in active)) {
+    
                     return (
                       <ChallengeBar
-                        key={value["taskid"]}
+                        key={value[0]["id"]}
                         title={key}
                         completedTasks={[]}
                         progress={0}
