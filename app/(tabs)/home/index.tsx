@@ -45,7 +45,6 @@ export default function Tab() {
   const retryConnection = () => {
     fetchData();
   };
-  const scrollY = useSharedValue(0);
   const debounce = (func: Function, delay: number) => {
     let debounceTimer: string | number | NodeJS.Timeout | undefined;
     return () => {
