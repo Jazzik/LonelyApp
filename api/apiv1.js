@@ -5,9 +5,12 @@ import { isExpired } from "@/utils/token";
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
-  return await axios.get(`http://${ip}:8080/api/v1/tasks/groups/${lang}`, {
+  const req = await axios.get(`http://${ip}:8080/api/v1/tasks/groups/${lang}`, {
     headers: { Authorization: "Bearer " + token },
   });
+  const dat = await req.data
+  console.log(dat);
+  return dat
 }
 
 export async function getTasksByGroup(group) {
@@ -31,7 +34,7 @@ export async function getProgress(){
   })
     .catch((error)=>{console.log(error," getProgress")});
   console.log("requested")
-  const resp = req.data
+  const resp = await req.data
   return resp
 }
 }
