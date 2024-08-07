@@ -60,7 +60,8 @@ export default function Tab() {
       storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
       // setIsInternetError(true);
       // console.log(groups["Socialization"].length);
-      
+      await AsyncStorage.setItem("progress",JSON.stringify(activeTaskGroups))
+
       // console.log(progr["Socialization"].length);
       setLoading(false);
     }
@@ -136,34 +137,21 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-                {Object.entries(active).map(([key, value]: [string, any]) => {
-                  //if inactive exists
-                  if (key in inactive) {
-                    console.log(active,"STATHAM", inactive);
-                    // console.log(active[key],"STATHAM", inactive[key]);
-                  return (
-                    
-                      <ChallengeBar
-                      key={Math.random()}
-                      title={key}
-                      completedTasks={value}
-                      progress={active[key].length/inactive[key].length*100}
-                      ></ChallengeBar>
-                  )
-                }})}
-                {Object.entries(inactive).map(([key, value]: [string, any]) => {
-                  if (!(key in active)) {
-    
-                    return (
-                      <ChallengeBar
-                        key={value[0]["id"]}
-                        title={key}
-                        completedTasks={[]}
-                        progress={0}
-                      ></ChallengeBar>
-                    );
-                  }
-                })}
+              {Object.entries(active).map(([key, value]:[string, any]) => (
+                  <ChallengeBar
+                    key={Math.random()}
+                    title={key}
+                    progress={active[key].length/inactive[key].length*100}
+                  ></ChallengeBar>
+                ))}
+              {Object.entries(inactive).map(([key, value]:[string, any]) => {
+                if(!(key in active)) { 
+                  return(
+                  <ChallengeBar
+                    key={value['taskid']}
+                    title={key}
+                    progress={0}
+                  ></ChallengeBar>);}})}
               </Animated.View>
             </Animated.View>
           )}

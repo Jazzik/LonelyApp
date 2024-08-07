@@ -9,7 +9,6 @@ export async function getGroups(lang) {
     headers: { Authorization: "Bearer " + token },
   });
   const dat = await req.data
-  // console.log(dat);
   return dat
 }
 
@@ -21,19 +20,16 @@ export async function getTasksByGroup(group) {
   });
   const dat = await req.data
   dat.sort((a, b) => a.number - b.number);
-  console.log(dat[0]['title'])
   return dat
 
 }
 export async function getProgress(){
   if(await refreshTokenIfExpired()){
   const token = await AsyncStorage.getItem("accessToken");
-  console.log(token)
   var req =  await axios.get(`http://${ip}:8080/api/v1/progress`, {
     headers: { Authorization: "Bearer " + token },
   })
     .catch((error)=>{console.log(error," getProgress")});
-  console.log("requested")
   const resp = await req.data
   return resp
 }
