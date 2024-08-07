@@ -49,7 +49,6 @@ export default function Tab() {
       setInactive(await getDataFromStorage("InactiveTaskGroups"));
     } else {
       console.log("loading from api");
-      setLoading(true);
       setIsInternetError(false); // Reset internet error state
       const activeTaskGroups = await getProgress();
       const getUserPhoto = await getPhoto();
@@ -61,7 +60,6 @@ export default function Tab() {
       storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
       // setIsInternetError(true);
       // console.log(groups["Socialization"].length);
-      
       // console.log(progr["Socialization"].length);
       setLoading(false);
 
@@ -100,7 +98,8 @@ export default function Tab() {
   });
   return (
     <View style={styles.container}>
-      {loading ? (
+      { 
+      loading ? (
         <Animated.ScrollView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
@@ -138,34 +137,23 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-                {Object.entries(active).map(([key, value]: [string, any]) => {
-                  //if inactive exists
-                  if (key in inactive) {
-                    console.log(active,"STATHAM", inactive);
-                    // console.log(active[key],"STATHAM", inactive[key]);
-                  return (
-                    
-                      <ChallengeBar
-                      key={Math.random()}
-                      title={key}
-                      completedTasks={value}
-                      progress={active[key].length/inactive[key].length*100}
-                      ></ChallengeBar>
-                  )
-                }})}
-                {Object.entries(inactive).map(([key, value]: [string, any]) => {
-                  if (!(key in active)) {
-    
-                    return (
-                      <ChallengeBar
-                        key={value[0]["id"]}
-                        title={key}
-                        completedTasks={[]}
-                        progress={0}
-                      ></ChallengeBar>
-                    );
-                  }
-                })}
+              {Object.entries(active).map(([key, value]:[string, any]) => {
+                if(key in inactive) {
+                return(
+                  <ChallengeBar
+                    key={key}
+                    title={key}
+                    progress={value.length/inactive[key].length*100}
+                  ></ChallengeBar>)}
+                  })}
+              {Object.entries(inactive).map(([key, value]:[string, any]) => {
+                if(!(key in active)) { 
+                  return(
+                  <ChallengeBar
+                    key={key}
+                    title={key}
+                    progress={0}
+                  ></ChallengeBar>);}})}
               </Animated.View>
             </Animated.View>
           )}

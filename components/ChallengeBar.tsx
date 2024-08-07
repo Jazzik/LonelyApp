@@ -19,9 +19,8 @@ import { Platform } from "react-native";
 export function ChallengeBar({
   progress,
   title,
-  completedTasks
+  
 }: {
-  completedTasks: []
   progress: number;
   title: string;
 }) {
@@ -56,7 +55,7 @@ export function ChallengeBar({
         console.log("title:", title);
         router.push({
           pathname: "home/tasks",
-          params: { tasksGroupName: title, completedTasks: completedTasks },
+          params: { tasksGroupName: title },
         });
       }}
     >

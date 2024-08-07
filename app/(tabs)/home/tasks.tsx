@@ -12,20 +12,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
 import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
+import { Dict } from "i18n-js";
 export default function Tasks() {
   const [data, setData] = useState([]);
-  const [completed, setCompleted] = useState([]);
-  const [taskNumber, setTaskNumber] = useState(0);
+  const [progress, setProgress] = useState<Dict>({});
   const [loading, setLoading] = useState(true);
-  const getDataIfLoaded = (index: number, key: string) => {
-    if (data.length > 0) {
-      return data[index][key];
-    } else {
-      return "no data";
-    }
+  const { tasksGroupName }: { tasksGroupName: string } = useLocalSearchParams();
+  const isActive = (key:number) => {
+    let flag = true
+    if(progress){
+    progress.forEach((item:Dict)=>{
+      console.log(item, key)
+      if(item.taskid === key) {
+        flag = false;
+      }
+    })}
+    return flag;
   };
-  const { tasksGroupName } = useLocalSearchParams();
-  const {completedTasks} = useLocalSearchParams();
+  
+
   const router = useRouter();
 
   useEffect(() => {
@@ -43,8 +48,11 @@ export default function Tasks() {
   const fetchData = async () => {
 
     setData(await getTasksByGroup(tasksGroupName));
-    // console.log(String(data))
-    // AsyncStorage.setItem("tasksGroups", data);
+    const progressData = await AsyncStorage.getItem("progress")
+    if(progressData!==null){
+      setProgress(JSON.parse(progressData)[tasksGroupName]);
+  }
+
     setLoading(false);
   };
 
@@ -86,34 +94,17 @@ export default function Tasks() {
                   }}
                 >
                   <TaskButton
-                    accessible={true}
+                    accessible={isActive(item['id'])}
                     press={() => {
-                      setTaskNumber(index);
+                      router.push({pathname: "/home/taskPage"});
+                      
                     }}
                     text={item["number"]}
                     key={item["number"]}
                   />
                 </View>
               ))}
-              {data.map((item, index) => (
-                <View
-                  key={item["number"]}
-                  style={{
-                    flex: 1,
-                    alignItems: locateButton(item["number"]),
-                    height: 150,
-                  }}
-                >
-                  <TaskButton
-                    accessible={false}
-                    press={() => {
-                      setTaskNumber(index);
-                    }}
-                    text={item["number"]}
-                    key={item["number"]}
-                  />
-                </View>
-              ))}
+
               <ConfettiCannon
                 count={20}
                 explosionSpeed={0}
