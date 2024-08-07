@@ -49,19 +49,17 @@ export default function Tab() {
       setInactive(await getDataFromStorage("InactiveTaskGroups"));
     } else {
       console.log("loading from api");
-      setLoading(true);
       setIsInternetError(false); // Reset internet error state
       const activeTaskGroups = await getProgress();
       setActive(activeTaskGroups);
       storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
       setLoading(false);
       const InactiveTaskGroups = await getGroups("en-en");
+      
       setInactive(InactiveTaskGroups);
       storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
       // setIsInternetError(true);
       // console.log(groups["Socialization"].length);
-      await AsyncStorage.setItem("progress",JSON.stringify(activeTaskGroups))
-
       // console.log(progr["Socialization"].length);
       setLoading(false);
     }
@@ -99,7 +97,8 @@ export default function Tab() {
   });
   return (
     <View style={styles.container}>
-      {loading ? (
+      { 
+      loading ? (
         <Animated.ScrollView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
@@ -137,18 +136,20 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-              {Object.entries(active).map(([key, value]:[string, any]) => (
+              {Object.entries(active).map(([key, value]:[string, any]) => {
+                if(key in inactive) {
+                return(
                   <ChallengeBar
-                    key={Math.random()}
+                    key={key}
                     title={key}
-                    progress={active[key].length/inactive[key].length*100}
-                  ></ChallengeBar>
-                ))}
+                    progress={value.length/inactive[key].length*100}
+                  ></ChallengeBar>)}
+                  })}
               {Object.entries(inactive).map(([key, value]:[string, any]) => {
                 if(!(key in active)) { 
                   return(
                   <ChallengeBar
-                    key={value['taskid']}
+                    key={key}
                     title={key}
                     progress={0}
                   ></ChallengeBar>);}})}
