@@ -33,11 +33,29 @@ export async function getProgress(){
     headers: { Authorization: "Bearer " + token },
   })
     .catch((error)=>{console.log(error," getProgress")});
-  console.log("requested")
   const resp = await req.data
   return resp
 }
 }
+
+export async function getPhoto(){
+  // if(await refreshTokenIfExpired()){
+  // const token = await AsyncStorage.getItem("accessToken");
+  // var req =  await axios.get(`http://${ip}:8080/api/v1/user/photo`, {
+  //   headers: { Authorization: "Bearer " + token },
+  // })
+  //   .catch((error)=>{console.log(error," getPhoto")});
+  // const resp = await req.data
+  
+  // if (resp.photo){
+  //   return true
+  // }
+  // return false
+// }
+
+return true
+}
+
 export async function refreshTokenIfExpired() {
   const token = await AsyncStorage.getItem("accessToken");
   const refreshToken = await AsyncStorage.getItem("refreshToken");
