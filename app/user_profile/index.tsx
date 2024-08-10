@@ -10,11 +10,11 @@ import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
 export default function UserProfile() {
-  const [isUserPhotoLoaded, setIsUserPhotoLoaded] = useState(false);
+  const [isUserPhotoLoaded, setIsUserPhotoLoaded] = useState(true);
   useEffect(() => {
     const checkUserPhotoLoaded = async () => {
       const value = await getDataFromStorage("UserPhoto");
-      console.log(value);
+      console.log("Photo is loaded:",value);
       if (JSON.stringify(value) === "true") {
         setIsUserPhotoLoaded(true);
       } else {

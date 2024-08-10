@@ -40,7 +40,7 @@ export default function Tab() {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
-      !(await isStoredDataExpired(1))
+      !(await isStoredDataExpired(10800))
     ) {
       console.log("loading from storage");
       setLoading(false);
