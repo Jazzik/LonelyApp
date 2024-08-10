@@ -35,8 +35,6 @@ export default function Tab() {
   }, []);
 
   const fetchData = async () => {
-    console.log(await AsyncStorage.getItem("accessToken"));
-
     // console.log(await AsyncStorage.getItem("tasksGroups"))
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
@@ -49,20 +47,27 @@ export default function Tab() {
       setActive(await getDataFromStorage("ActiveTaskGroups"));
       setInactive(await getDataFromStorage("InactiveTaskGroups"));
     } else {
+      setLoading(true);
       console.log("loading from api");
       setIsInternetError(false); // Reset internet error state
-      const activeTaskGroups = await getProgress();
-      const getUserPhoto = await getPhoto();
-      const InactiveTaskGroups = await getGroups("en-en");
-      setActive(activeTaskGroups);
-      storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
-      storeDataToStorage("UserPhoto", getUserPhoto); // boolean to str
-      setInactive(InactiveTaskGroups);
-      storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
-      // setIsInternetError(true);
-      // console.log(groups["Socialization"].length);
-      // console.log(progr["Socialization"].length);
-      setLoading(false);
+      try {
+        const activeTaskGroups = await getProgress();
+        const getUserPhoto = await getPhoto();
+        const InactiveTaskGroups = await getGroups("en-en");
+        setActive(activeTaskGroups);
+        storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
+        storeDataToStorage("UserPhoto", getUserPhoto); // boolean to str
+        setInactive(InactiveTaskGroups);
+        storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
+        // setIsInternetError(true);
+        // console.log(groups["Socialization"].length);
+        // console.log(progr["Socialization"].length);
+        setLoading(false);
+      } catch (error) {
+        setIsInternetError(true);
+        setLoading(false);
+        return;
+      }
     }
   };
 
@@ -88,7 +93,7 @@ export default function Tab() {
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollY.value = event.contentOffset.y;
-      if (event.contentOffset.y < -150) {
+      if (event.contentOffset.y < -100) {
         // Threshold for triggering refresh
         runOnJS(debouncedRefreshPage)();
 
@@ -136,7 +141,7 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-                <View style={{ transform: [{ translateY: -60 }], height: 0 }}>
+                <View style={{ transform: [{ translateY: -100 }], height: 0 }}>
                   <ActivityIndicator size="large" color={Colors.dark.text} />
                 </View>
                 {Object.entries(active).map(([key, value]: [string, any]) => {

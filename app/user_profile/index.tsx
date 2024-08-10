@@ -1,4 +1,4 @@
-import { View, Image } from "react-native";
+import { View, Image, Button } from "react-native";
 import Animated from "react-native-reanimated";
 import { styles } from "@/constants/Style";
 import { useNavigationContainerRef } from "expo-router";
@@ -92,7 +92,12 @@ export default function UserProfile() {
             text="Log out"
             ButtonBGColor="red"
             ShadowBGColor="darkred"
-            ButtonContainerWidth={deviceWidth * 0.5}
+            ButtonContainerWidth={deviceWidth * 0.36}
+            ButtonHeight={50}
+            ButtonBorderRadius={20}
+            ShadowBtmLeftRadius={20}
+            ShadowBtmRightRadius={20}
+            
           />
         </View>
       </Animated.ScrollView>
