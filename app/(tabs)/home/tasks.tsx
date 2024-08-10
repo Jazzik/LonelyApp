@@ -94,7 +94,7 @@ export default function Tasks() {
                   <TaskButton
                     accessible={isActive(item['id'])}
                     press={() => {
-                      router.push({pathname: "/home/taskPage", params:{ taskName:item['title']}});
+                      router.push({pathname: "./taskPage", params:{ taskName:item['title']}});
                       
                     }}
                     text={item["number"]}
