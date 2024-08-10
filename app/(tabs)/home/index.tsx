@@ -54,6 +54,8 @@ export default function Tab() {
         const activeTaskGroups = await getProgress();
         const getUserPhoto = await getPhoto();
         const InactiveTaskGroups = await getGroups("en-en");
+        console.log(activeTaskGroups);
+        // console.log(InactiveTaskGroups);
         setActive(activeTaskGroups);
         storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
         storeDataToStorage("UserPhoto", getUserPhoto); // boolean to str

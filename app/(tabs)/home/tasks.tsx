@@ -109,7 +109,7 @@ export default function Tasks() {
                   />
                   <View
                     style={{
-                      transform: [{ rotate: arrangeLine(item["number"]) }],
+                      transform: [{ rotate: arrangeLine(taskdata["number"]) }],
                       position: "absolute",
                       zIndex: -3,
                       backgroundColor: "black",
@@ -122,7 +122,7 @@ export default function Tasks() {
                     }}
                   ></View>
                 </View>
-              ))}
+              )})}
 
               <ConfettiCannon
                 count={20}

@@ -9,6 +9,7 @@ export async function getGroups(lang) {
     headers: { Authorization: "Bearer " + token },
   });
   const dat = await req.data
+  console.log(dat)
   return dat
 }
 
