@@ -1,4 +1,4 @@
-import { View,  Image } from "react-native";
+import { View, Image } from "react-native";
 import Animated from "react-native-reanimated";
 import { styles } from "@/constants/Style";
 import { useNavigationContainerRef } from "expo-router";
@@ -7,14 +7,14 @@ import { useEffect, useState } from "react";
 import UniversalButton from "@/components/UniversalButton";
 import { Dimensions } from "react-native";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
-const deviceHeight = Dimensions.get('window').height;
-const deviceWidth = Dimensions.get('window').width;
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
 export default function UserProfile() {
   const [isUserPhotoLoaded, setIsUserPhotoLoaded] = useState(true);
   useEffect(() => {
     const checkUserPhotoLoaded = async () => {
       const value = await getDataFromStorage("UserPhoto");
-      console.log("Photo is loaded:",value);
+      console.log("Photo is loaded:", value);
       if (JSON.stringify(value) === "true") {
         setIsUserPhotoLoaded(true);
       } else {
@@ -52,22 +52,49 @@ export default function UserProfile() {
               console.log("Edit photo button pressed");
             }}
             text="Edit photo"
-            ButtonContainerWidth={deviceWidth * 0.500}
+            ButtonContainerWidth={deviceWidth * 0.4}
             // textColor="grey"
+          />
+          <UniversalButton
+            press={() => console.log("some button pressed")}
+            text="Achievements"
+            ButtonBGColor="rgb(226,196,120)"
+            ShadowBGColor="rgb(166,120,58)"
+            fontSize={25}
+            ButtonContainerWidth={deviceWidth * 0.5}
+          />
+          <UniversalButton
+            press={() => console.log("some button pressed")}
+            text="Some setting"
+            ButtonBGColor="rgb(145	222	139)"
+            ShadowBGColor="rgb(85	187	54)"
+            fontSize={25}
+            ButtonContainerWidth={deviceWidth * 0.5}
+          />
+          <UniversalButton
+            press={() => console.log("some button pressed")}
+            text="Sure thing"
+            // ButtonBGColor="red"
+            // ShadowBGColor="darkred"
+            fontSize={25}
+            ButtonContainerWidth={deviceWidth * 0.5}
           />
         </View>
         <View
-          style={{ flex: 1, alignItems: "center", marginTop: deviceHeight * 0.2 }}
+          style={{
+            flex: 1,
+            alignItems: "center",
+            marginTop: deviceHeight * 0.1,
+          }}
         >
           <UniversalButton
             press={LogOutUser}
             text="Log out"
             ButtonBGColor="red"
             ShadowBGColor="darkred"
-            ButtonContainerWidth={deviceWidth * 0.500}
+            ButtonContainerWidth={deviceWidth * 0.5}
           />
         </View>
-        
       </Animated.ScrollView>
       <View
         style={{

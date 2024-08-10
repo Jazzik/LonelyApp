@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
 
   Button: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     height: 60,
     borderRadius: 21,
@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
   },
 
   ButtonText: {
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
+    // justifyContent: "center",
+    // alignItems: "center",
     fontSize: 32,
     color: "#25292e",
-    fontWeight: "500",
+    fontWeight: "800",
   },
 });

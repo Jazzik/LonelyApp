@@ -22,6 +22,7 @@ import {
   deleteDataInStorage as deleteDataFromStorage,
   isStoredDataExpired,
 } from "@/utils/storageActions";
+import { transform } from "@babel/core";
 
 export default function Tab() {
   const [inactive, setInactive] = useState<Dict>({});
@@ -34,13 +35,13 @@ export default function Tab() {
   }, []);
 
   const fetchData = async () => {
-    await AsyncStorage.getItem("accessToken");
+    console.log(await AsyncStorage.getItem("accessToken"));
 
     // console.log(await AsyncStorage.getItem("tasksGroups"))
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
-      !(await isStoredDataExpired(10800))
+      !(await isStoredDataExpired(1))
     ) {
       console.log("loading from storage");
       setLoading(false);
@@ -62,7 +63,6 @@ export default function Tab() {
       // console.log(groups["Socialization"].length);
       // console.log(progr["Socialization"].length);
       setLoading(false);
-
     }
   };
 
@@ -98,8 +98,7 @@ export default function Tab() {
   });
   return (
     <View style={styles.container}>
-      { 
-      loading ? (
+      {loading ? (
         <Animated.ScrollView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
@@ -137,23 +136,35 @@ export default function Tab() {
                 entering={FadeIn.duration(100)}
                 style={styles.container}
               >
-              {Object.entries(active).map(([key, value]:[string, any]) => {
-                if(key in inactive) {
-                return(
-                  <ChallengeBar
-                    key={key}
-                    title={key}
-                    progress={Object.keys(value).length/Object.keys(inactive[key]).length*100}
-                  ></ChallengeBar>)}
-                  })}
-              {Object.entries(inactive).map(([key, value]:[string, any]) => {
-                if(!(key in active)) { 
-                  return(
-                  <ChallengeBar
-                    key={key}
-                    title={key}
-                    progress={0}
-                  ></ChallengeBar>);}})}
+                <View style={{ transform: [{ translateY: -60 }], height: 0 }}>
+                  <ActivityIndicator size="large" color={Colors.dark.text} />
+                </View>
+                {Object.entries(active).map(([key, value]: [string, any]) => {
+                  if (key in inactive) {
+                    return (
+                      <ChallengeBar
+                        key={key}
+                        title={key}
+                        progress={
+                          (Object.keys(value).length /
+                            Object.keys(inactive[key]).length) *
+                          100
+                        }
+                      ></ChallengeBar>
+                    );
+                  }
+                })}
+                {Object.entries(inactive).map(([key, value]: [string, any]) => {
+                  if (!(key in active)) {
+                    return (
+                      <ChallengeBar
+                        key={key}
+                        title={key}
+                        progress={0}
+                      ></ChallengeBar>
+                    );
+                  }
+                })}
               </Animated.View>
             </Animated.View>
           )}
