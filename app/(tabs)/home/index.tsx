@@ -143,7 +143,7 @@ export default function Tab() {
                   <ChallengeBar
                     key={key}
                     title={key}
-                    progress={value.length/inactive[key].length*100}
+                    progress={Object.keys(value).length/Object.keys(inactive[key]).length*100}
                   ></ChallengeBar>)}
                   })}
               {Object.entries(inactive).map(([key, value]:[string, any]) => {

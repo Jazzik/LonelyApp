@@ -31,6 +31,21 @@ export default function HomeLayout() {
           
         }}
       />
+        <Stack.Screen
+        name="taskPage"
+        options={{
+          
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: Colors.dark.upper_background,
+          },
+          headerBackTitle: "Back",
+          headerBackTitleStyle: { fontSize: 20 },
+          
+          headerBackTitleVisible: false,
+          
+        }}
+      />
     </Stack>
   );
 }
