@@ -48,10 +48,13 @@ export default function Tasks() {
     }
   };
   const fetchData = async () => {
-    setData(await getTasksByGroup(tasksGroupName));
-    const progressData = await AsyncStorage.getItem("ActiveTaskGroups");
-    if (progressData !== null) {
-      console.log("progressData", JSON.parse(progressData)[tasksGroupName]);
+    const data = await AsyncStorage.getItem("InactiveTaskGroups");
+    if(data){
+      setData(JSON.parse(data)[tasksGroupName]);
+    }
+    const progressData = await AsyncStorage.getItem("ActiveTaskGroups")
+    if(progressData!==null){
+      console.log('progressData', JSON.parse(progressData)[tasksGroupName])
       setProgress(JSON.parse(progressData)[tasksGroupName]);
     }
 
@@ -86,26 +89,23 @@ export default function Tasks() {
           </Animated.View>
           <Animated.ScrollView>
             <Animated.View style={styles1.container}>
-              {data.map((item) => (
+              {Object.entries(data).map(([taskname, taskdata]) => {
+              console.log(taskdata)
+              return (
                 <View
-                  key={item["number"]}
+                  key={taskdata["number"]}
                   style={{
                     flex: 1,
-                    alignItems: locateButton(item["number"]),
+                    alignItems: locateButton(taskdata["number"]),
                     height: 150,
-                    // backgroundColor: "orange",
-                  }}
-                >
+                  }}>
                   <TaskButton
-                    accessible={isActive(item["id"])}
+                    accessible={isActive(taskdata['id'])}
                     press={() => {
-                      router.push({
-                        pathname: "./taskPage",
-                        params: { taskName: item["title"] },
-                      });
+                      router.push({pathname: "./taskPage", params:{ taskName:taskname }});  
                     }}
-                    text={item["number"]}
-                    key={item["number"]}
+                    text={taskdata["number"]}
+                    key={taskdata["number"]}
                   />
                   <View
                     style={{

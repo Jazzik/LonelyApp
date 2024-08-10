@@ -13,7 +13,7 @@ import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
 export default function Tasks() {
   const [data, setData] = useState([]);
-  const { taskName } = useLocalSearchParams();
+  const { taskName }: {taskName: string} = useLocalSearchParams();
 
   const router = useRouter();
 
@@ -24,7 +24,7 @@ export default function Tasks() {
 
   const fetchData = async () => {
         const tasks = await AsyncStorage.getItem("ActiveTaskGroups");
-        
+
   };
 
   return (
