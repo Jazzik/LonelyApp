@@ -20,9 +20,10 @@ export default function Tasks() {
   const { tasksGroupName }: { tasksGroupName: string } = useLocalSearchParams();
   const isActive = (key:number) => {
     let flag = true
-    if(progress[key]!== undefined){
-        flag = false
-    }
+      if(progress && progress[key]!==undefined){
+          flag = false
+      }
+    
     return flag
   };
   
