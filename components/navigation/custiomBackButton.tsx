@@ -1,36 +1,34 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Pressable, TouchableOpacity, View, StyleSheet} from "react-native";
+import { Pressable, TouchableOpacity, View, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 
-
-export const CustomBackButton = ()=> {
+export function CustomBackButton({ press }: { press?: () => void }) {
   const router = useRouter();
   return (
-  <View style={styles.circleButtonContainer}>
-    <Pressable
-      style={({ pressed }) => [
-        styles.circleButton,
-        {
-          
-          shadowOffset: pressed
-            ? { width: 0, height: 0 }
-            : { width: 0, height: 7 },
+    <View style={styles.circleButtonContainer}>
+      <Pressable
+        style={({ pressed }) => [
+          styles.circleButton,
+          {
+            shadowOffset: pressed
+              ? { width: 0, height: 0 }
+              : { width: 0, height: 7 },
 
-          flex: pressed ? 0.8 : 0.9,
-          transform: [{ translateY: pressed ? 5 : 0 }],
-        }, // Change the colors as needed
-      ]}
-      onPress={
-        () => {
-          router.back()
-        }
-      }
-    >
-      <Ionicons name="arrow-back" size={24} color="black" />
-    </Pressable>
-  </View>
-);
+            flex: pressed ? 0.8 : 0.9,
+            transform: [{ translateY: pressed ? 5 : 0 }],
+          }, // Change the colors as needed
+        ]}
+        onPress={() => {
+          //if press exists, call it
+          if (press) press();
+          router.back();
+        }}
+      >
+        <Ionicons name="arrow-back" size={24} color="black" />
+      </Pressable>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

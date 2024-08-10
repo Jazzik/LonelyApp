@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 import { ActivityIndicator } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -18,15 +18,14 @@ export default function Tasks() {
   const [progress, setProgress] = useState<Dict>({});
   const [loading, setLoading] = useState(true);
   const { tasksGroupName }: { tasksGroupName: string } = useLocalSearchParams();
-  const isActive = (key:number) => {
-    let flag = true
-      if(progress && progress[key]!==undefined){
-          flag = false
-      }
-    
-    return flag
+  const isActive = (key: number) => {
+    let flag = true;
+    if (progress && progress[key] !== undefined) {
+      flag = false;
+    }
+
+    return flag;
   };
-  
 
   const router = useRouter();
 
@@ -41,15 +40,20 @@ export default function Tasks() {
       return "flex-end";
     }
   };
-
+  const arrangeLine = (index: number) => {
+    if (index % 2 === 1) {
+      return "30deg";
+    } else {
+      return "150deg";
+    }
+  };
   const fetchData = async () => {
-
     setData(await getTasksByGroup(tasksGroupName));
-    const progressData = await AsyncStorage.getItem("ActiveTaskGroups")
-    if(progressData!==null){
-      console.log('progressData', JSON.parse(progressData)[tasksGroupName])
+    const progressData = await AsyncStorage.getItem("ActiveTaskGroups");
+    if (progressData !== null) {
+      console.log("progressData", JSON.parse(progressData)[tasksGroupName]);
       setProgress(JSON.parse(progressData)[tasksGroupName]);
-  }
+    }
 
     setLoading(false);
   };
@@ -82,24 +86,41 @@ export default function Tasks() {
           </Animated.View>
           <Animated.ScrollView>
             <Animated.View style={styles1.container}>
-              {data.map((item, index) => (
+              {data.map((item) => (
                 <View
                   key={item["number"]}
                   style={{
                     flex: 1,
                     alignItems: locateButton(item["number"]),
                     height: 150,
+                    // backgroundColor: "orange",
                   }}
                 >
                   <TaskButton
-                    accessible={isActive(item['id'])}
+                    accessible={isActive(item["id"])}
                     press={() => {
-                      router.push({pathname: "./taskPage", params:{ taskName:item['title']}});
-                      
+                      router.push({
+                        pathname: "./taskPage",
+                        params: { taskName: item["title"] },
+                      });
                     }}
                     text={item["number"]}
                     key={item["number"]}
                   />
+                  <View
+                    style={{
+                      transform: [{ rotate: arrangeLine(item["number"]) }],
+                      position: "absolute",
+                      zIndex: -3,
+                      backgroundColor: "black",
+                      top: 120,
+                      padding: 2,
+                      width: "70%",
+                      left: 50,
+                      // marginLeft: 50,
+                      
+                    }}
+                  ></View>
                 </View>
               ))}
 
@@ -125,8 +146,11 @@ export default function Tasks() {
           paddingBottom: 35,
           backgroundColor: "rgba(0,0,0,0.0)",
         }}
-      >
-        <CustomBackButton />
+      > 
+      
+          <CustomBackButton press={()=>setLoading(true)}/>
+        
+      
       </View>
     </View>
   );

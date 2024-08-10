@@ -81,6 +81,16 @@ export default function ({
     return {
       height: shadowHeight.value,
       opacity: shadowOpacity.value,
+      zIndex: -10,
+      transform: [
+        {
+          translateY: buttonTranslate.value,
+        },
+      ],
+    };
+  });
+  const animatedStyleButton = useAnimatedStyle(() => {
+    return {
       transform: [
         {
           translateY: buttonTranslate.value,
@@ -116,6 +126,7 @@ export default function ({
             ButtonBorderRadius ? { borderRadius: ButtonBorderRadius } : {},
             ButtonHeight ? { height: ButtonHeight } : {},
             ButtonBorderWidth ? { borderWidth: ButtonBorderWidth } : {},
+            animatedStyleButton
             ]}>
           <Text
             style={[
@@ -163,6 +174,7 @@ const styles = StyleSheet.create({
     borderRadius: 21,
     borderWidth: 2,
     backgroundColor: "#f0f0f0",
+    zIndex: 10,
   },
 
   ButtonShadow: {
@@ -170,7 +182,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 21,
     borderBottomRightRadius: 21,
     position: "relative",
-    zIndex: -1,
+    zIndex: -10,
     marginTop: -29,
     backgroundColor: "gray",
   },
