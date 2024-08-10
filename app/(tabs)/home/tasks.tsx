@@ -20,14 +20,10 @@ export default function Tasks() {
   const { tasksGroupName }: { tasksGroupName: string } = useLocalSearchParams();
   const isActive = (key:number) => {
     let flag = true
-    if(progress){
-    progress.forEach((item:Dict)=>{
-      console.log(item, key)
-      if(item.taskid === key) {
-        flag = false;
-      }
-    })}
-    return flag;
+    if(progress[key]!== undefined){
+        flag = false
+    }
+    return flag
   };
   
 
@@ -48,8 +44,9 @@ export default function Tasks() {
   const fetchData = async () => {
 
     setData(await getTasksByGroup(tasksGroupName));
-    const progressData = await AsyncStorage.getItem("progress")
+    const progressData = await AsyncStorage.getItem("ActiveTaskGroups")
     if(progressData!==null){
+      console.log('progressData', JSON.parse(progressData)[tasksGroupName])
       setProgress(JSON.parse(progressData)[tasksGroupName]);
   }
 
@@ -96,7 +93,7 @@ export default function Tasks() {
                   <TaskButton
                     accessible={isActive(item['id'])}
                     press={() => {
-                      router.push({pathname: "/home/taskPage"});
+                      router.push({pathname: "/home/taskPage", params:{ taskName:item['title']}});
                       
                     }}
                     text={item["number"]}

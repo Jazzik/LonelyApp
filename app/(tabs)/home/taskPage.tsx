@@ -13,16 +13,7 @@ import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
 export default function Tasks() {
   const [data, setData] = useState([]);
-  const [taskNumber, setTaskNumber] = useState(0);
-  const[loading,setLoading] = useState(true)
-  const getDataIfLoaded = (index: number, key: string) => {
-    if (data.length > 0) {
-      return data[index][key];
-    } else {
-      return "no data";
-    }
-  }
-  const { tasksGroupName } = useLocalSearchParams();
+  const { taskName } = useLocalSearchParams();
 
   const router = useRouter();
 
@@ -32,24 +23,12 @@ export default function Tasks() {
 
 
   const fetchData = async () => {
-    setData(await getTasksByGroup(tasksGroupName));
-    setLoading(false);
+        const tasks = await AsyncStorage.getItem("ActiveTaskGroups");
+        
   };
 
   return (
     <View style={styles1.container}>
-      {loading ? (
-        <Animated.ScrollView
-          scrollEventThrottle={16}
-          style={styles.scrollView} // Corrected style object reference
-          contentContainerStyle={{ flexGrow: 1 }}
-        >
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <ActivityIndicator size="large" color={Colors.dark.text} />
-          </View>
-          
-        </Animated.ScrollView>
-      ) : (
         <Animated.View>
           <Animated.View
           style={{
@@ -59,7 +38,7 @@ export default function Tasks() {
             marginRight: 15,
           }}
           >
-          <TasksHeader tasksGroupName={tasksGroupName} />
+          <TasksHeader tasksGroupName={taskName} />
           </Animated.View>
           <Animated.ScrollView>
 
@@ -68,7 +47,6 @@ export default function Tasks() {
         </Animated.View>
         </Animated.ScrollView>
       </Animated.View>
-      )}
       
       <View
         style={{
