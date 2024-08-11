@@ -36,6 +36,28 @@ export default function Tab() {
     fetchData();
   }, []);
 
+  const orderList = ()=>{
+    let act = Object.keys(active)
+    let inact: string[] = []
+    Object.keys(inactive).forEach(key => {
+      if (!act.includes(key)){
+      inact.push(key)
+    }
+    })
+     
+    console.log(act.concat(inact))
+    return act.concat(inact)
+  }
+  const getProgressRatio = (groupName: string) =>{
+
+    if (active && inactive && active[groupName] !== undefined && inactive[groupName] !== undefined) {
+      console.log(Object.keys(active[groupName]).length,Object.keys(inactive[groupName]).length)
+      const ratio = Object.keys(active[groupName]).length/Object.keys(inactive[groupName]).length
+      return ratio*100
+    }
+
+    return 0;
+  }
   const fetchData = async () => {
     // console.log(await AsyncStorage.getItem("tasksGroups"))
     if (
@@ -56,7 +78,6 @@ export default function Tab() {
         const activeTaskGroups = await getProgress();
         const getUserPhoto = await getPhoto();
         const InactiveTaskGroups = await getGroups("en-en");
-        console.log(activeTaskGroups);
         setActive(activeTaskGroups);
         storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
         storeDataToStorage("UserPhoto", getUserPhoto); // boolean to str
@@ -84,7 +105,8 @@ const handleRefresh = () => {
   //   deleteDataFromStorage("InactiveTaskGroups");
   //   fetchData();
   // };
-  const DATA = [{ key: "a" }, { key: "b" }, { key: "c" },{ key: "a" }, { key: "b" }, { key: "c" }, ];
+
+  const DATA = orderList()
   return (
     <View style={styles.container}>
       <FlashList
@@ -97,13 +119,12 @@ const handleRefresh = () => {
         />
         }
         data={DATA}
-        estimatedItemSize={20}
-        overScrollMode="always"
-        showsVerticalScrollIndicator={false}
-        renderItem={() => <ChallengeBar 
-        progress={60}
-        title="Task Group Name"
-        />}
+        renderItem={(item:Dict) => {
+        
+        return <ChallengeBar 
+        progress={getProgressRatio(item['item'])}
+        title={item['item']}
+        />}}
       ></FlashList>
       <StatusBar style="light" />
     </View>
