@@ -7,6 +7,7 @@ import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dict } from "i18n-js";
+import { styles } from "@/constants/Style";
 export default function Tasks() {
   const [data, setData] = useState<Dict>({});
   const { taskName }: {taskName: string} = useLocalSearchParams();
