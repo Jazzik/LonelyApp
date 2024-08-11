@@ -18,7 +18,6 @@ export default function HomeLayout() {
           // headerBackButtonMenuEnabled: true,
           headerShown: false,
           // animation: "slide_from_bottom",
-         
         }}
       />
 

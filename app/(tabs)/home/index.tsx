@@ -40,7 +40,6 @@ export default function Tab() {
       }
     });
 
-    console.log(act.concat(inact));
     return act.concat(inact);
   };
   const getProgressRatio = (groupName: string) => {
@@ -50,10 +49,6 @@ export default function Tab() {
       active[groupName] !== undefined &&
       inactive[groupName] !== undefined
     ) {
-      console.log(
-        Object.keys(active[groupName]).length,
-        Object.keys(inactive[groupName]).length
-      );
       const ratio =
         Object.keys(active[groupName]).length /
         Object.keys(inactive[groupName]).length;
@@ -63,7 +58,6 @@ export default function Tab() {
     return 0;
   };
   const fetchData = async () => {
-    // console.log(await AsyncStorage.getItem("tasksGroups"))
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&

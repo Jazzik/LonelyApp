@@ -11,9 +11,6 @@ export default function Tasks() {
   const [data, setData] = useState<Dict>({});
   const { taskName }: {taskName: string} = useLocalSearchParams();
   const { groupName }: {groupName: string} = useLocalSearchParams();
-
-  const router = useRouter();
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -27,7 +24,7 @@ export default function Tasks() {
   };
 
   return (
-    <View style={styles1.container}>
+    <View style={styles.container}>
         <Animated.View>
           <Animated.View
           style={{
@@ -40,7 +37,7 @@ export default function Tasks() {
           <TasksHeader tasksGroupName={taskName} />
           </Animated.View>
           <Animated.ScrollView>
-          <Animated.View style={styles1.container}>
+          <Animated.View style={styles.container}>
           <View style={{
             padding: "10%",
             margin: "5%",
@@ -66,28 +63,4 @@ export default function Tasks() {
       </View>
     </View>
   );
-
 }
-const styles1 = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.dark.background,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  container1: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-  },
-});

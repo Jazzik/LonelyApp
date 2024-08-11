@@ -59,7 +59,7 @@ export default function Tasks() {
   };
 
   return (
-    <View style={styles1.container}>
+    <View style={styles.container}>
       {loading ? (
         <Animated.ScrollView
           scrollEventThrottle={16}
@@ -85,7 +85,7 @@ export default function Tasks() {
             <TasksHeader tasksGroupName={tasksGroupName} />
           </Animated.View>
           <Animated.ScrollView>
-            <Animated.View style={styles1.container}>
+            <Animated.View style={styles.container}>
               {Object.entries(data).map(([taskname, taskdata]) => {
                 console.log(taskdata);
                 return (
@@ -157,26 +157,3 @@ export default function Tasks() {
     </View>
   );
 }
-const styles1 = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.dark.background,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  container1: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  button: {
-    backgroundColor: "#007BFF",
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
-  },
-});

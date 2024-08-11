@@ -26,7 +26,7 @@ export default function community() {
         style={styles.scrollView}
       >
         <Animated.View style={[styles.content, animatedStyle]}>
-          {/* Your content goes here */}
+          
         </Animated.View>
       </Animated.ScrollView>
     </View>
