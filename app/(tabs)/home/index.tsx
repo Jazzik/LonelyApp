@@ -90,8 +90,9 @@ const handleRefresh = () => {
         refreshing={refreshing}
         onRefresh={handleRefresh}
         data={DATA}
+        estimatedItemSize={20}
         renderItem={() => <ChallengeBar 
-        progress={100}
+        progress={60}
         title="Task Group Name"
         />}
       ></FlashList>
