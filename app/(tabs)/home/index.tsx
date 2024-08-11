@@ -22,7 +22,7 @@ import {
   deleteDataInStorage as deleteDataFromStorage,
   isStoredDataExpired,
 } from "@/utils/storageActions";
-import { RefreshControl } from 'react-native';
+import { RefreshControl } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 
 export default function Tab() {
@@ -36,28 +36,37 @@ export default function Tab() {
     fetchData();
   }, []);
 
-  const orderList = ()=>{
-    let act = Object.keys(active)
-    let inact: string[] = []
-    Object.keys(inactive).forEach(key => {
-      if (!act.includes(key)){
-      inact.push(key)
-    }
-    })
-     
-    console.log(act.concat(inact))
-    return act.concat(inact)
-  }
-  const getProgressRatio = (groupName: string) =>{
+  const orderList = () => {
+    let act = Object.keys(active);
+    let inact: string[] = [];
+    Object.keys(inactive).forEach((key) => {
+      if (!act.includes(key)) {
+        inact.push(key);
+      }
+    });
 
-    if (active && inactive && active[groupName] !== undefined && inactive[groupName] !== undefined) {
-      console.log(Object.keys(active[groupName]).length,Object.keys(inactive[groupName]).length)
-      const ratio = Object.keys(active[groupName]).length/Object.keys(inactive[groupName]).length
-      return ratio*100
+    console.log(act.concat(inact));
+    return act.concat(inact);
+  };
+  const getProgressRatio = (groupName: string) => {
+    if (
+      active &&
+      inactive &&
+      active[groupName] !== undefined &&
+      inactive[groupName] !== undefined
+    ) {
+      console.log(
+        Object.keys(active[groupName]).length,
+        Object.keys(inactive[groupName]).length
+      );
+      const ratio =
+        Object.keys(active[groupName]).length /
+        Object.keys(inactive[groupName]).length;
+      return ratio * 100;
     }
 
     return 0;
-  }
+  };
   const fetchData = async () => {
     // console.log(await AsyncStorage.getItem("tasksGroups"))
     if (
@@ -91,41 +100,54 @@ export default function Tab() {
       }
     }
   };
-const handleRefresh = () => {
-  setRefreshing(true);
-  // fetchData();
-  setTimeout(() => {
-    setRefreshing(false);
-  }, 1000);
-}
-  // const refreshPage = () => {
-  //   // Logic to refresh the page
-  //   console.log("Refreshing page...");
-  //   deleteDataFromStorage("ActiveTaskGroups");
-  //   deleteDataFromStorage("InactiveTaskGroups");
-  //   fetchData();
-  // };
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 500);
+  };
 
-  const DATA = orderList()
+  const DATA = orderList();
   return (
     <View style={styles.container}>
-      <FlashList
-        refreshControl={
-          <RefreshControl
-          refreshing={refreshing}
-          onRefresh={handleRefresh}
-          // colors={[Colors.dark.text]}  // For Android
-          tintColor={Colors.dark.text}   // For iOS
+      {loading ? (
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <ActivityIndicator size="large" color={Colors.dark.text} />
+        </View>
+      ) : isInternetError ? (
+        <Animated.ScrollView
+          contentContainerStyle={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center",
+            height: 600,
+          }}
+        >
+          <Punkboy1 />
+          <CheckInternetConnection />
+          <Button title="Retry" onPress={fetchData} />
+        </Animated.ScrollView>
+      ) : (
+        <FlashList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              // colors={[Colors.dark.text]}  // For Android
+              tintColor={Colors.dark.text} // For iOS
+            />
+          }
+          estimatedItemSize={20}
+          data={DATA}
+          renderItem={({ item }) => (
+            <ChallengeBar progress={getProgressRatio(item)} title={item} />
+          )}
         />
-        }
-        data={DATA}
-        renderItem={(item:Dict) => {
-        
-        return <ChallengeBar 
-        progress={getProgressRatio(item['item'])}
-        title={item['item']}
-        />}}
-      ></FlashList>
+      )}
+
       <StatusBar style="light" />
     </View>
   );
