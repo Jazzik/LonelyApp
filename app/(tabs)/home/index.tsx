@@ -45,7 +45,6 @@ export default function Tab() {
       }
     });
 
-    console.log(act.concat(inact));
     return act.concat(inact);
   };
   const getProgressRatio = (groupName: string) => {
@@ -55,10 +54,6 @@ export default function Tab() {
       active[groupName] !== undefined &&
       inactive[groupName] !== undefined
     ) {
-      console.log(
-        Object.keys(active[groupName]).length,
-        Object.keys(inactive[groupName]).length
-      );
       const ratio =
         Object.keys(active[groupName]).length /
         Object.keys(inactive[groupName]).length;
