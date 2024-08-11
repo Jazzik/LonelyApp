@@ -13,7 +13,6 @@ export let tasksName = "Task Group Name";
 import {
   storeDataInStorage as storeDataToStorage,
   getDataFromStorage,
-  deleteDataInStorage as deleteDataFromStorage,
   isStoredDataExpired,
 } from "@/utils/storageActions";
 import { RefreshControl } from "react-native";
@@ -61,7 +60,7 @@ export default function Tab() {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
-      !(await isStoredDataExpired(1))
+      !(await isStoredDataExpired(1000))
     ) {
       console.log("loading from storage");
       setLoading(false);
