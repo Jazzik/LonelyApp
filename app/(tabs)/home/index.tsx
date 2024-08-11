@@ -90,7 +90,10 @@ const handleRefresh = () => {
         refreshing={refreshing}
         onRefresh={handleRefresh}
         data={DATA}
-        renderItem={() => <Punkboy1 />}
+        renderItem={() => <ChallengeBar 
+        progress={100}
+        title="Task Group Name"
+        />}
       ></FlashList>
       <StatusBar style="light" />
     </View>
