@@ -10,7 +10,7 @@ export default function HomeLayout() {
       <Stack.Screen
         name="index"
         options={{
-          animation: Platform.OS === "android" ? "fade" : "default",
+          animation: Platform.OS === "android" ? "slide_from_right" : "default",
           headerBackTitle: "Back",
           headerBackButtonMenuEnabled: true,
           headerBackTitleVisible: true,

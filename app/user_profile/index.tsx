@@ -31,7 +31,7 @@ export default function UserProfile() {
 
   return (
     <View style={styles.container}>
-      <Animated.ScrollView>
+      <Animated.ScrollView scrollEnabled={true} overScrollMode={"always"} >
         <View style={{ alignItems: "center" }}>
           <Image
             source={

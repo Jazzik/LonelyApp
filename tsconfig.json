@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "utils/token.js", "app/(tabs)/user_profile/_layout.tsx"  ]
+, "utils/token.js", "app/(tabs)/user_profile/_layout.tsx", "app/(tabs)/home/index.tsx.bak"  ]
 }

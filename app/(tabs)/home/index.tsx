@@ -22,12 +22,13 @@ import {
   deleteDataInStorage as deleteDataFromStorage,
   isStoredDataExpired,
 } from "@/utils/storageActions";
-import { transform } from "@babel/core";
+import { FlashList } from "@shopify/flash-list";
 
 export default function Tab() {
   const [inactive, setInactive] = useState<Dict>({});
   const [active, setActive] = useState<Dict>({});
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false); // not same loading
   const [isInternetError, setIsInternetError] = useState(false);
 
   useEffect(() => {
@@ -55,15 +56,11 @@ export default function Tab() {
         const getUserPhoto = await getPhoto();
         const InactiveTaskGroups = await getGroups("en-en");
         console.log(activeTaskGroups);
-        // console.log(InactiveTaskGroups);
         setActive(activeTaskGroups);
         storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
         storeDataToStorage("UserPhoto", getUserPhoto); // boolean to str
         setInactive(InactiveTaskGroups);
         storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
-        // setIsInternetError(true);
-        // console.log(groups["Socialization"].length);
-        // console.log(progr["Socialization"].length);
         setLoading(false);
       } catch (error) {
         setIsInternetError(true);
@@ -72,111 +69,29 @@ export default function Tab() {
       }
     }
   };
-
-  const retryConnection = () => {
-    fetchData();
-  };
-  const scrollY = useSharedValue(0);
-  const debounce = (func: Function, delay: number) => {
-    let debounceTimer: string | number | NodeJS.Timeout | undefined;
-    return () => {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => func(), delay);
-    };
-  };
-  const refreshPage = () => {
-    // Logic to refresh the page
-    console.log("Refreshing page...");
-    deleteDataFromStorage("ActiveTaskGroups");
-    deleteDataFromStorage("InactiveTaskGroups");
-    fetchData();
-  };
-  const debouncedRefreshPage = debounce(refreshPage, 500);
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: (event) => {
-      scrollY.value = event.contentOffset.y;
-      if (event.contentOffset.y < -100) {
-        // Threshold for triggering refresh
-        runOnJS(debouncedRefreshPage)();
-
-        //wait 1 second async before allowing another refresh
-      }
-    },
-  });
+const handleRefresh = () => {
+  setRefreshing(true);
+  // fetchData();
+  setTimeout(() => {
+    setRefreshing(false);
+  }, 1000);
+}
+  // const refreshPage = () => {
+  //   // Logic to refresh the page
+  //   console.log("Refreshing page...");
+  //   deleteDataFromStorage("ActiveTaskGroups");
+  //   deleteDataFromStorage("InactiveTaskGroups");
+  //   fetchData();
+  // };
+  const DATA = [{ key: "a" }, { key: "b" }, { key: "c" }];
   return (
     <View style={styles.container}>
-      {loading ? (
-        <Animated.ScrollView
-          onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          style={styles.loadingContainer}
-          contentContainerStyle={{ flexGrow: 1 }}
-        >
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <ActivityIndicator size="large" color={Colors.dark.text} />
-          </View>
-        </Animated.ScrollView>
-      ) : (
-        <Animated.ScrollView
-          onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          style={styles.scrollView}
-        >
-          {isInternetError ? (
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                height: 600,
-              }}
-            >
-              <Punkboy1 />
-              <CheckInternetConnection />
-              <Button title="Retry" onPress={retryConnection} />
-            </View>
-          ) : (
-            <Animated.View style={[styles.content]}>
-              <Animated.View
-                entering={FadeIn.duration(100)}
-                style={styles.container}
-              >
-                <View style={{ transform: [{ translateY: -100 }], height: 0 }}>
-                  <ActivityIndicator size="large" color={Colors.dark.text} />
-                </View>
-                {Object.entries(active).map(([key, value]: [string, any]) => {
-                  if (key in inactive) {
-                    return (
-                      <ChallengeBar
-                        key={key}
-                        title={key}
-                        progress={
-                          (Object.keys(value).length /
-                            Object.keys(inactive[key]).length) *
-                          100
-                        }
-                      ></ChallengeBar>
-                    );
-                  }
-                })}
-                {Object.entries(inactive).map(([key, value]: [string, any]) => {
-                  if (!(key in active)) {
-                    return (
-                      <ChallengeBar
-                        key={key}
-                        title={key}
-                        progress={0}
-                      ></ChallengeBar>
-                    );
-                  }
-                })}
-              </Animated.View>
-            </Animated.View>
-          )}
-        </Animated.ScrollView>
-      )}
+      <FlashList
+        refreshing={refreshing}
+        onRefresh={handleRefresh}
+        data={DATA}
+        renderItem={() => <Punkboy1 />}
+      ></FlashList>
       <StatusBar style="light" />
     </View>
   );

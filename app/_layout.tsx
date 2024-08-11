@@ -1,15 +1,13 @@
-import { HeaderItems } from "@/components/headerItems/HeaderItems";
-import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import { Colors } from "@/constants/Colors";
 import { Stack, useNavigation } from "expo-router";
-import { Image, View } from "react-native"; // Import the correct component for Image
-
+import { Platform } from "react-native";
 export default () => {
   return (
     <Stack screenOptions={{}}>
       <Stack.Screen
         name="index"
         options={{
+          animation: Platform.OS === "android" ? "fade" : "default",
           headerShown: false,
           headerStyle: { backgroundColor: Colors.dark.upper_background },
         }}
@@ -17,6 +15,7 @@ export default () => {
       <Stack.Screen
         name="(tabs)"
         options={{
+          animation: Platform.OS === "android" ? "slide_from_right" : "default",
           headerShown: false,
           headerStyle: { backgroundColor: Colors.dark.upper_background },
         }}
@@ -31,6 +30,8 @@ export default () => {
       <Stack.Screen
         name="user_profile"
         options={{
+          animation: Platform.OS === "android" ? "slide_from_right" : "default",
+          // presentation: "transparentModal",
           headerBackTitle: "Back",
           headerStyle: {
             backgroundColor: Colors.dark.upper_background,

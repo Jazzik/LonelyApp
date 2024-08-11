@@ -102,6 +102,8 @@ export default function TabLayout() {
       <Tabs.Screen /* Initializing home button */
         name="home"
         options={{
+          
+         
           title: "home",
           tabBarIcon: ({ color }) => (
             <AnimatedOctions
