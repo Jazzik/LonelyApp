@@ -8,13 +8,14 @@ import {
   StyleSheet,
   TextInput,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
-import {  router } from "expo-router";
+import { router } from "expo-router";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -35,7 +36,6 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function LoginScreen() {
- 
   interface LoginFormValues {
     email: string;
     password: string;
@@ -64,8 +64,7 @@ export default function LoginScreen() {
         if (error.response.status === 401) {
           console.log("incorrect email or password");
           Alert.alert(
-            // get this device language 
-            
+            // get this device language
 
             i18n.t("Login_failed"),
             i18n.t("Incorrect_email_or_password")
@@ -87,7 +86,10 @@ export default function LoginScreen() {
   };
 
   return (
-    <Animated.ScrollView scrollEventThrottle={16} style={loginStyles.loginScrollView}>
+    <Animated.ScrollView
+      scrollEventThrottle={16}
+      style={loginStyles.loginScrollView}
+    >
       <SafeAreaView style={loginStyles.loginContainer}>
         <View>
           <Formik
@@ -133,7 +135,9 @@ export default function LoginScreen() {
                   value={values.password}
                 />
                 {errors.password && touched.password ? (
-                  <Text style={loginStyles.loginErrorText}>{errors.password}</Text>
+                  <Text style={loginStyles.loginErrorText}>
+                    {errors.password}
+                  </Text>
                 ) : null}
                 <View style={{ borderTopWidth: 1 }}>
                   <Button
@@ -144,34 +148,29 @@ export default function LoginScreen() {
               </View>
             )}
           </Formik>
-
-          <AppleAuthentication.AppleAuthenticationButton
-            buttonType={
-              AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
-            }
-            buttonStyle={
-              AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
-            }
-            cornerRadius={30}
-            style={loginStyles.loginButton}
-            onPress={async () => {
-              try {
-                const credential = await AppleAuthentication.signInAsync({
-                  requestedScopes: [
-                    AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-                    AppleAuthentication.AppleAuthenticationScope.EMAIL,
-                  ],
-                });
-                // signed in
-              } catch (e) {
-                // handle errors
-              }
-            }}
-          />
+          {Platform.OS === "ios" && (
+            <AppleAuthentication.AppleAuthenticationButton
+              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
+              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+              cornerRadius={30}
+              style={loginStyles.loginButton}
+              onPress={async () => {
+                try {
+                  const credential = await AppleAuthentication.signInAsync({
+                    requestedScopes: [
+                      AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                      AppleAuthentication.AppleAuthenticationScope.EMAIL,
+                    ],
+                  });
+                  // Handle successful sign-in
+                } catch (e) {
+                  // Handle errors
+                }
+              }}
+            />
+          )}
         </View>
       </SafeAreaView>
     </Animated.ScrollView>
   );
 }
-
-
