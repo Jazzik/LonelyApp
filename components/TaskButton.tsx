@@ -32,11 +32,6 @@ export default function TaskButton({
           translateY: buttonTranslate.value,
         },
       ],
-      // transform: [
-      //   {
-
-      //   }
-      // ]
     };
   });
 

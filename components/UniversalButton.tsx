@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
+import makeColorDarker from "@/utils/makeColorDarker";
 import { Shadow } from "react-native-shadow-2";
 export default function ({
   press,
@@ -16,6 +22,7 @@ export default function ({
   ButtonBorderWidth,
   ButtonContainerWidth,
   ButtonContainerHeight,
+  accessible,
 }: {
   press: () => void;
   textColor?: string;
@@ -29,6 +36,7 @@ export default function ({
   ButtonBorderWidth?: number;
   ButtonContainerWidth?: number;
   ButtonContainerHeight?: number;
+  accessible?: boolean;
   fontWeight?:
     | "normal"
     | "bold"
@@ -51,9 +59,30 @@ export default function ({
 }) {
   const [buttonTranslate, setBButtonTranslate] = useState(0);
   const [shadowDisabled, setShadowDisabled] = useState(false);
+  const translateXButton = useSharedValue(0);
+  const animatedStyleButton = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateXButton.value }, // Translate 10 pixels along the X axis
+      ],
+    };
+  });
+
+  const startWiggleAnimation = () => {
+    translateXButton.value = withSequence(
+      withTiming(5, { duration: 50 }), // Move right
+      withTiming(-5, { duration: 50 }), // Move left
+      withTiming(5, { duration: 50 }), // Move right
+      withTiming(0, { duration: 50 }) // Return to starting position
+    );
+  };
   const HandlePressIn = () => {
-    setBButtonTranslate(ShadowHeight || 12);
-    setShadowDisabled(true);
+    if (accessible) {
+      setBButtonTranslate(ShadowHeight || 12);
+      setShadowDisabled(true);
+    } else {
+      setBButtonTranslate(ShadowHeight ? ShadowHeight / 4 : 3);
+    }
   };
   const HandlePressOut = () => {
     setBButtonTranslate(0);
@@ -67,7 +96,7 @@ export default function ({
           HandlePressIn();
         }}
         onPress={() => {
-          press();
+          accessible ? press() : startWiggleAnimation();
         }}
         onPressOut={() => {
           HandlePressOut();
@@ -78,13 +107,26 @@ export default function ({
             styles.ButtonContainer,
             ButtonContainerWidth ? { width: ButtonContainerWidth } : {},
             ButtonContainerHeight ? { height: ButtonContainerHeight } : {},
+            animatedStyleButton,
           ]}
         >
           <Shadow
             distance={1}
-            {...(ShadowBGColor
-              ? { startColor: ShadowBGColor }
-              : { startColor: "#d3d3d3" })}
+            {...(
+              accessible? (
+              ShadowBGColor
+              ? {
+                  startColor: ShadowBGColor,
+                }
+              : { startColor: "#808080" }
+              ):(
+                ShadowBGColor
+              ? {
+                  startColor: makeColorDarker(ShadowBGColor),
+                }
+              : { startColor: makeColorDarker("#808080") }
+              )
+            )}
             {...(ShadowHeight
               ? { offset: [0, ShadowHeight] }
               : { offset: [0, 12] })}
@@ -94,14 +136,23 @@ export default function ({
             <Animated.View
               style={[
                 styles.Button,
-                ButtonBGColor ? { backgroundColor: ButtonBGColor } : {},
+                accessible
+                  ? ButtonBGColor
+                    ? { backgroundColor: ButtonBGColor }
+                    : {} //standart color
+                  : ButtonBGColor
+                  ? { backgroundColor: makeColorDarker(ButtonBGColor) }
+                  : {
+                      backgroundColor: makeColorDarker(
+                        styles.Button.backgroundColor
+                      ),
+                    },
                 ButtonBorderRadius ? { borderRadius: ButtonBorderRadius } : {},
                 ButtonHeight ? { height: ButtonHeight } : {},
                 ButtonBorderWidth ? { borderWidth: ButtonBorderWidth } : {},
                 buttonTranslate
                   ? {
                       transform: [{ translateY: buttonTranslate }],
-                      
                     }
                   : {},
               ]}

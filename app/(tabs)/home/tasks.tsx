@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, Pressable } from "react-native";
-import { ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
-import TaskButton from "@/components/TaskButton";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getTasksByGroup } from "@/api/apiv1";
-import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
+import UniversalButton from "@/components/UniversalButton";
 export default function Tasks() {
   const [data, setData] = useState([]);
   const [progress, setProgress] = useState<Dict>({});
@@ -49,12 +46,12 @@ export default function Tasks() {
   };
   const fetchData = async () => {
     const data = await AsyncStorage.getItem("InactiveTaskGroups");
-    if(data){
+    if (data) {
       setData(JSON.parse(data)[tasksGroupName]);
     }
-    const progressData = await AsyncStorage.getItem("ActiveTaskGroups")
-    if(progressData!==null){
-      console.log('progressData', JSON.parse(progressData)[tasksGroupName])
+    const progressData = await AsyncStorage.getItem("ActiveTaskGroups");
+    if (progressData !== null) {
+      console.log("progressData", JSON.parse(progressData)[tasksGroupName]);
       setProgress(JSON.parse(progressData)[tasksGroupName]);
     }
 
@@ -90,39 +87,47 @@ export default function Tasks() {
           <Animated.ScrollView>
             <Animated.View style={styles1.container}>
               {Object.entries(data).map(([taskname, taskdata]) => {
-              console.log(taskdata)
-              return (
-                <View
-                  key={taskdata["number"]}
-                  style={{
-                    flex: 1,
-                    alignItems: locateButton(taskdata["number"]),
-                    height: 150,
-                  }}>
-                  <TaskButton
-                    accessible={isActive(taskdata['id'])}
-                    press={() => {
-                      router.push({pathname: "./taskPage", params:{ taskName:taskname, groupName: tasksGroupName }});  
-                    }}
-                    text={taskdata["number"]}
-                    key={taskdata["number"]}
-                  />
+                console.log(taskdata);
+                return (
                   <View
+                    key={taskdata["number"]}
                     style={{
-                      transform: [{ rotate: arrangeLine(taskdata["number"]) }],
-                      position: "absolute",
-                      zIndex: -3,
-                      backgroundColor: "black",
-                      top: 120,
-                      padding: 2,
-                      width: "70%",
-                      left: 50,
-                      // marginLeft: 50,
-                      
+                      flex: 1,
+                      alignItems: locateButton(taskdata["number"]),
+                      height: 150,
                     }}
-                  ></View>
-                </View>
-              )})}
+                  >
+                    <View
+                      style={{
+                        transform: [
+                          { rotate: arrangeLine(taskdata["number"]) },
+                        ],
+                        position: "absolute",
+                        zIndex: -3,
+                        backgroundColor: "black",
+                        top: 120,
+                        padding: 2,
+                        width: "70%",
+                        left: 50,
+                        // marginLeft: 50,
+                      }}
+                    />
+                    <UniversalButton
+                      text={taskdata["number"]}
+                      accessible={isActive(taskdata["number"])}
+                      press={() => {
+                        router.push({
+                          pathname: "./taskPage",
+                          params: {
+                            taskName: taskname,
+                            groupName: tasksGroupName,
+                          },
+                        });
+                      }}
+                    />
+                  </View>
+                );
+              })}
 
               <ConfettiCannon
                 count={20}
@@ -146,11 +151,8 @@ export default function Tasks() {
           paddingBottom: 35,
           backgroundColor: "rgba(0,0,0,0.0)",
         }}
-      > 
-      
-          <CustomBackButton press={()=>setLoading(true)}/>
-        
-      
+      >
+        <CustomBackButton press={() => setLoading(true)} />
       </View>
     </View>
   );

@@ -1,9 +1,3 @@
-import Animated, {
-  FadeIn,
-  runOnJS,
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { View, Button, ActivityIndicator } from "react-native";
 import { ChallengeBar } from "@/components/ChallengeBar";
@@ -12,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
-import { getGroups, getProgress, getTasksByGroup, getPhoto } from "@/api/apiv1";
+import { getGroups, getProgress, getPhoto } from "@/api/apiv1";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
@@ -24,6 +18,7 @@ import {
 } from "@/utils/storageActions";
 import { RefreshControl } from "react-native";
 import { FlashList } from "@shopify/flash-list";
+import Animated from "react-native-reanimated";
 
 export default function Tab() {
   const [inactive, setInactive] = useState<Dict>({});
@@ -138,8 +133,10 @@ export default function Tab() {
               onRefresh={handleRefresh}
               // colors={[Colors.dark.text]}  // For Android
               tintColor={Colors.dark.text} // For iOS
+              
             />
           }
+          showsVerticalScrollIndicator={false}
           estimatedItemSize={20}
           data={DATA}
           renderItem={({ item }) => (

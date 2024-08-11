@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Animated from "react-native-reanimated";
 import { Colors } from "@/constants/Colors";
-import TaskButton from "@/components/TaskButton";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import TasksHeader from "@/components/headerItems/TasksHeader";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getTasksByGroup } from "@/api/apiv1";
-import CustomModal from "@/components/CustomModal";
-import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 export default function Tasks() {
   const [data, setData] = useState<Dict>({});

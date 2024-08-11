@@ -1,4 +1,4 @@
-import { View, Image, Button } from "react-native";
+import { View, Image } from "react-native";
 import Animated from "react-native-reanimated";
 import { styles } from "@/constants/Style";
 import { useNavigationContainerRef } from "expo-router";
@@ -51,6 +51,7 @@ export default function UserProfile() {
             press={() => {
               console.log("Edit photo button pressed");
             }}
+            accessible={true}
             text="Edit photo"
             ButtonContainerWidth={deviceWidth * 0.4}
             // textColor="grey"
@@ -62,6 +63,7 @@ export default function UserProfile() {
             ShadowBGColor="rgb(166,120,58)"
             fontSize={25}
             ButtonContainerWidth={deviceWidth * 0.5}
+            accessible={true}
           />
           <UniversalButton
             press={() => console.log("some button pressed")}
@@ -70,6 +72,7 @@ export default function UserProfile() {
             ShadowBGColor="rgb(85	187	54)"
             fontSize={25}
             ButtonContainerWidth={deviceWidth * 0.5}
+            accessible={false}
           />
           <UniversalButton
             press={() => console.log("some button pressed")}
@@ -95,6 +98,7 @@ export default function UserProfile() {
             ButtonHeight={50}
             ButtonBorderRadius={20}
             ShadowHeight={15}
+            accessible={true}
           />
         </View>
       </Animated.ScrollView>
