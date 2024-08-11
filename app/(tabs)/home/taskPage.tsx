@@ -11,9 +11,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getTasksByGroup } from "@/api/apiv1";
 import CustomModal from "@/components/CustomModal";
 import { styles } from "@/constants/Style";
+import { Dict } from "i18n-js";
 export default function Tasks() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Dict>({});
   const { taskName }: {taskName: string} = useLocalSearchParams();
+  const { groupName }: {groupName: string} = useLocalSearchParams();
 
   const router = useRouter();
 
@@ -23,8 +25,10 @@ export default function Tasks() {
 
 
   const fetchData = async () => {
-        const tasks = await AsyncStorage.getItem("ActiveTaskGroups");
-
+        const tasks = await AsyncStorage.getItem("InactiveTaskGroups");
+        if(tasks){
+        setData(JSON.parse(tasks)[groupName][taskName]);
+        }
   };
 
   return (
@@ -41,9 +45,14 @@ export default function Tasks() {
           <TasksHeader tasksGroupName={taskName} />
           </Animated.View>
           <Animated.ScrollView>
-
           <Animated.View style={styles1.container}>
-
+          <View style={{
+            padding: "10%",
+            margin: "5%",
+            backgroundColor: Colors.dark.third_color
+          }}>
+          <Text>{data['description']}</Text>
+          </View>
         </Animated.View>
         </Animated.ScrollView>
       </Animated.View>
