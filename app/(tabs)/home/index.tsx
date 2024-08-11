@@ -22,6 +22,7 @@ import {
   deleteDataInStorage as deleteDataFromStorage,
   isStoredDataExpired,
 } from "@/utils/storageActions";
+import { RefreshControl } from 'react-native';
 import { FlashList } from "@shopify/flash-list";
 
 export default function Tab() {
@@ -83,14 +84,22 @@ const handleRefresh = () => {
   //   deleteDataFromStorage("InactiveTaskGroups");
   //   fetchData();
   // };
-  const DATA = [{ key: "a" }, { key: "b" }, { key: "c" }];
+  const DATA = [{ key: "a" }, { key: "b" }, { key: "c" },{ key: "a" }, { key: "b" }, { key: "c" }, ];
   return (
     <View style={styles.container}>
       <FlashList
-        refreshing={refreshing}
-        onRefresh={handleRefresh}
+        refreshControl={
+          <RefreshControl
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
+          // colors={[Colors.dark.text]}  // For Android
+          tintColor={Colors.dark.text}   // For iOS
+        />
+        }
         data={DATA}
         estimatedItemSize={20}
+        overScrollMode="always"
+        showsVerticalScrollIndicator={false}
         renderItem={() => <ChallengeBar 
         progress={60}
         title="Task Group Name"
