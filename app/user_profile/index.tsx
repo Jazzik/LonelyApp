@@ -74,8 +74,6 @@ export default function UserProfile() {
           <UniversalButton
             press={() => console.log("some button pressed")}
             text="Sure thing"
-            // ButtonBGColor="red"
-            // ShadowBGColor="darkred"
             fontSize={25}
             ButtonContainerWidth={deviceWidth * 0.5}
           />
@@ -85,19 +83,18 @@ export default function UserProfile() {
             flex: 1,
             alignItems: "center",
             marginTop: deviceHeight * 0.1,
+            paddingBottom: 20,
           }}
         >
           <UniversalButton
             press={LogOutUser}
             text="Log out"
-            ButtonBGColor="red"
-            ShadowBGColor="darkred"
+            ButtonBGColor="#FF0000"
+            ShadowBGColor="#bc0000"
             ButtonContainerWidth={deviceWidth * 0.36}
             ButtonHeight={50}
             ButtonBorderRadius={20}
-            ShadowBtmLeftRadius={20}
-            ShadowBtmRightRadius={20}
-            
+            ShadowHeight={15}
           />
         </View>
       </Animated.ScrollView>

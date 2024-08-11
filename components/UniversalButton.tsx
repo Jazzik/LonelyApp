@@ -1,52 +1,27 @@
+import { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
-import {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-} from "react-native-reanimated";
+import { Shadow } from "react-native-shadow-2";
 export default function ({
   press,
-  buttonColor,
-  buttonShadowColor,
   textColor,
   text,
   fontSize,
   fontWeight,
-  ShadowHeightOnPressIn,
-  ShadowOpacityOnPressIn,
-  ButtonTranslateOnPressIn,
-  ShadowHeightOnPressOut,
-  ShadowOpacityOnPressOut,
-  ButtonTranslateOnPressOut,
-  ShadowBorderWidth,
-  ShadowBtmRightRadius,
-  ShadowBtmLeftRadius,
-  ShadowMarginTop,
+  ShadowHeight,
   ShadowBGColor,
   ButtonBGColor,
   ButtonBorderRadius,
   ButtonHeight,
   ButtonBorderWidth,
   ButtonContainerWidth,
-  ButtonContainerHeight
-}: { 
+  ButtonContainerHeight,
+}: {
   press: () => void;
-  buttonColor?: string;
-  buttonShadowColor?: string;
   textColor?: string;
   text: string;
   fontSize?: number;
-  ShadowHeightOnPressIn?: number;
-  ShadowOpacityOnPressIn?: number;
-  ButtonTranslateOnPressIn?: number;
-  ShadowHeightOnPressOut?: number;
-  ShadowOpacityOnPressOut?: number;
-  ButtonTranslateOnPressOut?: number;
-  ShadowBorderWidth?: number;
-  ShadowBtmRightRadius?: number;
-  ShadowBtmLeftRadius?: number;
-  ShadowMarginTop?: number;
+  ShadowHeight?: number;
   ShadowBGColor?: string;
   ButtonBGColor?: string;
   ButtonBorderRadius?: number;
@@ -74,87 +49,77 @@ export default function ({
     | "heavy"
     | "black";
 }) {
-  const buttonTranslate = useSharedValue(ButtonTranslateOnPressOut || 0);
-  const shadowHeight = useSharedValue(ShadowHeightOnPressOut || 40);
-  const shadowOpacity = useSharedValue(ShadowOpacityOnPressOut || 1);
-  const animatedStyleShadow = useAnimatedStyle(() => {
-    return {
-      height: shadowHeight.value,
-      opacity: shadowOpacity.value,
-      zIndex: -10,
-      transform: [
-        {
-          translateY: buttonTranslate.value,
-        },
-      ],
-    };
-  });
-  const animatedStyleButton = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateY: buttonTranslate.value,
-        },
-      ],
-    };
-  });
+  const [buttonTranslate, setBButtonTranslate] = useState(0);
+  const [shadowDisabled, setShadowDisabled] = useState(false);
+  const HandlePressIn = () => {
+    setBButtonTranslate(ShadowHeight || 12);
+    setShadowDisabled(true);
+  };
+  const HandlePressOut = () => {
+    setBButtonTranslate(0);
+    setShadowDisabled(false);
+  };
 
   return (
-    <Pressable // button
+    <View>
+      <Pressable // button
         onPressIn={() => {
-          // buttonTranslate.value = withSpring(10);
-          shadowHeight.value = withSpring(ShadowHeightOnPressIn || 28);
-          shadowOpacity.value = withSpring(ShadowOpacityOnPressIn || 0.8);
-          buttonTranslate.value = withSpring(ButtonTranslateOnPressIn || -1);
+          HandlePressIn();
         }}
         onPress={() => {
           press();
         }}
         onPressOut={() => {
-          shadowHeight.value = withSpring(ShadowHeightOnPressOut || 40);
-          shadowOpacity.value = withSpring(ShadowOpacityOnPressOut || 1);
-          buttonTranslate.value = withSpring(ButtonTranslateOnPressOut || 0);
+          HandlePressOut();
         }}
       >
-    <View style={[styles.ButtonContainer, 
-    ButtonContainerWidth ? { width: ButtonContainerWidth } : {},
-    ButtonContainerHeight ? { height: ButtonContainerHeight } : {},
-    ]}>
-      
-        <Animated.View style={[styles.Button, 
-            ButtonBGColor ? { backgroundColor: ButtonBGColor } : {},
-            ButtonBorderRadius ? { borderRadius: ButtonBorderRadius } : {},
-            ButtonHeight ? { height: ButtonHeight } : {},
-            ButtonBorderWidth ? { borderWidth: ButtonBorderWidth } : {},
-            animatedStyleButton
-            ]}>
-          <Text
-            style={[
-              styles.ButtonText,
-              textColor ? { color: textColor } : null,
-              fontSize ? { fontSize: fontSize } : null,
-              fontWeight ? { fontWeight: fontWeight } : null,
-            ]}
+        <Animated.View
+          style={[
+            styles.ButtonContainer,
+            ButtonContainerWidth ? { width: ButtonContainerWidth } : {},
+            ButtonContainerHeight ? { height: ButtonContainerHeight } : {},
+          ]}
+        >
+          <Shadow
+            distance={1}
+            {...(ShadowBGColor
+              ? { startColor: ShadowBGColor }
+              : { startColor: "#d3d3d3" })}
+            {...(ShadowHeight
+              ? { offset: [0, ShadowHeight] }
+              : { offset: [0, 12] })}
+            disabled={shadowDisabled}
+            stretch={true}
           >
-            {text}
-          </Text>
+            <Animated.View
+              style={[
+                styles.Button,
+                ButtonBGColor ? { backgroundColor: ButtonBGColor } : {},
+                ButtonBorderRadius ? { borderRadius: ButtonBorderRadius } : {},
+                ButtonHeight ? { height: ButtonHeight } : {},
+                ButtonBorderWidth ? { borderWidth: ButtonBorderWidth } : {},
+                buttonTranslate
+                  ? {
+                      transform: [{ translateY: buttonTranslate }],
+                    }
+                  : {},
+              ]}
+            >
+              <Text
+                style={[
+                  styles.ButtonText,
+                  textColor ? { color: textColor } : null,
+                  fontSize ? { fontSize: fontSize } : null,
+                  fontWeight ? { fontWeight: fontWeight } : null,
+                ]}
+              >
+                {text}
+              </Text>
+            </Animated.View>
+          </Shadow>
         </Animated.View>
-      
-
-      <Animated.View // shadow
-        style={[
-          { ...styles.ButtonShadow },
-          ShadowBorderWidth ? { borderWidth: ShadowBorderWidth}: {},
-          ShadowBtmRightRadius ? {borderBottomRightRadius: ShadowBtmRightRadius}: {},
-          ShadowBtmLeftRadius ? {borderBottomLeftRadius: ShadowBtmLeftRadius}: {},
-          ShadowMarginTop ? { marginTop: ShadowMarginTop } : {},
-          ShadowBGColor ? { backgroundColor: ShadowBGColor } : {},
-
-          animatedStyleShadow,
-        ]}
-      />
+      </Pressable>
     </View>
-    </Pressable>
   );
 }
 
@@ -162,34 +127,19 @@ const styles = StyleSheet.create({
   ButtonContainer: {
     width: 84,
     height: 84,
-    // marginHorizontal: 60,
     justifyContent: "flex-end",
   },
 
   Button: {
-    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     height: 60,
     borderRadius: 21,
     borderWidth: 2,
     backgroundColor: "#f0f0f0",
-    zIndex: 10,
+    zIndex: 2,
   },
-
-  ButtonShadow: {
-    borderWidth: 1,
-    borderBottomLeftRadius: 21,
-    borderBottomRightRadius: 21,
-    position: "relative",
-    zIndex: -10,
-    marginTop: -29,
-    backgroundColor: "gray",
-  },
-
   ButtonText: {
-    // justifyContent: "center",
-    // alignItems: "center",
     fontSize: 32,
     color: "#25292e",
     fontWeight: "800",
