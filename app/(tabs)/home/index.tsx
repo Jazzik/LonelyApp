@@ -68,7 +68,6 @@ export default function Tab() {
     return 0;
   };
   const fetchData = async () => {
-    // console.log(await AsyncStorage.getItem("tasksGroups"))
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
