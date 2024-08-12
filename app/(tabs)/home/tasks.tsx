@@ -17,7 +17,9 @@ export default function Tasks() {
   const { tasksGroupName }: { tasksGroupName: string } = useLocalSearchParams();
   const isActive = (key: number) => {
     let flag = true;
+    console.log(progress, key)
     if (progress && progress[key] !== undefined) {
+      console.log(flag)
       flag = false;
     }
 
@@ -51,7 +53,6 @@ export default function Tasks() {
     }
     const progressData = await AsyncStorage.getItem("ActiveTaskGroups");
     if (progressData !== null) {
-      console.log("progressData", JSON.parse(progressData)[tasksGroupName]);
       setProgress(JSON.parse(progressData)[tasksGroupName]);
     }
 
@@ -87,10 +88,9 @@ export default function Tasks() {
           <Animated.ScrollView>
             <Animated.View style={styles.container}>
               {Object.entries(data).map(([taskname, taskdata]) => {
-                console.log(taskdata);
                 return (
                   <View
-                    key={taskdata["number"]}
+                    key={taskdata["id"]}
                     style={{
                       flex: 1,
                       alignItems: locateButton(taskdata["number"]),
@@ -104,7 +104,7 @@ export default function Tasks() {
                         ],
                         position: "absolute",
                         zIndex: -3,
-                        backgroundColor:isActive(taskdata["number"]) ? "gray" : "green",
+                        backgroundColor:isActive(taskdata["id"]) ? "gray" : "green",
                         top: 140,
                         padding: 2,
                         width: "70%",
@@ -115,7 +115,7 @@ export default function Tasks() {
                     <View style={{marginHorizontal: 40}}>
                       <UniversalButton
                         text={taskdata["number"]}
-                        accessible={isActive(taskdata["number"])}
+                        accessible={isActive(taskdata["id"])}
                         press={() => {
                           router.push({
                             pathname: "./taskPage",

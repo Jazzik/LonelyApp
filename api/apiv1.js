@@ -84,7 +84,6 @@ export const succesfullLogin = async (values) => {
     .post(`http://${ip}:8080/api/v1/auth/login`, values)
     .then(async (response) => {
       console.log("succesfull login");
-      console.log(response.data);
       console.log("accessToken: ", response.data.accessToken);
       console.log("refreshToken: ", response.data.refreshToken);
 
