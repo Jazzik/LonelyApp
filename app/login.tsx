@@ -19,10 +19,7 @@ import { router } from "expo-router";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/i18n";
-import { ip } from "@/ip.json";
 import { loginStyles } from "@/constants/Style";
 console.log("login.tsx");
 import { succesfullLogin } from "@/api/apiv1";
@@ -49,7 +46,6 @@ export default function LoginScreen() {
             onSubmit={async (values) => {
               
               if (await succesfullLogin(values)){
-                console.log('true')
                 router.replace("/home");
               }
             }}
