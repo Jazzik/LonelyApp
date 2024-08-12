@@ -41,7 +41,7 @@ export default function Tasks() {
     if (index % 2 === 1) {
       return "30deg";
     } else {
-      return "150deg";
+      return "155deg";
     }
   };
   const fetchData = async () => {
@@ -104,27 +104,29 @@ export default function Tasks() {
                         ],
                         position: "absolute",
                         zIndex: -3,
-                        backgroundColor: "black",
-                        top: 120,
+                        backgroundColor:isActive(taskdata["number"]) ? "gray" : "green",
+                        top: 140,
                         padding: 2,
                         width: "70%",
                         left: 50,
                         // marginLeft: 50,
                       }}
                     />
-                    <UniversalButton
-                      text={taskdata["number"]}
-                      accessible={isActive(taskdata["number"])}
-                      press={() => {
-                        router.push({
-                          pathname: "./taskPage",
-                          params: {
-                            taskName: taskname,
-                            groupName: tasksGroupName,
-                          },
-                        });
-                      }}
-                    />
+                    <View style={{marginHorizontal: 40}}>
+                      <UniversalButton
+                        text={taskdata["number"]}
+                        accessible={isActive(taskdata["number"])}
+                        press={() => {
+                          router.push({
+                            pathname: "./taskPage",
+                            params: {
+                              taskName: taskname,
+                              groupName: tasksGroupName,
+                            },
+                          });
+                        }}
+                      />
+                    </View>
                   </View>
                 );
               })}
