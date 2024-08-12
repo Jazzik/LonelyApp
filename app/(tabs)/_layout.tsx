@@ -12,7 +12,7 @@ import Animated, {
 import { Colors } from "@/constants/Colors";
 import * as Haptics from "expo-haptics";
 import { HeaderItems } from "@/components/headerItems/HeaderItems";
-import { Platform } from "react-native";
+import { Platform, Vibration } from "react-native";
 
 export default function TabLayout() {
   const widthHome = useSharedValue(32);
@@ -22,6 +22,8 @@ export default function TabLayout() {
   const handleHomePress = () => {
     if (Platform.OS === "ios") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+    }if (Platform.OS === "android") {
+      Vibration.vibrate([0, 10, 200, 0]);
     }
     widthHome.value = withSpring(36); // Adjust the increment as needed
     setTimeout(() => {
@@ -32,6 +34,8 @@ export default function TabLayout() {
   const handleSettingsPress = () => {
     if (Platform.OS === "ios") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+    }if (Platform.OS === "android") {
+      Vibration.vibrate([0, 10, 200, 0]);
     }
     widthSettings.value = withSpring(36); // Adjust the increment as needed
     setTimeout(() => {
@@ -42,6 +46,8 @@ export default function TabLayout() {
   const handleCommunityPress = () => {
     if (Platform.OS === "ios") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
+    }if (Platform.OS === "android") {
+      Vibration.vibrate([0, 10, 200, 0]);
     }
     widthCommunity.value = withSpring(40); // Adjust the increment as needed
     setTimeout(() => {

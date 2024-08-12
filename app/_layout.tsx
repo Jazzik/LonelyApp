@@ -18,6 +18,7 @@ export default () => {
           animation: Platform.OS === "android" ? "slide_from_right" : "default",
           headerShown: false,
           headerStyle: { backgroundColor: Colors.dark.upper_background },
+          
         }}
       />
       <Stack.Screen

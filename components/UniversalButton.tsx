@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  Platform,
+  Vibration,
+} from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -8,6 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import makeColorDarker from "@/utils/makeColorDarker";
 import { Shadow } from "react-native-shadow-2";
+import * as Haptics from "expo-haptics";
 export default function ({
   press,
   textColor,
@@ -96,7 +104,21 @@ export default function ({
           HandlePressIn();
         }}
         onPress={() => {
-          accessible ? press() : startWiggleAnimation();
+          accessible
+            ? (press(),
+              Platform.OS === "ios"
+                ? Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Success
+                  )
+                : Vibration.vibrate([0, 10, 200, 0]))
+                  
+            : (startWiggleAnimation(),
+              Platform.OS === "ios"
+                ? Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Error
+                  )
+                :
+                Vibration.vibrate([0, 10, 200, 10, 200, 10]))
         }}
         onPressOut={() => {
           HandlePressOut();
@@ -112,21 +134,17 @@ export default function ({
         >
           <Shadow
             distance={1}
-            {...(
-              accessible? (
-              ShadowBGColor
-              ? {
-                  startColor: ShadowBGColor,
-                }
-              : { startColor: "#808080" }
-              ):(
-                ShadowBGColor
+            {...(accessible
+              ? ShadowBGColor
+                ? {
+                    startColor: ShadowBGColor,
+                  }
+                : { startColor: "#808080" }
+              : ShadowBGColor
               ? {
                   startColor: makeColorDarker(ShadowBGColor),
                 }
-              : { startColor: makeColorDarker("#808080") }
-              )
-            )}
+              : { startColor: makeColorDarker("#808080") })}
             {...(ShadowHeight
               ? { offset: [0, ShadowHeight] }
               : { offset: [0, 12] })}

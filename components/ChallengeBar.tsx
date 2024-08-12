@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Button,
   Pressable,
+  Vibration,
 } from "react-native";
 import Animated, {
   useSharedValue,
@@ -50,11 +51,13 @@ export function ChallengeBar({
           scale.value = 1;
           if (Platform.OS === "ios") {
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }if (Platform.OS === "android") {
+            Vibration.vibrate([0, 10, 200, 0]);
           }
         }, 30);
         console.log("title:", title);
         router.push({
-          pathname: "home/tasks",
+          pathname: "./home/tasks",
           params: { tasksGroupName: title },
         });
       }}

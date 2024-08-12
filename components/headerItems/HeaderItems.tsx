@@ -1,4 +1,4 @@
-import { Pressable, Text, View, Image, Platform } from "react-native";
+import { Pressable, Text, View, Image, Platform, Vibration } from "react-native";
 import Animated, {
   useSharedValue,
   withSpring,
@@ -60,6 +60,13 @@ export function HeaderItems(props: HeaderItemsProps) {
       transform: [{ scale: scalePhoto.value }],
     };
   });
+  const vibrations = () => {
+    if (Platform.OS === "ios") {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        }if (Platform.OS === "android") {
+          Vibration.vibrate([0, 10, 200, 0]);
+        }
+  }
   return (
     <View // header container
       style={{
@@ -77,8 +84,7 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleDart.value = 0.9;
         }}
         onPress={() => {
-          if (Platform.OS === "ios") {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
+          vibrations();
         }}
         onPressOut={() => {
           scaleDart.value = 1;
@@ -100,8 +106,7 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleGold.value = 0.9;
         }}
         onPress={() => {
-          if (Platform.OS === "ios") {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
+          vibrations();
         }}
         onPressOut={() => {
           scaleGold.value = 1;
@@ -123,8 +128,7 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleDiamonds.value = 0.9;
         }}
         onPress={() => {
-          if (Platform.OS === "ios") {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
+         vibrations();
         }}
         onPressOut={() => {
           scaleDiamonds.value = 1;
@@ -146,9 +150,7 @@ export function HeaderItems(props: HeaderItemsProps) {
           scalePhoto.value = 0.9;
         }}
         onPress={() => {
-          // Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          if (Platform.OS === "ios") {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);}
+          vibrations();
           navigator.navigate("user_profile");
         }}
         onPressOut={() => {

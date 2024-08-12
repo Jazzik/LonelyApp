@@ -24,7 +24,7 @@ export default function HomeLayout() {
       <Stack.Screen
         name="tasks"
         options={{
-          animation: Platform.OS === "android" ? "fade" : "default",
+          animation: Platform.OS === "android" ? "slide_from_right" : "default",
           // presentation: "containedModal",
           headerShown: false,
           headerStyle: {
@@ -40,7 +40,7 @@ export default function HomeLayout() {
         <Stack.Screen
         name="taskPage"
         options={{
-          
+          animation:"slide_from_bottom",
           headerShown: false,
           headerStyle: {
             backgroundColor: Colors.dark.upper_background,
