@@ -57,7 +57,7 @@ export function ChallengeBar({
         }, 30);
         console.log("title:", title);
         router.push({
-          pathname: "./home/tasks",
+          pathname: "../home/tasks",
           params: { tasksGroupName: title },
         });
       }}

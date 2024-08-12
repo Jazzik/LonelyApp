@@ -119,23 +119,25 @@ export default function Tab() {
           <Button title="Retry" onPress={fetchData} />
         </Animated.ScrollView>
       ) : (
-        <FlashList
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={handleRefresh}
-              // colors={[Colors.dark.text]}  // For Android
-              tintColor={Colors.dark.text} // For iOS
-              
-            />
-          }
-          showsVerticalScrollIndicator={false}
-          estimatedItemSize={20}
-          data={DATA}
-          renderItem={({ item }) => (
-            <ChallengeBar progress={getProgressRatio(item)} title={item} />
-          )}
-        />
+        
+          <FlashList
+            contentContainerStyle={{ padding: 15 }}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
+                // colors={[Colors.dark.text]}  // For Android
+                tintColor={Colors.dark.text} // For iOS
+              />
+            }
+            showsVerticalScrollIndicator={false}
+            estimatedItemSize={20}
+            data={DATA}
+            renderItem={({ item }) => (
+              <ChallengeBar progress={getProgressRatio(item)} title={item} />
+            )}
+          />
+       
       )}
 
       <StatusBar style="light" />

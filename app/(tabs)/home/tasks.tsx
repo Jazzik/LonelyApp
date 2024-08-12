@@ -74,13 +74,16 @@ export default function Tasks() {
           </View>
         </Animated.ScrollView>
       ) : (
-        <Animated.View>
+        <Animated.View style={{flex: 1,}}>
+          
           <Animated.View
             style={{
               backgroundColor: "rgba(0, 0, 0, 0)",
               marginTop: 5,
               marginLeft: 15,
               marginRight: 15,
+              // make at least 99% of the screen
+              
             }}
           >
             <TasksHeader tasksGroupName={tasksGroupName} />
@@ -131,16 +134,18 @@ export default function Tasks() {
                 );
               })}
 
-              <ConfettiCannon
+              
+              <View style={{ padding: 10 }} />
+            </Animated.View>
+            
+          </Animated.ScrollView>
+          <ConfettiCannon
                 count={20}
                 explosionSpeed={0}
                 fallSpeed={1500}
                 fadeOut={true}
                 origin={{ x: -50, y: 0 }}
               />
-              <View style={{ padding: 10 }} />
-            </Animated.View>
-          </Animated.ScrollView>
         </Animated.View>
       )}
 
