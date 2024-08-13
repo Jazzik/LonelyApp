@@ -1,3 +1,4 @@
+import TaskPtogressBar from "@/components/headerItems/TaskPtogressBar";
 import { Colors } from "@/constants/Colors";
 import { Stack, useNavigation } from "expo-router";
 import { Platform } from "react-native";
@@ -48,6 +49,24 @@ export default () => {
               <></>
          
           ),
+        }}
+      />
+      <Stack.Screen
+        name="taskPage"
+        options={{
+          animation:"slide_from_bottom",
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: Colors.dark.upper_background,
+          },
+          headerTitle: () => (
+            <TaskPtogressBar/>
+        ),
+          headerBackTitle: "Back",
+          headerBackTitleStyle: { fontSize: 20 },
+          
+          headerBackTitleVisible: false,
+          
         }}
       />
     </Stack>

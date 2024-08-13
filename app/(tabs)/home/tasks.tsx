@@ -121,7 +121,7 @@ export default function Tasks() {
                         accessible={isActive(taskdata["id"])}
                         press={() => {
                           router.push({
-                            pathname: "./taskPage",
+                            pathname: "/taskPage",
                             params: {
                               taskName: taskname,
                               groupName: tasksGroupName,

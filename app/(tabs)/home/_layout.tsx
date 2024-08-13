@@ -37,21 +37,7 @@ export default function HomeLayout() {
           
         }}
       />
-        <Stack.Screen
-        name="taskPage"
-        options={{
-          animation:"slide_from_bottom",
-          headerShown: false,
-          headerStyle: {
-            backgroundColor: Colors.dark.upper_background,
-          },
-          headerBackTitle: "Back",
-          headerBackTitleStyle: { fontSize: 20 },
-          
-          headerBackTitleVisible: false,
-          
-        }}
-      />
+        
     </Stack>
   );
 }
