@@ -10,7 +10,7 @@ export const storeDataInStorage = async (key: string, value: any) => {
     console.error("Error storing data", e);
   }
 };
-export const getDataFromStorage = async (key: string) => {
+export const getDataFromStorageJson = async (key: string) => {
   try {
     const jsonValue = await AsyncStorage.getItem(`${key}`);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -42,19 +42,16 @@ const saveDataStoredTimeToStorage = async () => {
   }
 };
 
-
-export const isStoredDataExpired = async (time: number ) => {
-  const dataStoredTime = await getDataFromStorage("dataStoredTime");
+export const isStoredDataExpired = async (time: number) => {
+  const dataStoredTime = await getDataFromStorageJson("dataStoredTime");
   if (dataStoredTime) {
     const currentTime = new Date().getTime();
     const difference = currentTime - dataStoredTime;
-    if (difference > time*1000) {
+    if (difference > time * 1000) {
       console.log("stored data expired");
       return true;
     }
   }
   console.log("stored data is not expired");
   return false;
-  
-}
-
+};

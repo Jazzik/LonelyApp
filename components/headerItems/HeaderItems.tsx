@@ -13,13 +13,14 @@ import Gold from "@/assets/svg/gold.svg";
 import Diamond from "@/assets/svg/diamond.svg";
 import { Colors } from "@/constants/Colors";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation
-
+import { useState } from "react";
 
 interface HeaderItemsProps {
   dartValue: number;
   goldValue: number;
   diamondValue: number;
   userPhotoIsLoaded: boolean;
+  image: string;
 }
 export function HeaderItems(props: HeaderItemsProps) {
   // give an array
@@ -27,7 +28,7 @@ export function HeaderItems(props: HeaderItemsProps) {
     dartValue,
     goldValue,
     diamondValue,
-    userPhotoIsLoaded: userPhoto,
+    image,
   } = props;
 
   const navigator = useNavigation();
@@ -180,9 +181,9 @@ export function HeaderItems(props: HeaderItemsProps) {
           >
             <Image
               source={
-                userPhoto
-                  ? require("@/assets/images/user/user-photo.png")
-                  : require("@/assets/images/user/default-photo.png")
+                image
+                ? { uri: image }
+                : require("@/assets/images/user/default-photo.png")
               }
               style={{
                 width: 60,

@@ -12,7 +12,7 @@ import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
 import {
   storeDataInStorage as storeDataToStorage,
-  getDataFromStorage,
+  getDataFromStorageJson,
   isStoredDataExpired,
 } from "@/utils/storageActions";
 import { RefreshControl } from "react-native";
@@ -25,6 +25,7 @@ export default function Tab() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false); // not same loading
   const [isInternetError, setIsInternetError] = useState(false);
+
 
   useEffect(() => {
     fetchData();
@@ -60,13 +61,13 @@ export default function Tab() {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
       (await AsyncStorage.getItem("InactiveTaskGroups")) != null &&
-      !(await isStoredDataExpired(1000))
+      !(await isStoredDataExpired(1))
     ) {
       console.log("loading from storage");
       setLoading(false);
       setIsInternetError(false);
-      setActive(await getDataFromStorage("ActiveTaskGroups"));
-      setInactive(await getDataFromStorage("InactiveTaskGroups"));
+      setActive(await getDataFromStorageJson("ActiveTaskGroups"));
+      setInactive(await getDataFromStorageJson("InactiveTaskGroups"));
     } else {
       setLoading(true);
       console.log("loading from api");
@@ -119,25 +120,23 @@ export default function Tab() {
           <Button title="Retry" onPress={fetchData} />
         </Animated.ScrollView>
       ) : (
-        
-          <FlashList
-            contentContainerStyle={{ padding: 15 }}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={handleRefresh}
-                // colors={[Colors.dark.text]}  // For Android
-                tintColor={Colors.dark.text} // For iOS
-              />
-            }
-            showsVerticalScrollIndicator={false}
-            estimatedItemSize={20}
-            data={DATA}
-            renderItem={({ item }) => (
-              <ChallengeBar progress={getProgressRatio(item)} title={item} />
-            )}
-          />
-       
+        <FlashList
+          contentContainerStyle={{ padding: 15 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              // colors={[Colors.dark.text]}  // For Android
+              tintColor={Colors.dark.text} // For iOS
+            />
+          }
+          showsVerticalScrollIndicator={false}
+          estimatedItemSize={20}
+          data={DATA}
+          renderItem={({ item }) => (
+            <ChallengeBar progress={getProgressRatio(item)} title={item} />
+          )}
+        />
       )}
 
       <StatusBar style="light" />

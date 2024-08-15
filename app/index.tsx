@@ -1,11 +1,14 @@
 import { Link } from "expo-router";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, RefreshControl } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect } from "expo-router";
 import { useState, useEffect } from "react";
 console.log("index.tsx");
 import { isExpired } from "@/utils/token";
 import { refreshTokenIfExpired } from "@/api/apiv1";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
+import Animated from "react-native-reanimated";
+
 const checkLoginStatus = async () => {
   console.log("check");
   const token = await AsyncStorage.getItem("accessToken");
@@ -44,9 +47,10 @@ export default function HomeScreen() {
 
   if (!url) {
     return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      <></>
+      // <Animated.ScrollView refreshControl={<RefreshControl refreshing={true} />} />
+      
+     
     ); // Or any other loading state
   }
 

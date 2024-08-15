@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Tabs, useFocusEffect, useNavigation } from "expo-router";
 import Animated, {
   useSharedValue,
   withSpring,
@@ -13,11 +13,22 @@ import { Colors } from "@/constants/Colors";
 import * as Haptics from "expo-haptics";
 import { HeaderItems } from "@/components/headerItems/HeaderItems";
 import { Platform, Vibration } from "react-native";
+import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export default function TabLayout() {
   const widthHome = useSharedValue(32);
   const widthSettings = useSharedValue(32);
   const widthCommunity = useSharedValue(36);
+  const navigation = useNavigation();
+  const [image, setImage] = useState<string>("@/assets/images/user/default-photo.png");
+  useEffect(() => {
+    checkUserPhotoLoaded(setImage);
+  }, []);
+useFocusEffect(() => {
+  checkUserPhotoLoaded(setImage);
+})
 
   const handleHomePress = () => {
     if (Platform.OS === "ios") {
@@ -96,10 +107,12 @@ export default function TabLayout() {
 
         headerRight: () => (
           <HeaderItems
+          key={image}
             dartValue={userValues.dartValue}
             goldValue={userValues.goldValue}
             diamondValue={userValues.diamondValue}
             userPhotoIsLoaded={userValues.userPhotoIsLoaded}
+            image={image}
           />
         ),
         headerTitle: () => <></>,

@@ -11,6 +11,7 @@
   "Incorrect_email_or_password": "メールアドレスまたはパスワードが間違っています",
   "Login_failed": "ログインに失敗しました",
   "check_internet_connection": "何か問題が生しギるので、インターネット接続を確認してください",
-  "server_error": "サーバーエラーが発生しています、もう一度やり直してください"
+  "server_error": "サーバーエラーが発生しています、もう一度やり直してください",
+  "user_has_not_selected_an_image": "画像が選択されていません"
 
 }

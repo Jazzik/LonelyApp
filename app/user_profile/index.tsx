@@ -1,42 +1,86 @@
 import { View, Image } from "react-native";
 import Animated from "react-native-reanimated";
 import { styles } from "@/constants/Style";
-import { useNavigationContainerRef } from "expo-router";
-import { getDataFromStorage, resetStorage } from "@/utils/storageActions";
+import { useFocusEffect, useNavigationContainerRef } from "expo-router";
+import { getDataFromStorageJson, resetStorage } from "@/utils/storageActions";
 import { useEffect, useState } from "react";
 import UniversalButton from "@/components/UniversalButton";
 import { Dimensions } from "react-native";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
+import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from "expo-file-system";
+import i18n from "@/i18n";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
+
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+
 export default function UserProfile() {
-  const [isUserPhotoLoaded, setIsUserPhotoLoaded] = useState(true);
+  const [image, setImage] = useState<string>(
+    "@/assets/images/user/default-photo.png"
+  );
+
   useEffect(() => {
-    const checkUserPhotoLoaded = async () => {
-      const value = await getDataFromStorage("UserPhoto");
-      console.log("Photo is loaded:", value);
-      if (JSON.stringify(value) === "true") {
-        setIsUserPhotoLoaded(true);
-      } else {
-        setIsUserPhotoLoaded(false);
-      }
-    };
-    checkUserPhotoLoaded();
+    checkUserPhotoLoaded(setImage);
   }, []);
+
   const router = useNavigationContainerRef();
+
   const LogOutUser = async () => {
-    resetStorage();
+    await resetStorage();
     router.reset({ index: 0, routes: [{ name: "login" }] });
+  };
+
+  const pickImageAsync = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+    const checkIfFileExists = async (filePath: string): Promise<boolean> => {
+      const fileInfo = await FileSystem.getInfoAsync(filePath);
+      return fileInfo.exists;
+    };
+
+    let userPhotoPath = FileSystem.documentDirectory + "user-photo.png";
+    if (!result.canceled) {
+      if (await checkIfFileExists(userPhotoPath)) {
+        console.log("Deleting old image");
+        await FileSystem.deleteAsync(userPhotoPath);
+        userPhotoPath = FileSystem.documentDirectory + "user-photo2.png";
+      }
+
+      try {
+        console.log("Saving image to:", userPhotoPath);
+        await FileSystem.copyAsync({
+          from: result.assets[0].uri,
+          to: userPhotoPath,
+        });
+
+        await AsyncStorage.setItem("UserPhotoPath", userPhotoPath);
+        setImage(result.assets[0].uri);
+
+        // console.log("Image saved as user-photo.png");
+      } catch (error) {
+        console.error("Error saving image:", error);
+      }
+    } else {
+      alert(i18n.t("user_has_not_selected_an_image"));
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Animated.ScrollView scrollEnabled={true} overScrollMode={"always"} >
+      <Animated.ScrollView scrollEnabled={true} overScrollMode={"always"}>
         <View style={{ alignItems: "center" }}>
           <Image
             source={
-              isUserPhotoLoaded
-                ? require("@/assets/images/user/user-photo.png")
+              image
+                ? { uri: image }
                 : require("@/assets/images/user/default-photo.png")
             }
             style={{
@@ -50,11 +94,11 @@ export default function UserProfile() {
           <UniversalButton
             press={() => {
               console.log("Edit photo button pressed");
+              pickImageAsync();
             }}
             accessible={true}
             text="Edit photo"
             ButtonContainerWidth={deviceWidth * 0.4}
-            // textColor="grey"
           />
           <UniversalButton
             press={() => console.log("some button pressed")}
@@ -68,8 +112,8 @@ export default function UserProfile() {
           <UniversalButton
             press={() => console.log("some button pressed")}
             text="Some setting"
-            ButtonBGColor="rgb(145	222	139)"
-            ShadowBGColor="rgb(85	187	54)"
+            ButtonBGColor="rgb(145,222,139)"
+            ShadowBGColor="rgb(85,187,54)"
             fontSize={25}
             ButtonContainerWidth={deviceWidth * 0.5}
             accessible={false}
