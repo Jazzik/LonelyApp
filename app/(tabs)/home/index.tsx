@@ -24,6 +24,7 @@ export default function Tab() {
   const [active, setActive] = useState<Dict>({});
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false); // not same loading
+  const [canRefresh, setCanRefresh] = useState(true);
   const [isInternetError, setIsInternetError] = useState(false);
 
 
@@ -90,9 +91,12 @@ export default function Tab() {
     }
   };
   const handleRefresh = () => {
+    if (!canRefresh) return;
     setRefreshing(true);
+    setCanRefresh(false);
     fetchData();
     setTimeout(() => {
+      setTimeout(() => setCanRefresh(true), 10000);
       setRefreshing(false);
     }, 500);
   };
