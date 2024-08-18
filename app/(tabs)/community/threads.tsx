@@ -10,6 +10,7 @@ export default function ThreadsScreen() {
   const [messages, setMessages] = useState([]);
   const flashListRef = useRef(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
+  const [timer, setTimer] = useState(300);
   useEffect(() => {
     const fetchMessages = async () => {
       const messagesString = await AsyncStorage.getItem("messages");
@@ -17,13 +18,10 @@ export default function ThreadsScreen() {
       // console.log("threads", messagesString); // array of messages
       const messages = messagesString ? JSON.parse("["+messagesString+"]") : [];
       // console.log("press",Object.entries(messages))
-
       setMessages(messages);
       // console.log(messages);
       console.log("current state",isAtBottom)
-      // if (isAtBottom) {
-      //   scrollToEnd();
-      // }
+      
       
     };
     
@@ -34,9 +32,7 @@ export default function ThreadsScreen() {
 
     fetchMessages();
     
-    if (flashListRef.current) {
-      flashListRef.current.scrollToEnd({ animated: true });
-    }
+   
     return () => {
       // Cleanup actions if any
     };
@@ -54,26 +50,21 @@ export default function ThreadsScreen() {
     const layoutMeasurementHeight = event.nativeEvent.layoutMeasurement.height;
 
     // Check if user is at the bottom of the list
-    if (contentOffsetY + layoutMeasurementHeight >= contentSizeHeight - 10) {
+    if (contentOffsetY + layoutMeasurementHeight >= contentSizeHeight - 50) {
       setIsAtBottom(true);
-      // console.log(true);
+      console.log(true);
     } else {
       setIsAtBottom(false);
-      // console.log(isAtBottom);
+      console.log(isAtBottom);
     }
   };
 
   return (
     <View style={{ height: "100%" }}>
       <FlashList
-        // onTouchEnd={()=>scrollToEnd()}
-        // onScrollToTop={() => console.log("Scrolled to top")}
-        // initialScrollIndex={30}
-        
-        
-        // onLayout={ scrollToEnd}
+        onContentSizeChange={isAtBottom ? scrollToEnd : undefined}
         data={messages}
-        // onScroll={handleScroll}
+        onScroll={handleScroll}
         // scrollEventThrottle={16}
         ref={flashListRef}
         // key={messages}
