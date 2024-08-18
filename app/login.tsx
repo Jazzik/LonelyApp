@@ -15,6 +15,8 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
+import LottieView from "lottie-react-native";
+
 import { router } from "expo-router";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
@@ -40,12 +42,12 @@ export default function LoginScreen() {
     >
       <SafeAreaView style={loginStyles.loginContainer}>
         <View>
+        
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
             onSubmit={async (values) => {
-              
-              if (await succesfullLogin(values)){
+              if (await succesfullLogin(values)) {
                 router.replace("/home");
               }
             }}
@@ -87,6 +89,7 @@ export default function LoginScreen() {
                   onBlur={handleBlur("password")}
                   value={values.password}
                 />
+               
                 {errors.password && touched.password ? (
                   <Text style={loginStyles.loginErrorText}>
                     {errors.password}
@@ -103,8 +106,12 @@ export default function LoginScreen() {
           </Formik>
           {Platform.OS === "ios" && (
             <AppleAuthentication.AppleAuthenticationButton
-              buttonType={AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN}
-              buttonStyle={AppleAuthentication.AppleAuthenticationButtonStyle.BLACK}
+              buttonType={
+                AppleAuthentication.AppleAuthenticationButtonType.SIGN_IN
+              }
+              buttonStyle={
+                AppleAuthentication.AppleAuthenticationButtonStyle.BLACK
+              }
               cornerRadius={30}
               style={loginStyles.loginButton}
               onPress={async () => {
@@ -122,6 +129,7 @@ export default function LoginScreen() {
               }}
             />
           )}
+           
         </View>
       </SafeAreaView>
     </Animated.ScrollView>

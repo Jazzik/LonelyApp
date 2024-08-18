@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Text, ActivityIndicator } from "react-native";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Animated from "react-native-reanimated";
@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 import UniversalButton from "@/components/UniversalButton";
+
 export default function Tasks() {
   const [data, setData] = useState([]);
   const [progress, setProgress] = useState<Dict>({});
@@ -17,9 +18,9 @@ export default function Tasks() {
   const { tasksGroupName }: { tasksGroupName: string } = useLocalSearchParams();
   const isActive = (key: number) => {
     let flag = true;
-    console.log(progress, key)
+    console.log(progress, key);
     if (progress && progress[key] !== undefined) {
-      console.log(flag)
+      console.log(flag);
       flag = false;
     }
 
@@ -74,8 +75,7 @@ export default function Tasks() {
           </View>
         </Animated.ScrollView>
       ) : (
-        <Animated.View style={{flex: 1,}}>
-          
+        <Animated.View style={{ flex: 1 }}>
           <Animated.View
             style={{
               backgroundColor: "rgba(0, 0, 0, 0)",
@@ -83,69 +83,79 @@ export default function Tasks() {
               marginLeft: 15,
               marginRight: 15,
               // make at least 99% of the screen
-              
             }}
           >
             <TasksHeader tasksGroupName={tasksGroupName} />
           </Animated.View>
           <Animated.ScrollView>
             <Animated.View style={styles.container}>
-              {Object.entries(data).map(([taskname, taskdata]) => {
-                return (
-                  <View
-                    key={taskdata["id"]}
-                    style={{
-                      flex: 1,
-                      alignItems: locateButton(taskdata["number"]),
-                      height: 150,
-                    }}
-                  >
-                    <View
-                      style={{
-                        transform: [
-                          { rotate: arrangeLine(taskdata["number"]) },
-                        ],
-                        position: "absolute",
-                        zIndex: -3,
-                        backgroundColor:isActive(taskdata["id"]) ? "gray" : "green",
-                        top: 140,
-                        padding: 2,
-                        width: "70%",
-                        left: 50,
-                        // marginLeft: 50,
-                      }}
-                    />
-                    <View style={{marginHorizontal: 40}}>
-                      <UniversalButton
-                        text={taskdata["number"]}
-                        accessible={isActive(taskdata["id"])}
-                        press={() => {
-                          router.push({
-                            pathname: "/taskPage",
-                            params: {
-                              taskName: taskname,
-                              groupName: tasksGroupName,
-                            },
-                          });
+              {(() => {
+                try {
+                  return Object.entries(data).map(([taskname, taskdata]) => {
+                    return (
+                      <View
+                        key={taskdata["id"]}
+                        style={{
+                          flex: 1,
+                          alignItems: locateButton(taskdata["number"]),
+                          height: 150,
                         }}
-                      />
+                      >
+                        <View
+                          style={{
+                            transform: [
+                              { rotate: arrangeLine(taskdata["number"]) },
+                            ],
+                            position: "absolute",
+                            zIndex: -3,
+                            backgroundColor: isActive(taskdata["id"])
+                              ? "gray"
+                              : "green",
+                            top: 140,
+                            padding: 2,
+                            width: "70%",
+                            left: 50,
+                          }}
+                        />
+                        <View style={{ marginHorizontal: 40 }}>
+                          <UniversalButton
+                            text={taskdata["number"]}
+                            accessible={isActive(taskdata["id"])}
+                            press={() => {
+                              router.push({
+                                pathname: "/taskPage",
+                                params: {
+                                  taskName: taskname,
+                                  groupName: tasksGroupName,
+                                },
+                              });
+                            }}
+                          />
+                        </View>
+                      </View>
+                    );
+                  });
+                } catch (e) {
+                  console.log(e);
+                  return (
+                    <View>
+                      <Text style={{ fontSize: 28, color: "red" }}>
+                        Something went wrong
+                      </Text>
                     </View>
-                  </View>
-                );
-              })}
-
-              
+                  );
+                }
+              })()}
               <View style={{ padding: 10 }} />
             </Animated.View>
-            
           </Animated.ScrollView>
           <ConfettiCannon
-                count={20}
-                explosionSpeed={0}
-                fallSpeed={1500}
-                fadeOut={true}
-                origin={{ x: -50, y: 0 }}
-              />
+            count={20}
+            explosionSpeed={0}
+            fallSpeed={1500}
+            fadeOut={true}
+            origin={{ x: -50, y: 0 }}
+          />
         </Animated.View>
       )}
 

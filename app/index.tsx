@@ -8,6 +8,7 @@ import { isExpired } from "@/utils/token";
 import { refreshTokenIfExpired } from "@/api/apiv1";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
+import LottieView from "lottie-react-native";
 
 const checkLoginStatus = async () => {
   console.log("check");
@@ -47,7 +48,13 @@ export default function HomeScreen() {
 
   if (!url) {
     return (
-      <></>
+      <LottieView
+                  source={require("@/assets/Animations/owl2.json")}
+                  autoPlay={true}
+                  loop={true}
+                  resizeMode="contain"
+                  style={{ width: 150, height: 150 }}
+                />
       // <Animated.ScrollView refreshControl={<RefreshControl refreshing={true} />} />
       
      
