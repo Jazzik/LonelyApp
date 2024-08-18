@@ -2,6 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "@/ip.json";
 import { isExpired } from "@/utils/token";
+import { Client } from '@stomp/stompjs';
+import NetInfo from '@react-native-community/netinfo';
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
@@ -123,3 +125,28 @@ export const succesfullRegister = (values) => {
       console.error(error);
     });
 };
+
+export async function socketConnection(){
+  const token = await AsyncStorage.getItem("accessToken");
+  const auth = "Bearer "+ token
+
+  const ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLYWtveXRvTHV0aXlFbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3MjM2NTEzOTYsImV4cCI6MTcyNDI1MTM5Nn0.nUV41uHyLDG_bg-TF1wLm7i70od-Z-5PQ9-CJzfTQx4'} });
+ // const ws = new WebSocket(`ws://${ip}:8080/ws/messages`);
+
+  ws.onopen = () => {
+    console.log('WebSocket connected');
+  };
+
+  ws.onmessage = (event) => {
+    console.log('Received message:', event.data);
+  };
+
+  ws.onerror = (error) => {
+    console.error('WebSocket error:', error);
+  };
+
+  ws.onclose = () => {
+    console.log('WebSocket closed');
+  };
+  
+}

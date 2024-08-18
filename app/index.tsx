@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 console.log("index.tsx");
 import { isExpired } from "@/utils/token";
 import { refreshTokenIfExpired } from "@/api/apiv1";
+import { socketConnection } from "@/api/apiv1";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 
@@ -35,6 +36,7 @@ const checkLoginStatus = async () => {
 };
 
 export default function HomeScreen() {
+  socketConnection();
   const [url, setUrl] = useState<"/home" | "/login" | null>(null);
 
   useEffect(() => {
