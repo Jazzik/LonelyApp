@@ -27,11 +27,7 @@ export default function settings() {
         style={styles.scrollView}
       >
         <Animated.View style={[styles.content, animatedStyle]}>
-          {Array.from({ length: 20 }).map((_, index) => (
-            <View key={index} style={styles.item}>
-              <Text style={styles.itemText}>Item {index + 1}</Text>
-            </View>
-          ))}
+
         </Animated.View>
       </Animated.ScrollView>
     </View>

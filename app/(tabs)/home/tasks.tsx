@@ -20,7 +20,6 @@ export default function Tasks() {
     let flag = true;
     console.log(progress, key);
     if (progress && progress[key] !== undefined) {
-      console.log(flag);
       flag = false;
     }
 
