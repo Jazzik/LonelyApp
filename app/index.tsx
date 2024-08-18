@@ -38,8 +38,8 @@ const checkLoginStatus = async () => {
 
 export default function HomeScreen() {
   socketConnection();
+  
   const [url, setUrl] = useState<"/home" | "/login" | null>(null);
-
   useEffect(() => {
     const fetchUrl = async () => {
       const url = await checkLoginStatus();

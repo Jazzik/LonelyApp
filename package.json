@@ -17,7 +17,6 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@react-native-async-storage/async-storage": "1.23.1",
-    "@react-native-community/netinfo": "11.3.1",
     "@react-native-google-signin/google-signin": "^12.2.1",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/stack": "^6.4.1",
@@ -25,11 +24,14 @@
     "@stomp/stompjs": "^7.0.0",
     "axios": "^1.7.2",
     "crypto": "^1.0.1",
+    "events": "^3.3.0",
     "expo": "~51.0.18",
     "expo-apple-authentication": "~6.4.2",
     "expo-constants": "~16.0.2",
+    "expo-file-system": "~17.0.1",
     "expo-font": "~12.0.9",
     "expo-haptics": "~13.0.1",
+    "expo-image-picker": "~15.0.7",
     "expo-linking": "~6.3.1",
     "expo-localization": "~15.0.3",
     "expo-router": "~3.5.20",
@@ -56,10 +58,7 @@
     "react-native-screens": "3.31.1",
     "react-native-shadow-2": "^7.1.0",
     "react-native-web": "~0.19.10",
-    "yup": "^1.4.0",
-    "@shopify/flash-list": "1.6.4",
-    "expo-image-picker": "~15.0.7",
-    "expo-file-system": "~17.0.1"
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
