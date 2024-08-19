@@ -156,6 +156,11 @@ export async function socketConnection() {
       await AsyncStorage.setItem("messages", newMessage);
       eventEmitter.emit("message", "New_message");
     }
+    else {
+      // Store the first message to AsyncStorage
+      await AsyncStorage.setItem("messages", event.data);
+      eventEmitter.emit("message", "New_message");
+    }
   };
 
   ws.onerror = (error) => {
