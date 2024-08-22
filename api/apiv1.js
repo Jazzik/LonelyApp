@@ -130,8 +130,7 @@ export async function socketConnection() {
   const token = await AsyncStorage.getItem("accessToken");
   const auth = "Bearer " + token;
 
-  const ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLYWtveXRvTHV0aXlFbWFpbEBnbWFpbC5jb20iLCJpYXQiOjE3MjM2NTEzOTYsImV4cCI6MTcyNDI1MTM5Nn0.nUV41uHyLDG_bg-TF1wLm7i70od-Z-5PQ9-CJzfTQx4'} });
- // const ws = new WebSocket(`ws://${ip}:8080/ws/messages`);
+  const ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:'Bearer ' + token}});
 
   ws.onopen = () => {
     console.log("WebSocket connected");
