@@ -11,13 +11,12 @@ export default function ThreadsScreen() {
     const fetchData = async () => {
       const messagesString = await AsyncStorage.getItem('messages');
       const msgs = messagesString ? JSON.parse(messagesString) : [];
-      setMessages(msgs); // Update loading state after setting messages
+      setMessages(msgs.reverse()); // Update loading state after setting messages
     };
 
     fetchData();
-  }, []);
-
-  if (!messages) {
+  }, [messages]);
+  if (messages.length <= 0) {
     return <Text>Loading...</Text>; // Display a loading indicator while fetching data
   }
 
