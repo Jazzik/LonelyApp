@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import {Colors} from "@/constants/Colors";
 
 export const styles = StyleSheet.create({
+    chat : { height:'100%'},
     container: {
       backgroundColor: Colors.dark.background,
       flex: 1,
