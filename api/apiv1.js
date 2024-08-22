@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "@/ip.json";
 import { isExpired } from "@/utils/token";
 import EventEmitter from "events";
+let counter = 0
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
@@ -130,7 +131,8 @@ export async function socketConnection() {
   const token = await AsyncStorage.getItem("accessToken");
   const auth = "Bearer " + token;
 
-  const ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:'Bearer ' + token}});
+  const ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:auth} });
+ // const ws = new WebSocket(`ws://${ip}:8080/ws/messages`);
 
   ws.onopen = () => {
     console.log("WebSocket connected");
@@ -140,19 +142,39 @@ export async function socketConnection() {
     
     // console.log("emted")
     // await AsyncStorage.removeItem('messages');
-    // console.log("Received message:", event.data);
+    //console.log("Received message:", );
     // Retrieve existing messages from AsyncStorage
     const storedMessages = await AsyncStorage.getItem("messages");
     // console.log("Stored messages: ", storedMessages);
+    counter+=1
+    data = JSON.parse(event.data)
+    console.log(data.text)
+    message ={
+      _id: data.id,
+      text: data.message,
+      createdAt: data.sentdate,
+      user: {
+        _id: 1,
+        name: "React Native",
+        avatar: undefined,
+      },
+    }
     if (storedMessages) {
-      let messagesArray = storedMessages;
-      // console.log("array0", messagesArray);
-      // Add new message to the array
-      const newMessage = messagesArray + "," + event.data;
-      // console.log("arrayafter", newMessage);
-
+      
+      let messagesArray = `${storedMessages.slice(0, -1)},`;
+      
+      messagesArray += JSON.stringify(message)+"]";
+      
+      console.log("arrayafter", messagesArray);
       // Store updated messages array back to AsyncStorage
-      await AsyncStorage.setItem("messages", newMessage);
+     //await AsyncStorage.removeItem("messages");
+            
+      await AsyncStorage.setItem("messages", messagesArray);
+      eventEmitter.emit("message", "New_message");
+    }
+    else {
+      // Store the first message to AsyncStorage
+      await AsyncStorage.setItem("messages", "["+JSON.stringify(message)+"]");
       eventEmitter.emit("message", "New_message");
     }
   };
