@@ -156,7 +156,7 @@ export async function socketConnection() {
       user: {
         _id: 1,
         name: "React Native",
-        avatar: undefined,
+        // avatar: 
       },
     }
     if (storedMessages) {
