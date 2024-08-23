@@ -174,7 +174,7 @@ export async function socketConnection() {
     else {
       // Store the first message to AsyncStorage
       await AsyncStorage.setItem("messages", "["+JSON.stringify(message)+"]");
-      eventEmitter.emit("message", message);
+      eventEmitter.emit("message", { message: message });
     }
   };
 

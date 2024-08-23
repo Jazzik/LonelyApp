@@ -10,11 +10,16 @@ export default function ThreadsScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
-      eventEmitter.on("message", (message:String)=>console.log(message))
-      const messagesString = await AsyncStorage.getItem('messages');
-      const msgs = messagesString ? JSON.parse(messagesString) : [];
-
-      setMessages(msgs.reverse()); // Update loading state after setting messages
+      
+      let messagesString = await AsyncStorage.getItem('messages');
+      let msgs = messagesString ? JSON.parse(messagesString) : [];
+      setMessages(msgs.reverse())
+      eventEmitter.on("message", async (message)=>{ 
+        let messagesString = await AsyncStorage.getItem('messages');
+        let msgs = messagesString ? JSON.parse(messagesString) : [];
+        setMessages(msgs.reverse())
+      })
+      //setMessages(msgs.reverse())
     };
 
     fetchData();
