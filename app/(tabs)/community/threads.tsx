@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GiftedChat } from 'react-native-gifted-chat';
@@ -26,7 +26,7 @@ export default function ThreadsScreen() {
 
   const onSend = useCallback((messages: never[] = []) => {
     setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
+      GiftedChat.append(previousMessages, messages) as [] | undefined,
     )
   }, [])
   
