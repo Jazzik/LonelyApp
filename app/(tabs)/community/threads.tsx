@@ -6,8 +6,6 @@ import { Dict } from 'i18n-js';
 import { eventEmitter } from '@/api/apiv1';
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<[]>();
-
-
   useEffect(() => {
     const fetchData = async () => {
       
