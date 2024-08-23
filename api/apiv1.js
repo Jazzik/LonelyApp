@@ -165,17 +165,16 @@ export async function socketConnection() {
       
       messagesArray += JSON.stringify(message)+"]";
       
-      console.log("arrayafter", messagesArray);
       // Store updated messages array back to AsyncStorage
      //await AsyncStorage.removeItem("messages");
             
       await AsyncStorage.setItem("messages", messagesArray);
-      eventEmitter.emit("message", "New_message");
+      eventEmitter.emit("message", message);
     }
     else {
       // Store the first message to AsyncStorage
       await AsyncStorage.setItem("messages", "["+JSON.stringify(message)+"]");
-      eventEmitter.emit("message", "New_message");
+      eventEmitter.emit("message", message);
     }
   };
 

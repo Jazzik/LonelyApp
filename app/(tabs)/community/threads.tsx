@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { GiftedChat } from "react-native-gifted-chat";
-
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GiftedChat } from 'react-native-gifted-chat';
+import { Dict } from 'i18n-js';
+import { eventEmitter } from '@/api/apiv1';
 export default function ThreadsScreen() {
-  const [messages, setMessages] = useState<{ _id: number; text: string; createdAt: Date; user: { _id: number; name: string; avatar: string; }; }[]>([]);
+  const [messages, setMessages] = useState<[]>();
+
 
   useEffect(() => {
     setMessages([])
     const fetchData = async () => {
-      const messagesString = await AsyncStorage.getItem("messages");
+      eventEmitter.on("message", (message:String)=>console.log(message))
+      const messagesString = await AsyncStorage.getItem('messages');
       const msgs = messagesString ? JSON.parse(messagesString) : [];
-      console.log(msgs);
+
       setMessages(msgs.reverse()); // Update loading state after setting messages
     };
 
@@ -28,6 +31,9 @@ export default function ThreadsScreen() {
   //   return <Text>Loading...</Text>; // Display a loading indicator while fetching data
   // }
 
+
+  
+  if (messages!=undefined) {
   return (
     // <View style={{ height: "100%" }}>
       <GiftedChat
@@ -49,4 +55,5 @@ export default function ThreadsScreen() {
       />
     // </View>
   );
+}
 }
