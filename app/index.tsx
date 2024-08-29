@@ -10,11 +10,12 @@ import { socketConnection } from "@/api/apiv1";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import LottieView from "lottie-react-native";
-
+import { useSQLiteContext } from "expo-sqlite";
 const checkLoginStatus = async () => {
   console.log("check");
   const token = await AsyncStorage.getItem("accessToken");
   
+
   // let token = false;
   if (token && !isExpired(token) ) {
     console.log("Succesfuly authentified");
@@ -37,11 +38,13 @@ const checkLoginStatus = async () => {
 };
 
 export default function HomeScreen() {
-  socketConnection();
+  const db = useSQLiteContext();
+  socketConnection(db);
   
   const [url, setUrl] = useState<"/home" | "/login" | null>(null);
   useEffect(() => {
     const fetchUrl = async () => {
+      
       const url = await checkLoginStatus();
       setUrl(url);
     };

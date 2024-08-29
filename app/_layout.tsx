@@ -1,9 +1,11 @@
 import TaskPtogressBar from "@/components/headerItems/TaskPtogressBar";
 import { Colors } from "@/constants/Colors";
 import { Stack, useNavigation } from "expo-router";
+import { SQLiteProvider } from "expo-sqlite";
 import { Platform } from "react-native";
 export default () => {
   return (
+    <SQLiteProvider databaseName="messages.db" >
     <Stack screenOptions={{}}>
       <Stack.Screen
         name="index"
@@ -70,5 +72,6 @@ export default () => {
         }}
       />
     </Stack>
+  </SQLiteProvider>
   );
 };

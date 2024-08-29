@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "@/ip.json";
 import { isExpired } from "@/utils/token";
 import EventEmitter from "events";
-let counter = 0
+import { addMessageRaw } from "@/storage/sql";
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
@@ -127,55 +127,32 @@ export const succesfullRegister = (values) => {
     });
 };
 export const eventEmitter = new EventEmitter();
-export async function socketConnection() {
+export async function socketConnection(db) {
   const token = await AsyncStorage.getItem("accessToken");
   const auth = "Bearer " + token;
 
   const ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:auth} });
- // const ws = new WebSocket(`ws://${ip}:8080/ws/messages`);
-
   ws.onopen = () => {
     console.log("WebSocket connected");
   };
-
   ws.onmessage = async (event) => {
-    
-    // console.log("emted")
-    // await AsyncStorage.removeItem('messages');
-    //console.log("Received message:", );
-    // Retrieve existing messages from AsyncStorage
-    const storedMessages = await AsyncStorage.getItem("messages");
-    // console.log("Stored messages: ", storedMessages);
-    counter+=1
     data = JSON.parse(event.data)
-    console.log(data.text)
-    message ={
-      _id: data.id,
-      text: data.message,
-      createdAt: data.sentdate,
-      user: {
-        _id: 1,
-        name: "React Native",
-        // avatar: 
-      },
-    }
-    if (storedMessages) {
-      
-      let messagesArray = `${storedMessages.slice(0, -1)},`;
-      
-      messagesArray += JSON.stringify(message)+"]";
-      
-      // Store updated messages array back to AsyncStorage
-     //await AsyncStorage.removeItem("messages");
-            
-      await AsyncStorage.setItem("messages", messagesArray);
-      eventEmitter.emit("message", message);
-    }
-    else {
-      // Store the first message to AsyncStorage
-      await AsyncStorage.setItem("messages", "["+JSON.stringify(message)+"]");
-      eventEmitter.emit("message", { message: message });
-    }
+    console.log(data)
+    await addMessageRaw(data.id, data.sender,data.message, data.sentdate )
+
+    // message ={
+    //   _id: data.id,
+    //   text: data.message,
+    //   createdAt: data.sentdate,
+    //   user: {
+    //     _id: 1,
+    //     name: "React Native",
+    //     avatar: undefined,
+    //   },
+    // }
+
+
+
   };
 
   ws.onerror = (error) => {
