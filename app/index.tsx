@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 console.log("index.tsx");
 import { isExpired } from "@/utils/token";
 import { refreshTokenIfExpired } from "@/api/apiv1";
-import { socketConnection } from "@/api/apiv1";
+import { socketConnection } from "@/messenger/webSockets";
 import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import LottieView from "lottie-react-native";

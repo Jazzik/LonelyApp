@@ -3,9 +3,9 @@ import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { Dict } from 'i18n-js';
-import { eventEmitter } from '@/api/apiv1';
+import { eventEmitter } from '@/messenger/webSockets';
 import { useSQLiteContext } from "expo-sqlite"
-import {createTable, addMessage,getMessages} from "@/storage/sql"
+import {createTable,addMessageObject, getMessages} from "@/messenger/sql"
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<[]>();
   const db = useSQLiteContext();
@@ -14,13 +14,11 @@ export default function ThreadsScreen() {
     setMessages([])
     const fetchData = async () => {
       await createTable(db)
-      let messagesString = await AsyncStorage.getItem('messages');
-      let msgs = messagesString ? JSON.parse(messagesString) : [];
-      setMessages(msgs.reverse())
-      eventEmitter.on("message", async (message)=>{ 
-        let messagesString = await AsyncStorage.getItem('messages');
-        let msgs = messagesString ? JSON.parse(messagesString) : [];
-        setMessages(msgs.reverse())
+      
+      setMessages(getMessages(db))
+      eventEmitter.on("message", ()=>{ 
+        console.log("message received")
+        setMessages(getMessages(db))
       })
       //setMessages(msgs.reverse())
     };
@@ -48,8 +46,7 @@ export default function ThreadsScreen() {
         messages={messages}
         onSend={(newMessage) => {
           console.log(getMessages(db))
-          // addMessage(db, newMessage)
-
+          
         }}
         user={{
           _id: 2,
