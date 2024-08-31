@@ -20,6 +20,7 @@ export default function ThreadsScreen() {
         console.log("message received")
         setMessages(getMessages(db))
       })
+      console.log("use effect")
       //setMessages(msgs.reverse())
     };
 
@@ -30,6 +31,8 @@ export default function ThreadsScreen() {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, messages) as IMessage[],
     )
+    addMessageObject(db, messages)
+    console.log("message sent")
   }, [])
   
   // if (messages.length <= 0) {
