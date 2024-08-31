@@ -10,7 +10,7 @@ export async function addMessageObject(db, msg){
   console.log(message)
   const dateString = message.createdAt
   const date = new Date(dateString);
-  const unixTimestamp = date.getTime() / 1000;
+  const unixTimestamp = date.getTime();
   console.log(message._id, message.user._id, message.text, unixTimestamp) // Convert milliseconds to seconds
   console.log(await db.runAsync("INSERT INTO messages (id, sender, receiver, message, sentdate) VALUES (?, ?, ?, ?, ?)",Math.round(Math.random()*1000), Math.round(Math.random()*1000), message.text, unixTimestamp))
 }
@@ -24,7 +24,7 @@ export function getMessages(db){
       text: element.message,
       createdAt: element.sentdate,
       user: {
-        _id: 1,
+        _id: element.sender,
         name: "React Native",
         avatar: undefined,
       },

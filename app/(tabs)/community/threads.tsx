@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Dict } from 'i18n-js';
-import { eventEmitter } from '@/messenger/webSockets';
+import { eventEmitter, sendMessage} from '@/messenger/webSockets';
 import { useSQLiteContext } from "expo-sqlite"
 import {createTable,addMessageObject, getMessages} from "@/messenger/sql"
 export default function ThreadsScreen() {
@@ -14,7 +14,6 @@ export default function ThreadsScreen() {
     setMessages([])
     const fetchData = async () => {
       await createTable(db)
-      
       setMessages(getMessages(db))
       eventEmitter.on("message", ()=>{ 
         console.log("message received")
@@ -25,37 +24,19 @@ export default function ThreadsScreen() {
     };
 
     fetchData();
-  }, []);
-
-  const onSend = useCallback((messages: IMessage[] = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages) as IMessage[],
-    )
-    addMessageObject(db, messages)
-    console.log("message sent")
-  }, [])
-  
-  // if (messages.length <= 0) {
-  //   return <Text>Loading...</Text>; // Display a loading indicator while fetching data
-  // }
-
-
-  
+  }, []);  
   if (messages!=undefined) {
   return (
     // <View style={{ height: "100%" }}>
       <GiftedChat
-        //messageIdGenerator={}
         messages={messages}
-        onSend={(newMessage) => {
-          console.log(getMessages(db))
-          onSend(newMessage)
+        onSend={async (newMessage) => {
+          console.log(newMessage)
+          await sendMessage('USER0.07130147202152248',newMessage[0].text) 
           
         }}
         user={{
-          _id: 2,
-          
-          
+          _id: 8,
         }}
       />
     // </View>
