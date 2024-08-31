@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Dict } from 'i18n-js';
 import { eventEmitter } from '@/messenger/webSockets';
 import { useSQLiteContext } from "expo-sqlite"
 import {createTable,addMessageObject, getMessages} from "@/messenger/sql"
 export default function ThreadsScreen() {
-  const [messages, setMessages] = useState<[]>();
+  const [messages, setMessages] = useState<IMessage[]>([]);
   const db = useSQLiteContext();
 
   useEffect(() => {
@@ -26,9 +26,9 @@ export default function ThreadsScreen() {
     fetchData();
   }, []);
 
-  const onSend = useCallback((messages: never[] = []) => {
+  const onSend = useCallback((messages: IMessage[] = []) => {
     setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages) as [] | undefined,
+      GiftedChat.append(previousMessages, messages) as IMessage[],
     )
   }, [])
   
@@ -46,6 +46,7 @@ export default function ThreadsScreen() {
         messages={messages}
         onSend={(newMessage) => {
           console.log(getMessages(db))
+          onSend(newMessage)
           
         }}
         user={{
