@@ -1,8 +1,9 @@
 import { View, Text, TextInput } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "react-native";
+import { Link } from "expo-router";
 export default function FriendsScreen() {
-  const data= [
+  const data = [
     { id: 1, name: "John Doe" },
     { id: 2, name: "Jane Doe" },
     { id: 3, name: "John Smith" },
@@ -41,36 +42,44 @@ export default function FriendsScreen() {
     { id: 36, name: "Jane Iron" },
     { id: 37, name: "John Aluminum" },
     { id: 38, name: "Jane Aluminum" },
-  ]
+  ];
   return (
     <View style={{ flex: 1 }}>
-
-      <TextInput style={{height:50, width:"100%", backgroundColor: "purple"}}></TextInput>
+      <TextInput
+        style={{ height: 50, width: "100%", backgroundColor: "purple" }}
+      ></TextInput>
       <FlashList
         data={data}
         estimatedItemSize={50}
         renderItem={({ item }) => (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              padding: 8,
-              gap: 15,
+          <Link
+            href={{
+              pathname: "/[chat_id]",
+              params: { chat_id: "bacon" },
             }}
           >
-            <Image
+            <View
               style={{
-                width: 70,
-                height: 70,
-                borderRadius: 35,
-                borderColor: "red",
-                borderWidth: 2,
+                flexDirection: "row",
+                alignItems: "center",
+                padding: 8,
+                gap: 15,
               }}
-              source={require("@/assets/images/user/default-photo.png")}
-            />
+            >
+              <Image
+                style={{
+                  width: 70,
+                  height: 70,
+                  borderRadius: 35,
+                  borderColor: "red",
+                  borderWidth: 2,
+                }}
+                source={require("@/assets/images/user/default-photo.png")}
+              />
 
-            <Text style={{ fontSize: 35 }}>{item.name}</Text>
-          </View>
+              <Text style={{ fontSize: 35 }}>{item.name}</Text>
+            </View>
+          </Link>
         )}
         ItemSeparatorComponent={() => (
           <View style={{ height: 1, backgroundColor: "black" }} />
