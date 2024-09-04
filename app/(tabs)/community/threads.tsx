@@ -5,23 +5,22 @@ import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Dict } from 'i18n-js';
 import { eventEmitter, sendMessage} from '@/messenger/webSockets';
 import { useSQLiteContext } from "expo-sqlite"
-import {createTable, getMessages} from "@/messenger/sql"
+import {createTable, getDialog, getMessages} from "@/messenger/sql"
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const db = useSQLiteContext();
-  useEffect(() => {
-    setMessages([]);
-    const fetchData = async () => {
-      await createTable(db);
+  const fetchData = async () => {
+    console.log(await getDialog(db,8))
+    await createTable(db);
+    setMessages(getMessages(db));
+    eventEmitter.on("message", () => {
+      console.log("message received");
       setMessages(getMessages(db));
-      eventEmitter.on("message", () => {
-        console.log("message received");
-        setMessages(getMessages(db));
-      });
-      console.log("use effect");
-      //setMessages(msgs.reverse())
-    };
-
+    });
+    console.log("use effect");
+    //setMessages(msgs.reverse())
+  };
+  useEffect(() => {
     fetchData();
   }, []);
   // const renderAvatar = (avatar = require('@/assets/images/user/default-photo.png')) => avatar;
@@ -41,7 +40,8 @@ export default function ThreadsScreen() {
           _id: 8,
           
         }}
-      />
+        renderAvatar={() => null}
+        />
     );
   }
 }

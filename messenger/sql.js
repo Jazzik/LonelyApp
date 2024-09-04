@@ -32,7 +32,24 @@ export function getMessages(db){
     messages_array.push(message)
   });
 return messages_array.reverse()
-
+}
+export async function getDialog(db, name){
+  messages_array = []
+  storage = db.getAllSync('SELECT * FROM messages WHERE sender = ? or receiver = ? ;' , [name, name])
+  storage.forEach(element => {
+    message ={
+      _id: element.id,
+      text: element.message,
+      createdAt: element.sentdate,
+      user: {
+        _id: element.sender,
+        name: "React Native",
+        avatar: undefined,
+      },
+    }
+    messages_array.push(message)
+  });
+return messages_array.reverse()
 }
 export async function addMessageRaw(db, id, sender, receiver, message, sentdate){
   console.log("added message")
