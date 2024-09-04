@@ -24,7 +24,7 @@ export default function ThreadsScreen() {
 
     fetchData();
   }, []);
-
+  // const renderAvatar = (avatar = require('@/assets/images/user/default-photo.png')) => avatar;
   if (messages != undefined) {
     console.log("render")
     return (
@@ -33,8 +33,13 @@ export default function ThreadsScreen() {
         onSend={async (newMessage) => {
           await sendMessage('USER0.07130147202152248', newMessage[0].text);
         }}
+        showUserAvatar={false}
+        // showAvatarForEveryMessage={true}
+        // renderAvatar={() => null}
+        // renderAvatarOnTop={true}
         user={{
           _id: 8,
+          
         }}
       />
     );

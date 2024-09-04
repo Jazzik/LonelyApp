@@ -89,10 +89,12 @@ export const succesfullLogin = async (values) => {
       console.log("succesfull login");
       console.log("accessToken: ", response.data.accessToken);
       console.log("refreshToken: ", response.data.refreshToken);
+      console.log("userId: ", response.data.userid);
 
       // Assuming the JWT is in response.data.token
       await AsyncStorage.setItem("accessToken", response.data.accessToken);
       await AsyncStorage.setItem("refreshToken", response.data.refreshToken);
+      await AsyncStorage.setItem("userId", response.data.userid);
       flag = true;
     })
     .catch((error) => {
