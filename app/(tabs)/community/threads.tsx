@@ -5,41 +5,38 @@ import { GiftedChat, IMessage } from 'react-native-gifted-chat';
 import { Dict } from 'i18n-js';
 import { eventEmitter, sendMessage} from '@/messenger/webSockets';
 import { useSQLiteContext } from "expo-sqlite"
-import {createTable,addMessageObject, getMessages} from "@/messenger/sql"
+import {createTable, getMessages} from "@/messenger/sql"
 export default function ThreadsScreen() {
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const db = useSQLiteContext();
-
   useEffect(() => {
-    setMessages([])
+    setMessages([]);
     const fetchData = async () => {
-      await createTable(db)
-      setMessages(getMessages(db))
-      eventEmitter.on("message", ()=>{ 
-        console.log("message received")
-        setMessages(getMessages(db))
-      })
-      console.log("use effect")
+      await createTable(db);
+      setMessages(getMessages(db));
+      eventEmitter.on("message", () => {
+        console.log("message received");
+        setMessages(getMessages(db));
+      });
+      console.log("use effect");
       //setMessages(msgs.reverse())
     };
 
     fetchData();
-  }, []);  
-  if (messages!=undefined) {
-  return (
-    // <View style={{ height: "100%" }}>
+  }, []);
+
+  if (messages != undefined) {
+    console.log("render")
+    return (
       <GiftedChat
         messages={messages}
         onSend={async (newMessage) => {
-          console.log(newMessage)
-          await sendMessage('USER0.07130147202152248',newMessage[0].text) 
-          
+          await sendMessage('USER0.07130147202152248', newMessage[0].text);
         }}
         user={{
           _id: 8,
         }}
       />
-    // </View>
-  );
-}
+    );
+  }
 }

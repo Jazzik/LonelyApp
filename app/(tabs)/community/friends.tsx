@@ -48,6 +48,7 @@ export default function FriendsScreen() {
       <TextInput style={{height:50, width:"100%", backgroundColor: "purple"}}></TextInput>
       <FlashList
         data={data}
+        estimatedItemSize={50}
         renderItem={({ item }) => (
           <View
             style={{
