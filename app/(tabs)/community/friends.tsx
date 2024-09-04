@@ -55,7 +55,7 @@ export default function FriendsScreen() {
           <Link
             href={{
               pathname: "/[chat_id]",
-              params: { chat_id: "bacon" },
+              params: { chat_id: "bacon", name: item.name },
             }}
           >
             <View
