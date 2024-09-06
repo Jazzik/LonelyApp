@@ -11,21 +11,22 @@ import {
 import { Dict } from "i18n-js";
 import { eventEmitter, sendMessage } from "@/messenger/webSockets";
 import { useSQLiteContext } from "expo-sqlite";
-import { createTable, getDialog, getMessages } from "@/messenger/sql";
+import { createTable, getDialog, getChats, getMessages, addChat } from "@/messenger/sql";
 import { Colors } from "@/constants/Colors";
 import { InferProps, Requireable } from "prop-types";
 import { SafeAreaView } from "react-native-safe-area-context";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const db = useSQLiteContext();
+
   const { chat_id, name } = useLocalSearchParams();
 
   const fetchData = async () => {
-    console.log(await getDialog(db, 8));
+    console.log(await getDialog(db, chat_id));
+    console.log();
     await createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
-      console.log("message received");
       setMessages(getMessages(db));
     });
     console.log("use effect");
@@ -62,7 +63,7 @@ export default function ThreadsScreen() {
           
           messages={messages}
           onSend={async (newMessage) => {
-            await sendMessage("USER0.07130147202152248", newMessage[0].text);
+            await sendMessage(17, newMessage[0].text);
           }}
           showUserAvatar={true}
         //   keyboardShouldPersistTaps={"never"}

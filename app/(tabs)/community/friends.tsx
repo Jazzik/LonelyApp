@@ -2,9 +2,9 @@ import { View, Text, TextInput } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "react-native";
 import { Link } from "expo-router";
-import { useEffect } from "react";
+import { getChats } from "@/messenger/sql";
+import { useSQLiteContext } from "expo-sqlite";
 export default function FriendsScreen() {
-  useEffect(() => {}, []);
   const data = [
     { id: 1, name: "John Doe" },
     { id: 2, name: "Jane Doe" },
@@ -57,7 +57,7 @@ export default function FriendsScreen() {
           <Link
             href={{
               pathname: "/[chat_id]",
-              params: { chat_id: "bacon", name: item.name },
+              params: { chat_id: item.participants, name: item.name },
             }}
           >
             <View
