@@ -11,6 +11,7 @@ import { FlatList, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import LottieView from "lottie-react-native";
 import { useSQLiteContext } from "expo-sqlite";
+import { createTable } from "@/messenger/sql";
 const checkLoginStatus = async () => {
   console.log("check");
   const token = await AsyncStorage.getItem("accessToken");
@@ -40,7 +41,7 @@ const checkLoginStatus = async () => {
 export default function HomeScreen() {
   const db = useSQLiteContext();
   socketConnection(db);
-  
+  createTable(db);
   const [url, setUrl] = useState<"/home" | "/login" | null>(null);
   useEffect(() => {
     const fetchUrl = async () => {
