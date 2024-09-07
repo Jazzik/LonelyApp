@@ -94,7 +94,7 @@ export const succesfullLogin = async (values) => {
       // Assuming the JWT is in response.data.token
       await AsyncStorage.setItem("accessToken", response.data.accessToken);
       await AsyncStorage.setItem("refreshToken", response.data.refreshToken);
-      await AsyncStorage.setItem("userId", response.data.userid);
+      await AsyncStorage.setItem("userId", String(response.data.userid));
       flag = true;
     })
     .catch((error) => {

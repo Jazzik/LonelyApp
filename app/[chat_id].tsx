@@ -22,7 +22,7 @@ export default function ThreadsScreen() {
 
   const fetchData = async () => {
     console.log(await getDialog(db, chat_id));
-    console.log();
+    console.log(await AsyncStorage.getItem("userId"));
     createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
