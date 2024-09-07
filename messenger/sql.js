@@ -2,10 +2,12 @@ import * as SQLite from 'expo-sqlite';
 
 export function createTable(db){
   console.log('create table')
-  //await db.execAsync("DROP TABLE IF EXISTS messages;");
+  // db.execSync("DROP TABLE IF EXISTS chats;");
+  // db.execSync("DROP TABLE IF EXISTS messages;");
+
   db.execSync("CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY NOT NULL, sender INTEGER NOT NULL, receiver TEXT NOT NULL, message TEXT NOT NULL,sentdate INTEGER NOT NULL)");
   db.execSync("CREATE TABLE IF NOT EXISTS chats (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, photo TEXT, participants TEXT)");
-
+  
 }
 export async function addMessageObject(db, msg){
   let message = msg[0]

@@ -18,13 +18,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const db = useSQLiteContext();
-
   const { chat_id, name } = useLocalSearchParams();
 
   const fetchData = async () => {
     console.log(await getDialog(db, chat_id));
     console.log();
-    await createTable(db);
+    createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
       setMessages(getMessages(db));

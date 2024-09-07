@@ -7,6 +7,7 @@ import { useSQLiteContext } from "expo-sqlite";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
   const data = getChats(db)
+  if (data!=undefined){
   return (
     <View style={{ flex: 1 }}>
       <TextInput
@@ -51,4 +52,5 @@ export default function FriendsScreen() {
       />
     </View>
   );
+}
 }
