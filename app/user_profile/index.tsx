@@ -32,8 +32,6 @@ export default function UserProfile() {
   const LogOutUser = async () => {
     await resetStorage();
     dropTables(db);
-
-
     router.reset({ index: 0, routes: [{ name: "login" }] });
   };
 
