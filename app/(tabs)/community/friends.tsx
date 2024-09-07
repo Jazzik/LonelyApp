@@ -2,12 +2,14 @@ import { View, Text, TextInput } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "react-native";
 import { Link } from "expo-router";
-import { getChats } from "@/messenger/sql";
+import { getChats,addChat } from "@/messenger/sql";
 import { useSQLiteContext } from "expo-sqlite";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
   const data = getChats(db)
-  if (data!=undefined){
+  //addChat(db,1,"Postman",'','17')
+  console.log(data)
+  if (data){
   return (
     <View style={{ flex: 1 }}>
       <TextInput

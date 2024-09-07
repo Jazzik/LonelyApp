@@ -39,11 +39,10 @@ return messages_array.reverse()
 }
 export function getChats(db){
   let storage = db.getAllSync('SELECT * FROM chats')
-  
   return storage
 }
 
-export async function addChat(db, id, name, photo, participants){
+export function addChat(db, id, name, photo, participants){
   console.log("added chat") // Convert milliseconds to seconds
   return db.runAsync("INSERT INTO chats (id, name, photo, participants) VALUES (?, ?,?,?)",id, name, photo, participants)
 }
@@ -69,5 +68,4 @@ return messages_array.reverse()
 export async function addMessageRaw(db, id, sender, receiver, message, sentdate){
   console.log("added message")
   await db.runAsync("INSERT INTO messages (id, sender,receiver, message, sentdate) VALUES (?, ?, ?, ?, ?)",id, sender,receiver, message, sentdate)
-
 }

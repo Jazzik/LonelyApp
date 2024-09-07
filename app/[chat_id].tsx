@@ -19,7 +19,7 @@ export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const db = useSQLiteContext();
   const { chat_id, name } = useLocalSearchParams();
-
+  
   const fetchData = async () => {
     console.log(await getDialog(db, chat_id));
     console.log();
