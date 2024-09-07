@@ -12,15 +12,17 @@ import * as FileSystem from "expo-file-system";
 import i18n from "@/i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
+import { useSQLiteContext } from "expo-sqlite";
+import { dropTables } from "@/messenger/sql";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 export default function UserProfile() {
+  const db = useSQLiteContext();
   const [image, setImage] = useState<string>(
     "@/assets/images/user/default-photo.png"
   );
-
   useEffect(() => {
     checkUserPhotoLoaded(setImage);
   }, []);
@@ -29,6 +31,9 @@ export default function UserProfile() {
 
   const LogOutUser = async () => {
     await resetStorage();
+    dropTables(db);
+
+
     router.reset({ index: 0, routes: [{ name: "login" }] });
   };
 
