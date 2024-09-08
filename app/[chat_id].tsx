@@ -17,12 +17,13 @@ import { InferProps, Requireable } from "prop-types";
 import { SafeAreaView } from "react-native-safe-area-context";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
+  const [id, setId] = useState<Number>();
   const db = useSQLiteContext();
   const { chat_id, name } = useLocalSearchParams();
 
   const fetchData = async () => {
     console.log(await getDialog(db, chat_id));
-    console.log(await AsyncStorage.getItem("userId"));
+    setId(Number(await AsyncStorage.getItem("userId")));
     createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
@@ -70,7 +71,7 @@ export default function ThreadsScreen() {
           // renderAvatar={() => null}
           // renderAvatarOnTop={true}
           user={{
-            _id: 8,
+            _id: id,
           }}
           //   renderAvatar={() => null}
           scrollToBottom={true}
