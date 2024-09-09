@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { View, Text,  Keyboard, KeyboardAvoidingView, Platform, Animated,  } from "react-native";
+import { View, Text} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   Avatar,
   GiftedChat,
   IMessage,
   InputToolbar,
-  InputToolbarProps,
 } from "react-native-gifted-chat";
-import { Dict } from "i18n-js";
 import { eventEmitter, sendMessage } from "@/messenger/webSockets";
 import { useSQLiteContext } from "expo-sqlite";
 import { createTable, getDialog, getChats, getMessages, addChat } from "@/messenger/sql";
 import { Colors } from "@/constants/Colors";
-import { InferProps, Requireable } from "prop-types";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
 export default function ThreadsScreen() {
@@ -69,6 +66,7 @@ export default function ThreadsScreen() {
         
           messages={messages}
           onSend={async (newMessage) => {
+            console.log("send message", newMessage);
             await sendMessage( Number(chat_id), newMessage[0].text);
             console.log(newMessage);
           }}

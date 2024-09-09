@@ -1,27 +1,18 @@
-import { Link } from "expo-router";
-import { View, Text, StyleSheet, RefreshControl } from "react-native";
+import { StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect } from "expo-router";
 import { useState, useEffect } from "react";
-console.log("index.tsx");
 import { isExpired } from "@/utils/token";
 import { refreshTokenIfExpired } from "@/api/apiv1";
 import { socketConnection } from "@/messenger/webSockets";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
 import LottieView from "lottie-react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { createTable } from "@/messenger/sql";
 const checkLoginStatus = async () => {
   console.log("check");
   const token = await AsyncStorage.getItem("accessToken");
-  
-
-  // let token = false;
   if (token && !isExpired(token) ) {
     console.log("Succesfuly authentified");
-    // Optionally validate the token
-    // Navigate to the home screen or wherever appropriate
     return "/home";
   } else  if(!token) {
     console.log("token not found");
@@ -61,10 +52,9 @@ export default function HomeScreen() {
                   resizeMode="contain"
                   style={{ width: 150, height: 150 }}
                 />
-      // <Animated.ScrollView refreshControl={<RefreshControl refreshing={true} />} />
       
      
-    ); // Or any other loading state
+    );
   }
 
   return <Redirect href={url} />;
@@ -75,6 +65,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // backgroundColor: 'red',
   },
 });
