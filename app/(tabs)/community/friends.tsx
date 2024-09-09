@@ -7,7 +7,8 @@ import { useSQLiteContext } from "expo-sqlite";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
   const data = getChats(db)
-  //addChat(db,1,"Postman",'','17')
+  // addChat(db,1,"mac",'','18')
+  // addChat(db,2,"Iphone",'','19')
   console.log(data)
   if (data){
   return (

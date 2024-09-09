@@ -1,4 +1,11 @@
-import { Pressable, Text, View, Image, Platform, Vibration } from "react-native";
+import {
+  Pressable,
+  Text,
+  View,
+  Image,
+  Platform,
+  Vibration,
+} from "react-native";
 import Animated, {
   useSharedValue,
   withSpring,
@@ -24,12 +31,7 @@ interface HeaderItemsProps {
 }
 export function HeaderItems(props: HeaderItemsProps) {
   // give an array
-  const {
-    dartValue,
-    goldValue,
-    diamondValue,
-    image,
-  } = props;
+  const { dartValue, goldValue, diamondValue, image } = props;
 
   const navigator = useNavigation();
 
@@ -37,7 +39,7 @@ export function HeaderItems(props: HeaderItemsProps) {
   const scaleGold = useSharedValue(1);
   const scaleDart = useSharedValue(1);
   const scaleDiamonds = useSharedValue(1);
-  
+
   const animatedStyleDart = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scaleDart.value }],
@@ -63,21 +65,22 @@ export function HeaderItems(props: HeaderItemsProps) {
   });
   const vibrations = () => {
     if (Platform.OS === "ios") {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }if (Platform.OS === "android") {
-          Vibration.vibrate([0, 10, 200, 0]);
-        }
-  }
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+    if (Platform.OS === "android") {
+      Vibration.vibrate([0, 10, 200, 0]);
+    }
+  };
   return (
     <View // header container
       style={{
         flex: 1,
         flexDirection: "row",
-        alignItems: "flex-end",
-        // justifyContent: "",
+        // alignItems: "flex-end",
+        justifyContent: "space-between",
         // backgroundColor: "red",
-        gap: 27,
-        paddingBottom: 10,
+        // gap: 4,
+        // paddingBottom: 30,
       }}
     >
       <Pressable // dart
@@ -129,7 +132,7 @@ export function HeaderItems(props: HeaderItemsProps) {
           scaleDiamonds.value = 0.9;
         }}
         onPress={() => {
-         vibrations();
+          vibrations();
         }}
         onPressOut={() => {
           scaleDiamonds.value = 1;
@@ -182,8 +185,8 @@ export function HeaderItems(props: HeaderItemsProps) {
             <Image
               source={
                 image
-                ? { uri: image }
-                : require("@/assets/images/user/default-photo.png")
+                  ? { uri: image }
+                  : require("@/assets/images/user/default-photo.png")
               }
               style={{
                 width: 60,

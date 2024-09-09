@@ -18,6 +18,7 @@ async function getConnection(){
 export async function sendMessage(username, message){
     getConnection()
     ws.send(JSON.stringify({receiver:username, text:message}))
+    
 }
 export async function socketConnection(db) {
   await getConnection();

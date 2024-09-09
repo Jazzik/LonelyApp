@@ -3,6 +3,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { View, Text,  Keyboard, KeyboardAvoidingView, Platform, Animated,  } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
+  Avatar,
   GiftedChat,
   IMessage,
   InputToolbar,
@@ -15,15 +16,19 @@ import { createTable, getDialog, getChats, getMessages, addChat } from "@/messen
 import { Colors } from "@/constants/Colors";
 import { InferProps, Requireable } from "prop-types";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getUserId } from "@/utils/storageActions";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
-  const [id, setId] = useState<Number>();
+  const [id, setId] = useState<number | null>(null);
+  const getId = async () => {
+    setId(await getUserId());
+  };
   const db = useSQLiteContext();
   const { chat_id, name } = useLocalSearchParams();
 
   const fetchData = async () => {
     console.log(await getDialog(db, chat_id));
-    setId(Number(await AsyncStorage.getItem("userId")));
+    getId();
     createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
@@ -37,9 +42,10 @@ export default function ThreadsScreen() {
     fetchData();
     
   }, []);
-  // const renderAvatar = (avatar = require('@/assets/images/user/default-photo.png')) => avatar;
+  const defaultAvatar = require('@/assets/images/user/default-photo.png');
+
   if (messages != undefined) {
-    console.log("render");
+    
     return (
     <SafeAreaView 
     edges={["bottom", ]}
@@ -60,28 +66,32 @@ export default function ThreadsScreen() {
           }}
         />
         <GiftedChat
-          
+        
           messages={messages}
           onSend={async (newMessage) => {
             await sendMessage( Number(chat_id), newMessage[0].text);
+            console.log(newMessage);
           }}
-          showUserAvatar={true}
+          animateUsernameOnMessage={true}
+          
         //   keyboardShouldPersistTaps={"never"}
           // showAvatarForEveryMessage={true}
           // renderAvatar={() => null}
           // renderAvatarOnTop={true}
           user={{
-            _id: id,
+               _id: id,
+               avatar: defaultAvatar
+              // _id: 3,
           }}
+          maxInputLength={250}
           //   renderAvatar={() => null}
           scrollToBottom={true}
           messagesContainerStyle={{
             backgroundColor: Colors.dark.background,
           }}
-          renderLoading={() => <Text>Loading</Text>}
-          loadEarlier={true}
-          onLoadEarlier={() => console.log("load earlier")}
-          renderLoadEarlier={() => <Text>Load earlier</Text>}
+          showUserAvatar={true}
+          
+          
           renderInputToolbar={(props) => (
             <InputToolbar
               {...props}

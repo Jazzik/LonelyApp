@@ -55,3 +55,8 @@ export const isStoredDataExpired = async (time: number) => {
   console.log("stored data is not expired");
   return false;
 };
+export const getUserId = async () => {
+  
+  const userId = Number(await AsyncStorage.getItem("userId"));
+  return userId;
+};
