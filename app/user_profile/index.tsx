@@ -13,7 +13,7 @@ import i18n from "@/i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import { useSQLiteContext } from "expo-sqlite";
-import { dropTables } from "@/messenger/sql";
+import { dropTables, createTable } from "@/messenger/sql";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -32,6 +32,7 @@ export default function UserProfile() {
   const LogOutUser = async () => {
     await resetStorage();
     dropTables(db);
+    createTable(db);
     router.reset({ index: 0, routes: [{ name: "login" }] });
   };
 
