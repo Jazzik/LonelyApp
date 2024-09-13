@@ -74,7 +74,7 @@ export default function ThreadsScreen() {
           
         //   keyboardShouldPersistTaps={"never"}
           // showAvatarForEveryMessage={true}
-          // renderAvatar={() => null}
+          renderAvatar={(props) => <Avatar {...props} src={require('@/assets/images/user/default-photo.png')} style={{ width: 50, height: 50 }} />} // show avatar with default image
           // renderAvatarOnTop={true}
           user={{
                _id: id,

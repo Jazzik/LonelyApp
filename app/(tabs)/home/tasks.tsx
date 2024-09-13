@@ -90,7 +90,9 @@ export default function Tasks() {
             <Animated.View style={styles.container}>
               {(() => {
                 try {
-                  return Object.entries(data).map(([taskname, taskdata]) => {
+                  const entries = Object.entries(data);
+                  return entries.map(([taskname, taskdata], index) => {
+                    const isLast = index === entries.length - 1;
                     return (
                       <View
                         key={taskdata["id"]}
@@ -109,16 +111,18 @@ export default function Tasks() {
                             zIndex: -3,
                             backgroundColor: isActive(taskdata["id"])
                               ? "gray"
-                              : "green",
+                              : "#66e024",
                             top: 140,
                             padding: 2,
                             width: "70%",
                             left: 50,
+                            display: isLast ? "none" : "flex",
                           }}
                         />
                         <View style={{ marginHorizontal: 40 }}>
                           <UniversalButton
                             text={taskdata["number"]}
+                            ButtonContainerWidth={100}
                             accessible={isActive(taskdata["id"])}
                             press={() => {
                               router.push({

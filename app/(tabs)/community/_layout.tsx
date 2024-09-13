@@ -11,14 +11,19 @@ const AnimatedFontAwesome6 = Animated.createAnimatedComponent(FontAwesome6);
 export default function CommunityLayout() {
   return (
     <Tabs>
-      <Tabs.Screen 
-      options={{tabBarIcon: ({ color }) => (
+      <Tabs.Screen  name="friends"
+      options={{
+        headerShown: false,
+        tabBarIcon: ({ color }) => (
         <Fontisto name="hipchat" size={24} color={Colors.light.text} />
 
-        )}}
-      name="friends"  />
+        )
+      }
+    }
+       />
       <Tabs.Screen name="threads" 
       options={{
+         headerShown: false,
         tabBarIcon: ({ color }) => (
           <FontAwesome6 name="hashtag" size={24} color={Colors.light.text}/>
         )

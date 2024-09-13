@@ -102,31 +102,33 @@ export default function UserProfile() {
             }}
             accessible={true}
             text="Edit photo"
-            ButtonContainerWidth={deviceWidth * 0.4}
+            ButtonContainerWidth={250}
+            fontSize={22}
+            
           />
           <UniversalButton
             press={() => console.log("some button pressed")}
             text="Achievements"
             ButtonBGColor="rgb(226,196,120)"
             ShadowBGColor="rgb(166,120,58)"
-            fontSize={25}
-            ButtonContainerWidth={deviceWidth * 0.5}
+            fontSize={16}
+            ButtonContainerWidth={250}
             accessible={true}
+            
           />
           <UniversalButton
             press={() => console.log("some button pressed")}
             text="Some setting"
             ButtonBGColor="rgb(145,222,139)"
             ShadowBGColor="rgb(85,187,54)"
-            fontSize={25}
-            ButtonContainerWidth={deviceWidth * 0.5}
-            accessible={false}
+            fontSize={22}
+            ButtonContainerWidth={250}
           />
           <UniversalButton
             press={() => console.log("some button pressed")}
             text="Sure thing"
-            fontSize={25}
-            ButtonContainerWidth={deviceWidth * 0.5}
+            fontSize={22}
+            ButtonContainerWidth={250}
           />
         </View>
         <View

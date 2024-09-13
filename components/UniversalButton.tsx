@@ -195,7 +195,7 @@ export default function ({
 
 const styles = StyleSheet.create({
   ButtonContainer: {
-    width: 84,
+    // width: 84,
     height: 84,
     justifyContent: "flex-end",
   },
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   ButtonText: {
-    fontSize: 32,
+    fontSize: 25,
     color: "#25292e",
     fontWeight: "800",
   },

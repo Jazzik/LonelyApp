@@ -39,6 +39,7 @@ export function HeaderItems(props: HeaderItemsProps) {
   const scaleGold = useSharedValue(1);
   const scaleDart = useSharedValue(1);
   const scaleDiamonds = useSharedValue(1);
+  const font = 20;
 
   const animatedStyleDart = useAnimatedStyle(() => {
     return {
@@ -74,13 +75,13 @@ export function HeaderItems(props: HeaderItemsProps) {
   return (
     <View // header container
       style={{
-        flex: 1,
+        // flex: 1,
         flexDirection: "row",
         // alignItems: "flex-end",
-        justifyContent: "space-between",
+        // justifyContent: "flex-end",
         // backgroundColor: "red",
-        // gap: 4,
-        // paddingBottom: 30,
+        gap: 25,
+        paddingBottom: 5,
       }}
     >
       <Pressable // dart
@@ -100,8 +101,8 @@ export function HeaderItems(props: HeaderItemsProps) {
             animatedStyleDart,
           ]}
         >
-          <Dart width={30} height={30} />
-          <Text style={{ color: "white", fontSize: 26 }}>{dartValue}</Text>
+          <Dart width={font} height={font} />
+          <Text style={{ color: "white", fontSize: font }}>{dartValue}</Text>
         </Animated.View>
       </Pressable>
 
@@ -123,7 +124,7 @@ export function HeaderItems(props: HeaderItemsProps) {
           ]}
         >
           <Gold width={30} height={30} />
-          <Text style={{ color: "white", fontSize: 26 }}>{goldValue}</Text>
+          <Text style={{ color: "white", fontSize: font }}>{goldValue}</Text>
         </Animated.View>
       </Pressable>
 
@@ -145,10 +146,10 @@ export function HeaderItems(props: HeaderItemsProps) {
           ]}
         >
           <Diamond width={30} height={30} />
-          <Text style={{ color: "white", fontSize: 26 }}>{diamondValue}</Text>
+          <Text style={{ color: "white", fontSize: font }}>{diamondValue}</Text>
         </Animated.View>
       </Pressable>
-
+ 
       <Pressable // user photo
         onPressIn={() => {
           scalePhoto.value = 0.9;
@@ -173,13 +174,13 @@ export function HeaderItems(props: HeaderItemsProps) {
         >
           <View
             style={{
-              width: 60, // Circle size
-              height: 60, // Circle size
+              width: 35, // Circle size
+              height: 35, // Circle size
               borderRadius: 30, // Half of the width/height to make it a circle
               backgroundColor: Colors.dark.background, // Circle color
               justifyContent: "center", // Center the image vertically
               alignItems: "center",
-              marginRight: 20, // Center the image horizontally
+              // marginRight: 20, // Center the image horizontally
             }}
           >
             <Image

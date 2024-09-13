@@ -12,7 +12,7 @@ import Animated, {
 import { Colors } from "@/constants/Colors";
 import * as Haptics from "expo-haptics";
 import { HeaderItems } from "@/components/headerItems/HeaderItems";
-import { Platform, Vibration } from "react-native";
+import { Platform, Vibration, View } from "react-native";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -102,20 +102,22 @@ useFocusEffect(() => {
         headerStyle: {
           height: 100,
           backgroundColor: Colors.dark.upper_background,
-        },
-        headerTitleAlign: "left",
+          
 
-        headerRight: () => (
-          <HeaderItems
-          key={image}
-            dartValue={userValues.dartValue}
-            goldValue={userValues.goldValue}
-            diamondValue={userValues.diamondValue}
-            userPhotoIsLoaded={userValues.userPhotoIsLoaded}
-            image={image}
-          />
-        ),
-        headerTitle: () => <></>,
+        },
+        headerTitleAlign: "center",
+
+        headerTitle: () =>
+       
+            <HeaderItems
+            key={image}
+              dartValue={userValues.dartValue}
+              goldValue={userValues.goldValue}
+              diamondValue={userValues.diamondValue}
+              userPhotoIsLoaded={userValues.userPhotoIsLoaded}
+              image={image}
+            />
+       
       }}
     >
       <Tabs.Screen /* Initializing home button */
@@ -154,7 +156,7 @@ useFocusEffect(() => {
               style={animatedStyleCommunity}
             />
           ),
-          headerShown: true,
+          headerShown: false,
         }}
         listeners={({ navigation, route }) => ({
           tabPress: (e) => {
