@@ -9,8 +9,8 @@ import { Colors } from "@/constants/Colors";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
   const data = getChats(db);
-  addChat(db, 1, "mac", "", "18");
-  addChat(db, 2, "Iphone", "", "19");
+  addChat(db, 4, "aziz", "", "21");
+  // addChat(db, 2, "Iphone", "", "19");
   console.log(data);
   if (data) {
     return (

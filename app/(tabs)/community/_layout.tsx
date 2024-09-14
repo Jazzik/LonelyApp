@@ -10,9 +10,29 @@ const AnimatedFontisto = Animated.createAnimatedComponent(Fontisto);
 const AnimatedFontAwesome6 = Animated.createAnimatedComponent(FontAwesome6);
 export default function CommunityLayout() {
   return (
-    <Tabs>
+    <Tabs
+        screenOptions={{
+         
+          tabBarStyle: {
+            // height: 50,  // Adjust the height to your desired size
+            backgroundColor: Colors.dark.third_color,  // Set the background color
+            alignItems: "center",  // Center content horizontally
+            justifyContent: "center",  // Center content vertically
+            // padding: -50,  // Remove any padding
+            margin: -20,   // Remove any margin
+          },
+          
+          tabBarActiveTintColor: Colors.dark.text,
+          tabBarInactiveTintColor: Colors.light.text,
+          }}
+    >
+
+        
+      
+      
       <Tabs.Screen  name="friends"
       options={{
+        
         headerShown: false,
         tabBarIcon: ({ color }) => (
         <Fontisto name="hipchat" size={24} color={Colors.light.text} />
