@@ -19,7 +19,7 @@ export default function FriendsScreen() {
       >
         <View
           style={{
-            backgroundColor: Colors.dark.upper_background,
+            backgroundColor: "none",
             paddingVertical: 5,
             paddingHorizontal: 35,
           }}
@@ -28,11 +28,13 @@ export default function FriendsScreen() {
             style={{
               height: 25,
               width: "100%",
-              backgroundColor: Colors.dark.background,
+              backgroundColor: Colors.dark.third_color,
               borderRadius: 25,
               paddingHorizontal: 10,
               color: Colors.dark.text,
             }}
+            placeholder="Search"
+            placeholderTextColor={Colors.dark.text}
           ></TextInput>
         </View>
         <FlashList
