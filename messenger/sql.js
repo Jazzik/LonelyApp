@@ -1,11 +1,13 @@
 import * as SQLite from 'expo-sqlite';
-
+import { getChats } from '@/api/apiv1';
 export function createTable(db){
   console.log('create table')
 
 
   db.execSync("CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY NOT NULL, sender INTEGER NOT NULL, receiver TEXT NOT NULL, message TEXT NOT NULL,sentdate INTEGER NOT NULL)");
-  db.execSync("CREATE TABLE IF NOT EXISTS chats (id INTEGER PRIMARY KEY NOT NULL, name TEXT NOT NULL, photo TEXT, participants TEXT)");
+  db.execSync("CREATE TABLE IF NOT EXISTS chats (id VARCHAR(50) PRIMARY KEY NOT NULL, name TEXT NOT NULL, photo TEXT)");
+  db.execSync("CREATE TABLE IF NOT EXISTS chatMembers (id INTEGER PRIMARY KEY NOT NULL, groupid INTEGER, memberid INTEGER, role INTEGER, membersince INTEGER)");
+
   
 }
 export function dropTables(db){
@@ -40,15 +42,23 @@ export function getMessages(db){
   });
 return messages_array.reverse()
 }
-export function getChats(db){
-  let storage = db.getAllSync('SELECT * FROM chats')
-  return storage
+export async function getLocalChats(db){
+  let chats = await getChats()
+  
+  let storage = await db.getAllAsync('SELECT id FROM chats')
+  Object.entries(chats).forEach((id)=>{
+    console.log(id)      
+    addChat(db,id[0],id[1], '')
+
+  })
+  let s = await db.getAllAsync('SELECT * FROM chats')
+  console.log(s)
+  return s
 }
 
-export function addChat(db, id, name, photo, participants){
+export function addChat(db, id, name, photo){
   console.log("added chat") // Convert milliseconds to seconds
-  return db.runAsync("INSERT INTO chats (id, name, photo, participants) VALUES (?, ?,?,?)",id, name, photo, participants)
-}
+  return db.runAsync("INSERT OR IGNORE INTO chats (id, name, photo) VALUES (?, ?, ?)", id, name, photo);}
 
 export async function getDialog(db, name){
   messages_array = []

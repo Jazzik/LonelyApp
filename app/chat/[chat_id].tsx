@@ -10,7 +10,7 @@ import {
 } from "react-native-gifted-chat";
 import { eventEmitter, sendMessage } from "@/messenger/webSockets";
 import { useSQLiteContext } from "expo-sqlite";
-import { createTable, getDialog, getChats, getMessages, addChat } from "@/messenger/sql";
+import { createTable, getDialog, getMessages, addChat } from "@/messenger/sql";
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
@@ -21,17 +21,16 @@ export default function ThreadsScreen() {
     setId(await getUserId());
   };
   const db = useSQLiteContext();
-  const { chat_id, name } = useLocalSearchParams();
-
+  const { group_id, name } = useLocalSearchParams();
   const fetchData = async () => {
-    console.log(await getDialog(db, chat_id));
+
     getId();
     createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
       setMessages(getMessages(db));
     });
-    console.log("use effect");
+
     //setMessages(msgs.reverse())
   };
   

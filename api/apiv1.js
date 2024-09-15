@@ -127,3 +127,13 @@ export const succesfullRegister = (values) => {
       console.error(error);
     });
 };
+export async function getChats(){
+  await refreshTokenIfExpired();
+  const token = await AsyncStorage.getItem("accessToken");
+  const req = await axios.get(`http://${ip}:8080/api/v1/account/chats`, {
+    headers: { Authorization: "Bearer " + token },
+  });
+  const dat = await req.data;
+  
+  return dat;
+}

@@ -2,16 +2,21 @@ import { View, Text, TextInput } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "react-native";
 import { Link } from "expo-router";
-import { getChats, addChat } from "@/messenger/sql";
+import { getLocalChats, addChat } from "@/messenger/sql";
 import { useSQLiteContext } from "expo-sqlite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
+import { useEffect,useState } from "react";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
-  const data = getChats(db);
-  addChat(db, 4, "aziz", "", "21");
-  // addChat(db, 2, "Iphone", "", "19");
-  console.log(data);
+  const [data, setData] = useState([]);
+  const fetchData = async () => {
+    setData(await getLocalChats(db));
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   if (data) {
     return (
       <SafeAreaView
@@ -53,7 +58,7 @@ export default function FriendsScreen() {
                   // pathname: "/[chat_id]",
                   // params: { chat_id: item.participants, name: item.name },
                   pathname: "/group/[group]",
-                  params: { group_id: item.participants, name: item.name },
+                  params: { group_id: item.id, name: item.name },
                 }}
               >
                 <View
