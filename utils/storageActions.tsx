@@ -57,6 +57,6 @@ export const isStoredDataExpired = async (time: number) => {
 };
 export const getUserId = async () => {
   
-  const userId = Number(await AsyncStorage.getItem("userId"));
+  const userId = await AsyncStorage.getItem("userId");
   return userId;
 };

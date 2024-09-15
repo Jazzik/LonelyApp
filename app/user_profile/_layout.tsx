@@ -5,7 +5,7 @@ import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import { useNavigation } from "expo-router";
 import { getUserId } from "@/utils/storageActions";
 export default function UserProfileLayout() {
-  const [id, setId] = useState<Number | null>(0);
+  const [id, setId] = useState<String>("0");
   const getId = async () => {
     setId(await getUserId());
   };
