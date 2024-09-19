@@ -140,6 +140,22 @@ export async function getChats(){
     headers: { Authorization: "Bearer " + token },
   });
   const dat = await req.data;
+  return dat;
+}
+
+export async function uploadAvatar(photo) {
+  await refreshTokenIfExpired();
+  const token = await AsyncStorage.getItem("accessToken");
+  const formData = new FormData();
+  formData.append('image', {
+    uri: photo.uri,
+    type: photo.type,
+    name: photo.name,
+  });
+  const req = await axios.post(`http://${ip}:8080/api/v1/photos/avatar`, {
+    headers: { Authorization: "Bearer " + token },
+  });
   
+  const dat = await req.data;
   return dat;
 }
