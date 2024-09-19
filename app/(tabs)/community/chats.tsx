@@ -7,11 +7,17 @@ import { useSQLiteContext } from "expo-sqlite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
 import { useEffect,useState } from "react";
+import { getDataFromStorageJson, storeDataInStorage } from "@/utils/storageActions";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
   const [data, setData] = useState([]);
   const fetchData = async () => {
-    setData(await getLocalChats(db));
+    var data = await getDataFromStorageJson("chats");
+    setData(data);
+    data = await getLocalChats(db);
+    setData(data);
+    storeDataInStorage("chats", data);
   }
   useEffect(() => {
     fetchData();

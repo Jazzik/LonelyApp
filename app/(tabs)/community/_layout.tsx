@@ -30,7 +30,7 @@ export default function CommunityLayout() {
         
       
       
-      <Tabs.Screen  name="friends"
+      <Tabs.Screen  name="chats"
       options={{
         
         headerShown: false,
