@@ -17,7 +17,6 @@ import Animated, {
 } from "react-native-reanimated";
 import LottieView from "lottie-react-native";
 
-import { router } from "expo-router";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -47,9 +46,7 @@ export default function LoginScreen() {
             initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
             onSubmit={async (values) => {
-              if (await succesfullLogin(values)) {
-                router.replace("/home");
-              }
+             await succesfullLogin(values)
             }}
           >
             {({

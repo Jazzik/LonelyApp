@@ -2,6 +2,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "@/ip.json";
 import { isExpired } from "@/utils/token";
+import { createIconSetFromFontello } from "@expo/vector-icons";
+import { router } from "expo-router";
+
 
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
@@ -119,7 +122,9 @@ export const succesfullRegister = (values) => {
   axios
     .post(`http://${ip}:8080/api/v1/auth/register`, values)
     .then((response) => {
+      
       succesfullLogin(values);
+      router.replace("/home");
     })
     .catch((error) => {
       console.log("error login");
