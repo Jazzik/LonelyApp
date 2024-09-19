@@ -99,6 +99,7 @@ export const succesfullLogin = async (values) => {
       await AsyncStorage.setItem("refreshToken", response.data.refreshToken);
       await AsyncStorage.setItem("userId", String(response.data.userid));
       flag = true;
+      router.replace("/home");
     })
     .catch((error) => {
       if (error.response && error.response.status === 404) {
@@ -124,7 +125,7 @@ export const succesfullRegister = (values) => {
     .then((response) => {
       
       succesfullLogin(values);
-      router.replace("/home");
+      
     })
     .catch((error) => {
       console.log("error login");
