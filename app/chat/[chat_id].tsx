@@ -66,7 +66,7 @@ export default function ThreadsScreen() {
           messages={messages}
           onSend={async (newMessage) => {
             console.log("send message", newMessage);
-            await sendMessage( Number(chat_id), newMessage[0].text);
+            await sendMessage( group_id, newMessage[0].text);
             console.log(newMessage);
           }}
           animateUsernameOnMessage={true}
