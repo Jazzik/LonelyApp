@@ -10,15 +10,31 @@ import { useEffect,useState } from "react";
 import { getDataFromStorageJson, storeDataInStorage } from "@/utils/storageActions";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 export default function FriendsScreen() {
+  
   const db = useSQLiteContext();
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredData, setFilteredData] = useState(data); 
   const fetchData = async () => {
     var data = await getDataFromStorageJson("chats");
     setData(data);
+    setFilteredData(data);
     data = await getLocalChats(db);
     setData(data);
     storeDataInStorage("chats", data);
   }
+
+  // Function to handle search
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setFilteredData(data); // Reset to full data when the query is empty
+    } else {
+      const filtered = data.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
+      setFilteredData(filtered);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -45,11 +61,13 @@ export default function FriendsScreen() {
               color: Colors.dark.text,
             }}
             placeholder="Search"
+            value={searchQuery}
+            onChangeText={handleSearch}
             placeholderTextColor={Colors.dark.text}
           ></TextInput>
         </View>
         <FlashList
-          data={data}
+          data={filteredData}
           estimatedItemSize={50}
           renderItem={({ item }) => (
             <View
