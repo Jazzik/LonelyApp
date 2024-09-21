@@ -10,7 +10,7 @@ import {
 } from "react-native-gifted-chat";
 import { eventEmitter, sendMessage } from "@/messenger/webSockets";
 import { useSQLiteContext } from "expo-sqlite";
-import { createTable, getDialog, getMessages, addChat } from "@/messenger/sql";
+import { createTable, getDialog, addChat } from "@/messenger/sql";
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
@@ -24,6 +24,7 @@ export default function ThreadsScreen() {
   const db = useSQLiteContext();
   const { group_id, name } = useLocalSearchParams();
   const fetchData = async () => {
+
     console.log(await getDialog(db, group_id));
     getId();
     createTable(db);

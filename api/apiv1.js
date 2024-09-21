@@ -182,5 +182,26 @@ export async function getAvatar(userId) {
     throw error;
   }
 
-  
+}
+
+export async function getMembers(chat_id){
+  await refreshTokenIfExpired(); // Ensure this function is implemented
+  const token = await AsyncStorage.getItem("accessToken");
+  try {
+    const req = await axios.get(
+      `http://${ip}:8080/api/v1/account/chats/members/${chat_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await req.data;
+    return data;
+  } catch (error) {
+    console.error("Error getting members:", error);
+    throw error;
+  }
+
 }
