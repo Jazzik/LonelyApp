@@ -74,7 +74,7 @@ export default function ThreadsScreen() {
             console.log(newMessage);
           }}
           animateUsernameOnMessage={true}
-          
+          renderUsernameOnMessage={true}
         //   keyboardShouldPersistTaps={"never"}
           // showAvatarForEveryMessage={true}
           renderAvatar={(props) => <Avatar {...props} src={require('@/assets/images/user/default-photo.png')} style={{ width: 50, height: 50 }} />} // show avatar with default image
