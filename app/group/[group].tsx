@@ -27,9 +27,9 @@ export default function ThreadsScreen() {
     console.log(await getDialog(db, group_id));
     getId();
     createTable(db);
-    setMessages(getMessages(db));
-    eventEmitter.on("message", () => {
-      setMessages(getMessages(db));
+    setMessages(await getDialog(db, group_id));
+    eventEmitter.on("message",async  () => {
+      setMessages(await getDialog(db, group_id));
     });
     console.log("use effect");
     //setMessages(msgs.reverse())
