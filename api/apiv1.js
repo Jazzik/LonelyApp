@@ -5,7 +5,6 @@ import { isExpired } from "@/utils/token";
 import { createIconSetFromFontello } from "@expo/vector-icons";
 import { router } from "expo-router";
 
-
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
@@ -41,23 +40,7 @@ export async function getProgress() {
   }
 }
 
-export async function getPhoto() {
-  // if(await refreshTokenIfExpired()){
-  // const token = await AsyncStorage.getItem("accessToken");
-  // var req =  await axios.get(`http://${ip}:8080/api/v1/user/photo`, {
-  //   headers: { Authorization: "Bearer " + token },
-  // })
-  //   .catch((error)=>{console.log(error," getPhoto")});
-  // const resp = await req.data
 
-  // if (resp.photo){
-  //   return true
-  // }
-  // return false
-  // }
-
-  return true;
-}
 
 export async function refreshTokenIfExpired() {
   const token = await AsyncStorage.getItem("accessToken");
@@ -123,9 +106,7 @@ export const succesfullRegister = (values) => {
   axios
     .post(`http://${ip}:8080/api/v1/auth/register`, values)
     .then((response) => {
-      
       succesfullLogin(values);
-      
     })
     .catch((error) => {
       console.log("error login");
@@ -133,7 +114,7 @@ export const succesfullRegister = (values) => {
       console.error(error);
     });
 };
-export async function getChats(){
+export async function getChats() {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
   const req = await axios.get(`http://${ip}:8080/api/v1/account/chats`, {
@@ -148,24 +129,58 @@ export async function uploadAvatar(photo) {
   const token = await AsyncStorage.getItem("accessToken");
 
   const formData = new FormData();
-  formData.append('image', {
+  formData.append("image", {
     uri: photo.uri,
-    type: photo.type || 'image/jpeg', // Default to JPEG if type is missing
-    name: photo.name || 'avatar.jpg', // Default file name if not provided
+    type: photo.type || "image/jpeg", // Default to JPEG if type is missing
+    name: photo.name || "avatar.jpg", // Default file name if not provided
   });
 
   try {
-    const req = await axios.post(`http://${ip}:8080/api/v1/photos/avatar`, formData, {
-      headers: { 
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const req = await axios.post(
+      `http://${ip}:8080/api/v1/photos/avatar`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     const data = await req.data;
     return data;
   } catch (error) {
-    console.error('Error uploading avatar:', error);
+    console.error("Error uploading avatar:", error);
     throw error;
   }
+}
+
+export async function getAvatar(userId) {
+  await refreshTokenIfExpired(); // Ensure this function is implemented
+  const token = await AsyncStorage.getItem("accessToken");
+
+  try {
+    const req = await axios.get(
+      `http://${ip}:8080/api/v1/photos/avatar`,
+      {
+        params: {
+          user: `${userId}`,
+        },
+      },
+
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await req.data;
+    return data;
+  } catch (error) {
+    console.error("Error downloading avatar:", error);
+    throw error;
+  }
+
+  
 }
