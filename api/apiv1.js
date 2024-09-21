@@ -144,18 +144,28 @@ export async function getChats(){
 }
 
 export async function uploadAvatar(photo) {
-  await refreshTokenIfExpired();
+  await refreshTokenIfExpired(); // Ensure this function is implemented
   const token = await AsyncStorage.getItem("accessToken");
+
   const formData = new FormData();
   formData.append('image', {
     uri: photo.uri,
-    type: photo.type,
-    name: photo.name,
+    type: photo.type || 'image/jpeg', // Default to JPEG if type is missing
+    name: photo.name || 'avatar.jpg', // Default file name if not provided
   });
-  const req = await axios.post(`http://${ip}:8080/api/v1/photos/avatar`, {
-    headers: { Authorization: "Bearer " + token },
-  });
-  
-  const dat = await req.data;
-  return dat;
+
+  try {
+    const req = await axios.post(`http://${ip}:8080/api/v1/photos/avatar`, formData, {
+      headers: { 
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    const data = await req.data;
+    return data;
+  } catch (error) {
+    console.error('Error uploading avatar:', error);
+    throw error;
+  }
 }

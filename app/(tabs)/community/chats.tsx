@@ -9,6 +9,7 @@ import { Colors } from "@/constants/Colors";
 import { useEffect,useState } from "react";
 import { getDataFromStorageJson, storeDataInStorage } from "@/utils/storageActions";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
+import i18n from "@/i18n";
 export default function FriendsScreen() {
   
   const db = useSQLiteContext();
@@ -60,7 +61,7 @@ export default function FriendsScreen() {
               paddingHorizontal: 10,
               color: Colors.dark.text,
             }}
-            placeholder="Search"
+            placeholder={i18n.t("search")}
             value={searchQuery}
             onChangeText={handleSearch}
             placeholderTextColor={Colors.dark.text}

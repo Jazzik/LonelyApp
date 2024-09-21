@@ -129,6 +129,7 @@ export function HeaderItems(props: HeaderItemsProps) {
       </Pressable>
 
       <Pressable // diamond
+     
         onPressIn={() => {
           scaleDiamonds.value = 0.9;
         }}
@@ -151,6 +152,7 @@ export function HeaderItems(props: HeaderItemsProps) {
       </Pressable>
  
       <Pressable // user photo
+       style={{  marginLeft: 50 }}
         onPressIn={() => {
           scalePhoto.value = 0.9;
         }}
@@ -174,9 +176,9 @@ export function HeaderItems(props: HeaderItemsProps) {
         >
           <View
             style={{
-              width: 35, // Circle size
-              height: 35, // Circle size
-              borderRadius: 30, // Half of the width/height to make it a circle
+              width: 25, // Circle size
+              height: 25, // Circle size
+              borderRadius: 15, // Half of the width/height to make it a circle
               backgroundColor: Colors.dark.background, // Circle color
               justifyContent: "center", // Center the image vertically
               alignItems: "center",
@@ -190,8 +192,8 @@ export function HeaderItems(props: HeaderItemsProps) {
                   : require("@/assets/images/user/default-photo.png")
               }
               style={{
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
                 borderRadius: 30,
                 borderColor: "white",
                 borderWidth: 2,

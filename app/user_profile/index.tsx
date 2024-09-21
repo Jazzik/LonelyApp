@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import { useSQLiteContext } from "expo-sqlite";
 import { dropTables, createTable } from "@/messenger/sql";
+import { uploadAvatar } from "@/api/apiv1";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
@@ -37,7 +38,6 @@ export default function UserProfile() {
   };
 
   const pickImageAsync = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -67,6 +67,7 @@ export default function UserProfile() {
 
         await AsyncStorage.setItem("UserPhotoPath", userPhotoPath);
         setImage(result.assets[0].uri);
+        uploadAvatar(result.assets[0]);
 
         // console.log("Image saved as user-photo.png");
       } catch (error) {

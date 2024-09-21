@@ -12,5 +12,7 @@
     "Login_failed": "Iniciar sesión fallido",
     "check_internet_connection": "Algo salio mal, por favor revisa tu red",
     "server_error": "Error del servidor, estamos corrigiendolo. Vuelve pronto",
-    "user_has_not_selected_an_image": "No has seleccionado ninguna imagen."
+    "user_has_not_selected_an_image": "No has seleccionado ninguna imagen.",
+    "back": "Atrás",
+    "search": "Buscar"
 }

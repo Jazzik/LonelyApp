@@ -12,6 +12,8 @@
   "Login_failed": "ログインに失敗しました",
   "check_internet_connection": "何か問題が生しギるので、インターネット接続を確認してください",
   "server_error": "サーバーエラーが発生しています、もう一度やり直してください",
-  "user_has_not_selected_an_image": "画像が選択されていません"
+  "user_has_not_selected_an_image": "画像が選択されていません",
+  "back": "戻る",
+  "search": "検索"
 
 }

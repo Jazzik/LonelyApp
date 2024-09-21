@@ -26,13 +26,12 @@ export default function TasksHeader(props: TasksProps) {
   const translateYButton = useSharedValue(0);
   const rotateButton = useSharedValue('0deg');
 
-  
-
   const animatedStyleName = useAnimatedStyle(() => {
     return {
       transform: [{ scale: scaleName.value }],
     };
   });
+  
   const animatedStyleButton = useAnimatedStyle(() => {
     return {
       transform: [

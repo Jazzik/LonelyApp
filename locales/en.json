@@ -12,5 +12,7 @@
   "Login_failed": "Login failed",
   "check_internet_connection": "Something went wrong, please check your internet connection",
   "server_error": "Server error, we are already fixing it. Please come back later.",
-  "user_has_not_selected_an_image": "You did not select any image."
+  "user_has_not_selected_an_image": "You did not select any image.",
+  "back": "Back",
+  "search": "Search"
 }

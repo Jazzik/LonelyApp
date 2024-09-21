@@ -14,6 +14,7 @@ import { createTable, getDialog, getMessages, addChat } from "@/messenger/sql";
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
+import i18n from "@/i18n";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const [id, setId] = useState<number | null>(null);
@@ -43,15 +44,18 @@ export default function ThreadsScreen() {
   if (messages != undefined) {
     
     return (
+    
     <SafeAreaView 
     edges={["bottom", ]}
     
     style={{flex: 1,
         backgroundColor: Colors.dark.third_color}}>
+      
       <View style={{ flex: 1, }}>
         <Stack.Screen
           options={{
-            title: "My home",
+            headerBackTitle: i18n.t("back"),
+            title: "title",
             headerStyle: { backgroundColor: Colors.dark.upper_background },
             headerTintColor: "#fff",
             headerTitleStyle: {
