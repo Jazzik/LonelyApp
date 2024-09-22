@@ -11,8 +11,7 @@ export default function UserProfileLayout() {
   };
 
   useEffect(() => {
-     getId();
-
+    getId();
   }, []);
   return (
     <Stack>
@@ -26,12 +25,8 @@ export default function UserProfileLayout() {
           // headerBackButtonMenuEnabled: true,
           headerShown: true,
           title: `ID: ${id}`,
-          
-          
         }}
-        
       />
-      
     </Stack>
   );
 }

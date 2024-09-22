@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
-import { getGroups, getProgress, getPhoto } from "@/api/apiv1";
+import { getGroups, getProgress, getAvatar } from "@/api/apiv1";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
@@ -27,9 +27,9 @@ export default function Tab() {
   const [canRefresh, setCanRefresh] = useState(true);
   const [isInternetError, setIsInternetError] = useState(false);
 
-
   useEffect(() => {
     fetchData();
+    fetchAvatar();
   }, []);
 
   const orderList = () => {
@@ -58,6 +58,14 @@ export default function Tab() {
 
     return 0;
   };
+  const fetchAvatar = async () => {
+    try {
+      const getUserPhoto = await getAvatar(getDataFromStorageJson("UserId"));
+      storeDataToStorage("UserPhoto", getUserPhoto);
+    } catch (error) {
+      console.log("Error getting user photo");
+    }
+  };
   const fetchData = async () => {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&
@@ -75,11 +83,11 @@ export default function Tab() {
       setIsInternetError(false); // Reset internet error state
       try {
         const activeTaskGroups = await getProgress();
-        const getUserPhoto = await getPhoto();
+
         const InactiveTaskGroups = await getGroups("en-en");
         setActive(activeTaskGroups);
         storeDataToStorage("ActiveTaskGroups", activeTaskGroups);
-        storeDataToStorage("UserPhoto", getUserPhoto); // boolean to str
+
         setInactive(InactiveTaskGroups);
         storeDataToStorage("InactiveTaskGroups", InactiveTaskGroups);
         setLoading(false);

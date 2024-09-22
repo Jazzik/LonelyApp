@@ -40,8 +40,6 @@ export async function getProgress() {
   }
 }
 
-
-
 export async function refreshTokenIfExpired() {
   const token = await AsyncStorage.getItem("accessToken");
   const refreshToken = await AsyncStorage.getItem("refreshToken");
@@ -161,13 +159,8 @@ export async function getAvatar(userId) {
 
   try {
     const req = await axios.get(
-      `http://${ip}:8080/api/v1/photos/avatar`,
-      {
-        params: {
-          user: `${userId}`,
-        },
-      },
-
+      `http://${ip}:8080/api/v1/photos/avatar/${userId}`,
+      // "https://731ed108-f1f7-4008-8e79-203c380bb5c6.mock.pstmn.io",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -176,15 +169,19 @@ export async function getAvatar(userId) {
     );
 
     const data = await req.data;
+    const fileUri = FileSystem.documentDirectory + `${userId}_avatar.jpg`;
+    await FileSystem.writeAsStringAsync(fileUri, data, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+
     return data;
   } catch (error) {
     console.error("Error downloading avatar:", error);
     throw error;
   }
-
 }
 
-export async function getMembers(chat_id){
+export async function getMembers(chat_id) {
   await refreshTokenIfExpired(); // Ensure this function is implemented
   const token = await AsyncStorage.getItem("accessToken");
   try {
@@ -203,5 +200,4 @@ export async function getMembers(chat_id){
     console.error("Error getting members:", error);
     throw error;
   }
-
 }

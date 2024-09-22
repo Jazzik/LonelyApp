@@ -66,8 +66,8 @@ export default function UserProfile() {
         });
 
         await AsyncStorage.setItem("UserPhotoPath", userPhotoPath);
-        setImage(result.assets[0].uri);
-        uploadAvatar(result.assets[0]);
+         setImage(result.assets[0].uri);
+         uploadAvatar(result.assets[0]);
 
         // console.log("Image saved as user-photo.png");
       } catch (error) {
