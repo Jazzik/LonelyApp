@@ -1,10 +1,16 @@
+import { downloadFile } from "@/api/apiv1";
 import { Colors } from "@/constants/Colors";
+import { getUserId } from "@/utils/storageActions";
 import { Stack } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import { Platform } from "react-native";
+import { storeDataToStorage } from "@/utils/storageActions";
+import { use } from "i18next";
 
 export default function HomeLayout() {
   
+
+
   return (
     <Stack>
       <Stack.Screen
@@ -32,12 +38,10 @@ export default function HomeLayout() {
           },
           headerBackTitle: "Back",
           headerBackTitleStyle: { fontSize: 20 },
-          
+
           headerBackTitleVisible: false,
-          
         }}
       />
-        
     </Stack>
   );
 }

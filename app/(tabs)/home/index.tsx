@@ -6,18 +6,20 @@ import React, { useEffect, useState } from "react";
 import { Colors } from "@/constants/Colors";
 import CheckInternetConnection from "@/components/CheckInternetConnection";
 import { Punkboy1 } from "@/components/characters/punkboy/punkboy";
-import { getGroups, getProgress, getAvatar } from "@/api/apiv1";
+import { getGroups, getProgress, getAvatar, downloadFile } from "@/api/apiv1";
 import { styles } from "@/constants/Style";
 import { Dict } from "i18n-js";
 export let tasksName = "Task Group Name";
 import {
-  storeDataInStorage as storeDataToStorage,
+  storeDataToStorage ,
   getDataFromStorageJson,
   isStoredDataExpired,
+  getUserId,
 } from "@/utils/storageActions";
 import { RefreshControl } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import Animated from "react-native-reanimated";
+import { downloadAsync } from "expo-file-system";
 
 export default function Tab() {
   const [inactive, setInactive] = useState<Dict>({});
@@ -29,7 +31,6 @@ export default function Tab() {
 
   useEffect(() => {
     fetchData();
-    fetchAvatar();
   }, []);
 
   const orderList = () => {
@@ -58,14 +59,7 @@ export default function Tab() {
 
     return 0;
   };
-  const fetchAvatar = async () => {
-    try {
-      const getUserPhoto = await getAvatar(getDataFromStorageJson("UserId"));
-      storeDataToStorage("UserPhoto", getUserPhoto);
-    } catch (error) {
-      console.log("Error getting user photo");
-    }
-  };
+
   const fetchData = async () => {
     if (
       (await AsyncStorage.getItem("ActiveTaskGroups")) != null &&

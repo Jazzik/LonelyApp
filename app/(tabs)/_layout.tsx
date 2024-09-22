@@ -15,25 +15,42 @@ import { HeaderItems } from "@/components/headerItems/HeaderItems";
 import { Platform, Vibration, View } from "react-native";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { downloadFile } from "@/api/apiv1";
+import { getUserId, storeDataToStorage } from "@/utils/storageActions";
 
 export default function TabLayout() {
   const widthHome = useSharedValue(32);
   const widthSettings = useSharedValue(32);
   const widthCommunity = useSharedValue(36);
   const navigation = useNavigation();
-  const [image, setImage] = useState<string>("@/assets/images/user/default-photo.png");
+  const [image, setImage] = useState<string>(
+    "@/assets/images/user/default-photo.png"
+  );
+  const fetchAvatar = async () => {
+    try {
+      // const getUserPhoto = await getAvatar(await getUserId());
+      const getUserPhoto = await downloadFile(await getUserId());
+
+      await AsyncStorage.setItem("UserPhotoPath", getUserPhoto);
+    } catch (error) {
+      console.log("Error getting user photo");
+    }
+  };
+
   useEffect(() => {
+    fetchAvatar();
     checkUserPhotoLoaded(setImage);
   }, []);
-useFocusEffect(() => {
-  checkUserPhotoLoaded(setImage);
-})
+  useFocusEffect(() => {
+    checkUserPhotoLoaded(setImage);
+    console.log(image);
+  });
 
   const handleHomePress = () => {
     if (Platform.OS === "ios") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-    }if (Platform.OS === "android") {
+    }
+    if (Platform.OS === "android") {
       Vibration.vibrate([0, 10, 200, 0]);
     }
     widthHome.value = withSpring(36); // Adjust the increment as needed
@@ -45,7 +62,8 @@ useFocusEffect(() => {
   const handleSettingsPress = () => {
     if (Platform.OS === "ios") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-    }if (Platform.OS === "android") {
+    }
+    if (Platform.OS === "android") {
       Vibration.vibrate([0, 10, 200, 0]);
     }
     widthSettings.value = withSpring(36); // Adjust the increment as needed
@@ -57,7 +75,8 @@ useFocusEffect(() => {
   const handleCommunityPress = () => {
     if (Platform.OS === "ios") {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft);
-    }if (Platform.OS === "android") {
+    }
+    if (Platform.OS === "android") {
       Vibration.vibrate([0, 10, 200, 0]);
     }
     widthCommunity.value = withSpring(40); // Adjust the increment as needed
@@ -102,29 +121,24 @@ useFocusEffect(() => {
         headerStyle: {
           height: 100,
           backgroundColor: Colors.dark.upper_background,
-          
-
         },
         headerTitleAlign: "center",
 
-        headerTitle: () =>
-       
-            <HeaderItems
+        headerTitle: () => (
+          <HeaderItems
             key={image}
-              dartValue={userValues.dartValue}
-              goldValue={userValues.goldValue}
-              diamondValue={userValues.diamondValue}
-              userPhotoIsLoaded={userValues.userPhotoIsLoaded}
-              image={image}
-            />
-       
+            dartValue={userValues.dartValue}
+            goldValue={userValues.goldValue}
+            diamondValue={userValues.diamondValue}
+            userPhotoIsLoaded={userValues.userPhotoIsLoaded}
+            image={image}
+          />
+        ),
       }}
     >
       <Tabs.Screen /* Initializing home button */
         name="home"
         options={{
-          
-         
           title: "home",
           tabBarIcon: ({ color }) => (
             <AnimatedOctions
@@ -186,9 +200,6 @@ useFocusEffect(() => {
           },
         })}
       />
-      
     </Tabs>
-
-    
   );
 }

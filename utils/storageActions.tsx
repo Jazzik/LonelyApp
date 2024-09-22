@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-export const storeDataInStorage = async (key: string, value: any) => {
+export const storeDataToStorage = async (key: string, value: any) => {
   try {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(`${key}`, jsonValue);
@@ -56,7 +56,6 @@ export const isStoredDataExpired = async (time: number) => {
   return false;
 };
 export const getUserId = async () => {
-  
   const userId = await AsyncStorage.getItem("userId");
   return userId;
 };

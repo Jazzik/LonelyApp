@@ -1,8 +1,8 @@
 import { View, Image } from "react-native";
 import Animated from "react-native-reanimated";
 import { styles } from "@/constants/Style";
-import { useFocusEffect, useNavigationContainerRef } from "expo-router";
-import { getDataFromStorageJson, resetStorage } from "@/utils/storageActions";
+import { useNavigationContainerRef } from "expo-router";
+import {  resetStorage } from "@/utils/storageActions";
 import { useEffect, useState } from "react";
 import UniversalButton from "@/components/UniversalButton";
 import { Dimensions } from "react-native";
@@ -21,16 +21,13 @@ const deviceWidth = Dimensions.get("window").width;
 
 export default function UserProfile() {
   const db = useSQLiteContext();
-  const [image, setImage] = useState<string>(
-    "@/assets/images/user/default-photo.png"
-  );
+  const [image, setImage] = useState<string>("");
   useEffect(() => {
     checkUserPhotoLoaded(setImage);
   }, []);
 
-  const router = useNavigationContainerRef();
-
   const LogOutUser = async () => {
+    const router = useNavigationContainerRef();
     await resetStorage();
     dropTables(db);
     createTable(db);
@@ -38,7 +35,6 @@ export default function UserProfile() {
   };
 
   const pickImageAsync = async () => {
-
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -49,29 +45,30 @@ export default function UserProfile() {
       const fileInfo = await FileSystem.getInfoAsync(filePath);
       return fileInfo.exists;
     };
-
     let userPhotoPath = FileSystem.documentDirectory + "user-photo.png";
     if (!result.canceled) {
-      if (await checkIfFileExists(userPhotoPath)) {
-        console.log("Deleting old image");
-        await FileSystem.deleteAsync(userPhotoPath);
-        userPhotoPath = FileSystem.documentDirectory + "user-photo2.png";
-      }
-
       try {
-        console.log("Saving image to:", userPhotoPath);
-        await FileSystem.copyAsync({
-          from: result.assets[0].uri,
-          to: userPhotoPath,
-        });
-
-        await AsyncStorage.setItem("UserPhotoPath", userPhotoPath);
-         setImage(result.assets[0].uri);
-         uploadAvatar(result.assets[0]);
-
-        // console.log("Image saved as user-photo.png");
+        await uploadAvatar(result.assets[0]);
+        if (await checkIfFileExists(userPhotoPath)) {
+          console.log("Deleting old image"); //! Console log
+          await FileSystem.deleteAsync(userPhotoPath);
+          userPhotoPath = FileSystem.documentDirectory + "user-photo2.png";
+        }
+        try {
+          console.log("Saving image to:", userPhotoPath); //! Console log
+          await FileSystem.copyAsync({
+            from: result.assets[0].uri,
+            to: userPhotoPath,
+          });
+          await AsyncStorage.setItem("UserPhotoPath", userPhotoPath);
+          // setImage(result.assets[0].uri);
+          setImage(userPhotoPath);
+          // console.log("Image saved as user-photo.png");
+        } catch (error) {
+          console.error("Error saving image:", error); //! Console log
+        }
       } catch (error) {
-        console.error("Error saving image:", error);
+        console.error("Error uploading image:", error); //! Console log
       }
     } else {
       alert(i18n.t("user_has_not_selected_an_image"));
@@ -98,27 +95,25 @@ export default function UserProfile() {
           />
           <UniversalButton
             press={() => {
-              console.log("Edit photo button pressed");
+              console.log("Edit photo button pressed"); //! Console log
               pickImageAsync();
             }}
             accessible={true}
             text="Edit photo"
             ButtonContainerWidth={250}
             fontSize={22}
-            
           />
           <UniversalButton
-            press={() => console.log("some button pressed")}
+            press={() => console.log("some button pressed")} //! Console log
             text="Achievements"
             ButtonBGColor="rgb(226,196,120)"
             ShadowBGColor="rgb(166,120,58)"
             fontSize={16}
             ButtonContainerWidth={250}
             accessible={true}
-            
           />
           <UniversalButton
-            press={() => console.log("some button pressed")}
+            press={() => console.log("some button pressed")} //! Console log
             text="Some setting"
             ButtonBGColor="rgb(145,222,139)"
             ShadowBGColor="rgb(85,187,54)"

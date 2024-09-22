@@ -6,32 +6,36 @@ import { getLocalChats, add } from "@/messenger/sql";
 import { useSQLiteContext } from "expo-sqlite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
-import { useEffect,useState } from "react";
-import { getDataFromStorageJson, storeDataInStorage } from "@/utils/storageActions";
+import { useEffect, useState } from "react";
+import {
+  getDataFromStorageJson,
+  storeDataToStorage,
+} from "@/utils/storageActions";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import i18n from "@/i18n";
 export default function FriendsScreen() {
-  
   const db = useSQLiteContext();
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState(data); 
+  const [filteredData, setFilteredData] = useState(data);
   const fetchData = async () => {
     var data = await getDataFromStorageJson("chats");
     setData(data);
     setFilteredData(data);
     data = await getLocalChats(db);
     setData(data);
-    storeDataInStorage("chats", data);
-  }
+    storeDataToStorage("chats", data);
+  };
 
   // Function to handle search
   const handleSearch = (query) => {
     setSearchQuery(query);
-    if (query.trim() === '') {
+    if (query.trim() === "") {
       setFilteredData(data); // Reset to full data when the query is empty
     } else {
-      const filtered = data.filter(item => item.name.toLowerCase().includes(query.toLowerCase()));
+      const filtered = data.filter((item) =>
+        item.name.toLowerCase().includes(query.toLowerCase())
+      );
       setFilteredData(filtered);
     }
   };

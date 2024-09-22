@@ -2,8 +2,9 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "@/ip.json";
 import { isExpired } from "@/utils/token";
-import { createIconSetFromFontello } from "@expo/vector-icons";
+
 import { router } from "expo-router";
+import * as FileSystem from "expo-file-system";
 
 export async function getGroups(lang) {
   await refreshTokenIfExpired();
@@ -153,14 +154,41 @@ export async function uploadAvatar(photo) {
   }
 }
 
+export async function downloadFile(userId) {
+  await refreshTokenIfExpired(); // Ensure this function is implemented
+  const token = await AsyncStorage.getItem("accessToken");
+  try {
+    // URL of the file you want to download
+    const fileUri = `http://${ip}:8080/api/v1/photos/avatar/${userId}`;
+
+    // Local path where you want to save the file
+    const localUri = FileSystem.documentDirectory + `a_${userId}.jpg`;
+
+    // Headers you want to add to the request
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    // Download the file with headers
+    const uri = await FileSystem.downloadAsync(fileUri, localUri, {
+      headers: headers,
+    });
+
+    console.log("File downloaded to:", uri.uri);
+    return uri.uri;
+  } catch (error) {
+    console.error("Error downloading file:", error);
+  }
+}
+
 export async function getAvatar(userId) {
   await refreshTokenIfExpired(); // Ensure this function is implemented
   const token = await AsyncStorage.getItem("accessToken");
-
+  console.log("userId", userId);
   try {
     const req = await axios.get(
-      `http://${ip}:8080/api/v1/photos/avatar/${userId}`,
-      // "https://731ed108-f1f7-4008-8e79-203c380bb5c6.mock.pstmn.io",
+      // `http://${ip}:8080/api/v1/photos/avatar/${userId}`,
+      "https://i.sstatic.net/WndPD.png",
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -168,11 +196,14 @@ export async function getAvatar(userId) {
       }
     );
 
-    const data = await req.data;
+    const data = req.data;
+    const base64String = data.split(",")[1];
+
     const fileUri = FileSystem.documentDirectory + `${userId}_avatar.jpg`;
-    await FileSystem.writeAsStringAsync(fileUri, data, {
+    await FileSystem.writeAsStringAsync(fileUri, base64String, {
       encoding: FileSystem.EncodingType.Base64,
     });
+    console.log("Image saved to:", fileUri);
 
     return data;
   } catch (error) {

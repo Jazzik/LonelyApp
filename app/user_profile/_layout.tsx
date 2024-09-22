@@ -1,8 +1,5 @@
 import { Stack } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { CustomBackButton } from "@/components/navigation/custiomBackButton";
-import { useNavigation } from "expo-router";
 import { getUserId } from "@/utils/storageActions";
 export default function UserProfileLayout() {
   const [id, setId] = useState<String>("0");
