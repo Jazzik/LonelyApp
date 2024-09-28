@@ -2,7 +2,7 @@ import { View, Text, TextInput } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { Image } from "react-native";
 import { Link } from "expo-router";
-import { getLocalChats, add } from "@/messenger/sql";
+import { getLocalChats } from "@/messenger/sql";
 import { useSQLiteContext } from "expo-sqlite";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";

@@ -23,7 +23,7 @@ import * as Yup from "yup";
 import i18n from "@/i18n";
 import { loginStyles } from "@/constants/Style";
 console.log("login.tsx");
-import { succesfullLogin } from "@/api/apiv1";
+import { succesfullLogin } from "@/apiv1/authorization";
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email(i18n.t("wrong_email"))

@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Redirect } from "expo-router";
 import { useState, useEffect } from "react";
 import { isExpired } from "@/utils/token";
-import { refreshTokenIfExpired } from "@/api/apiv1";
+import { refreshTokenIfExpired } from "@/apiv1/apiv1";
 import { socketConnection } from "@/messenger/webSockets";
 import LottieView from "lottie-react-native";
 import { useSQLiteContext } from "expo-sqlite";
