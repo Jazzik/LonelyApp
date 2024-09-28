@@ -1,10 +1,10 @@
 // import I18n from 'i18n-js';
 import { getLocales} from 'expo-localization';
 import {I18n} from 'i18n-js';
-import en from './locales/en.json';
-import ru from './locales/ru.json';
-import ja from './locales/ja.json';
-import es from './locales/es.json';
+import en from './en.json';
+import ru from './ru.json';
+import ja from './ja.json';
+import es from './es.json';
 
 
 const i18n = new I18n();

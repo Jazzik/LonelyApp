@@ -104,6 +104,7 @@ export default function ThreadsScreen() {
               await sendMessage(group_id, newMessage[0].text);
               console.log(newMessage);
             }}
+            
             // animateUsernameOnMessage={true}
             renderUsernameOnMessage={true}
             //   keyboardShouldPersistTaps={"never"}

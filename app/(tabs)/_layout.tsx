@@ -22,7 +22,6 @@ export default function TabLayout() {
   const widthHome = useSharedValue(32);
   const widthSettings = useSharedValue(32);
   const widthCommunity = useSharedValue(36);
-  const navigation = useNavigation();
   const [image, setImage] = useState<string>(
     "@/assets/images/user/default-photo.png"
   );
@@ -30,7 +29,6 @@ export default function TabLayout() {
     try {
       // const getUserPhoto = await getAvatar(await getUserId());
       const getUserPhoto = await downloadFile(await getUserId());
-
       await AsyncStorage.setItem("UserPhotoPath", getUserPhoto);
     } catch (error) {
       console.log("Error getting user photo");
@@ -43,7 +41,6 @@ export default function TabLayout() {
   }, []);
   useFocusEffect(() => {
     checkUserPhotoLoaded(setImage);
-    console.log(image);
   });
 
   const handleHomePress = () => {
@@ -118,6 +115,8 @@ export default function TabLayout() {
         tabBarStyle: { backgroundColor: Colors.dark.upper_background },
         tabBarActiveTintColor: "white",
         tabBarShowLabel: false,
+        // headerTransparent: true,
+
         headerStyle: {
           height: 100,
           backgroundColor: Colors.dark.upper_background,
