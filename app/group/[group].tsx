@@ -13,7 +13,7 @@ import { getUserId } from "@/utils/storageActions";
 import i18n from "@/locales/i18n";
 import {objectifyMessages} from "@/utils/storageActions"
 
-import { getAvatar } from "@/apiv1/apiv1";
+import { getAvatar } from "@/apiv1/photos";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
@@ -37,7 +37,7 @@ export default function ThreadsScreen() {
       setIsLoadingEarlier(true)
       const earlierMessages = await getMessages(group_id,99999, 20); 
       await addMessagesRaw(db,earlierMessages);
-      setMessages(await getDialog(db, group_id))
+      setMessages(objectifyMessages(earlierMessages));
       setIsLoadingEarlier(false)
     }
   

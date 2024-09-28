@@ -68,7 +68,7 @@ export default function LoginScreen() {
                   autoComplete="email"
                   keyboardType="email-address"
                   inputMode="email"
-                  placeholder={I18n.t("email")}
+                  placeholder={i18n.t("email")}
                   onChangeText={handleChange("email")}
                   onBlur={handleBlur("email")}
                   value={values.email}

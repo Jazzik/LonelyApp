@@ -21,13 +21,14 @@ export async function sendMessage(username, message){
 }
 export async function socketConnection(db) {
   await getConnection();
-  console.log(ws)
   ws.onopen = () => {
     console.log("WebSocket connected");
   };
 
   ws.onmessage = async (event) => {
     data = JSON.parse(event.data)
+    console.log(data)
+
     console.log(await addMessageRaw(db, data.id, data.from, data.to, data.message, data.sentdate ))
     eventEmitter.emit('message')
   };

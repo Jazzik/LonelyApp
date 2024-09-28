@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {refreshTokenIfExpired} from "@/apiv1/tokens"
 import axios from "axios";
+import * as FileSystem from "expo-file-system";
 import { ip } from "@/ip.json";
 export async function uploadAvatar(photo) {
     await refreshTokenIfExpired(); // Ensure this function is implemented

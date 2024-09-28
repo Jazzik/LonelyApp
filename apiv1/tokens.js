@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ip } from "@/ip.json";
 import { isExpired } from "@/utils/token";
 
-import * as FileSystem from "expo-file-system";
 
 
 
