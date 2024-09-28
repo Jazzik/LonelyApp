@@ -15,7 +15,7 @@ import { HeaderItems } from "@/components/headerItems/HeaderItems";
 import { Platform, Vibration, View } from "react-native";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { downloadFile } from "@/api/apiv1";
+import { downloadFile } from "@/apiv1/photos";
 import { getUserId, storeDataToStorage } from "@/utils/storageActions";
 
 export default function TabLayout() {

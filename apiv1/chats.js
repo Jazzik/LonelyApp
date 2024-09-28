@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {refreshTokenIfExpired} from "@/api/apiv1"
+import {refreshTokenIfExpired} from "@/apiv1/apiv1"
 import axios from "axios";
 import { ip } from "@/ip.json";
 export async function getMessages(chatId, start, limit){

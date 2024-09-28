@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import { useSQLiteContext } from "expo-sqlite";
 import { dropTables, createTable } from "@/messenger/sql";
-import { uploadAvatar } from "@/api/apiv1";
+import { uploadAvatar } from "@/apiv1/photos";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;

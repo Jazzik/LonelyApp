@@ -1,5 +1,5 @@
 import * as SQLite from 'expo-sqlite';
-import { getChats } from '@/api/apiv1';
+import { getChats } from '@/apiv1/chats';
 export function createTable(db){
   console.log('create table')
   db.execSync("CREATE TABLE IF NOT EXISTS messages (id INTEGER PRIMARY KEY NOT NULL, sender INTEGER NOT NULL, receiver TEXT NOT NULL, message TEXT NOT NULL,sentdate INTEGER NOT NULL)");
