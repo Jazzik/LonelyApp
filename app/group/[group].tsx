@@ -82,6 +82,7 @@ export default function ThreadsScreen() {
               await sendMessage(group_id, newMessage[0].text);
               console.log(newMessage);
             }}
+            
             // animateUsernameOnMessage={true}
             renderUsernameOnMessage={true}
             //   keyboardShouldPersistTaps={"never"}
@@ -98,6 +99,7 @@ export default function ThreadsScreen() {
             messagesContainerStyle={{
               backgroundColor: Colors.dark.background,
             }}
+            
             renderInputToolbar={(props) => (
               <InputToolbar
                 {...props}
