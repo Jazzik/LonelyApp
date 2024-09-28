@@ -12,7 +12,7 @@ import {
   storeDataToStorage,
 } from "@/utils/storageActions";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
-import i18n from "@/i18n";
+import i18n from "@/locales/i18n";
 export default function FriendsScreen() {
   const db = useSQLiteContext();
   const [data, setData] = useState([]);

@@ -9,7 +9,7 @@ import { Dimensions } from "react-native";
 import { CustomBackButton } from "@/components/navigation/custiomBackButton";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import i18n from "@/i18n";
+import i18n from "@/locales/i18n";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import { useSQLiteContext } from "expo-sqlite";

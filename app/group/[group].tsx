@@ -10,7 +10,7 @@ import {getMessages} from "@/apiv1/chats"
 import { Colors } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
-import i18n from "@/i18n";
+import i18n from "@/locales/i18n";
 import {objectifyMessages} from "@/utils/storageActions"
 
 import { getAvatar } from "@/apiv1/apiv1";

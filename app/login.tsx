@@ -20,7 +20,7 @@ import LottieView from "lottie-react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import i18n from "@/i18n";
+import i18n from "@/locales/i18n";
 import { loginStyles } from "@/constants/Style";
 console.log("login.tsx");
 import { succesfullLogin } from "@/apiv1/authorization";
