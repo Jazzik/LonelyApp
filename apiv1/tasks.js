@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {refreshTokenIfExpired} from "@/apiv1/apiv1"
+import {refreshTokenIfExpired} from "@/apiv1/tokens"
 import axios from "axios";
 import { ip } from "@/ip.json";
 
