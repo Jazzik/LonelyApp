@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Dict } from "i18n-js";
 export const storeDataToStorage = async (key: string, value: any) => {
   try {
     const jsonValue = JSON.stringify(value);
@@ -59,3 +60,17 @@ export const getUserId = async () => {
   const userId = await AsyncStorage.getItem("userId");
   return userId;
 };
+
+export function objectifyMessages(messages: Array<Dict>){
+  const newMessages = messages.map((message) => ({
+    _id: message.id,
+    text: message.message,
+    createdAt: message.sentdate,
+    user: {
+      _id: message.from,
+      name: "React native",
+      avatar: undefined,
+    },
+  }));
+  return newMessages;
+}

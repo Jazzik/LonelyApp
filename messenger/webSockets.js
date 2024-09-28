@@ -3,8 +3,7 @@ import { ip } from "@/ip.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addMessageRaw } from "./sql";
 export const eventEmitter = new EventEmitter();
-
-
+eventEmitter.setMaxListeners(1);
 let ws = undefined;
 async function getConnection(){
     if (ws === undefined || ws.readyState === WebSocket.CLOSED){
