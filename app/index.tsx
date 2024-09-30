@@ -4,34 +4,27 @@ import { Redirect } from "expo-router";
 import { useState, useEffect } from "react";
 import { isExpired } from "@/utils/token";
 import { refreshTokenIfExpired } from "@/apiv1/tokens";
-import { socketConnection } from "@/messenger/webSockets";
 import LottieView from "lottie-react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { createTable } from "@/messenger/sql";
-const checkLoginStatus = async () => {
-  console.log("check");
-  const token = await AsyncStorage.getItem("accessToken");
-  if (token && !isExpired(token) ) {
-    console.log("Succesfuly authentified");
-    return "/home";
-  } else  if(!token) {
-    console.log("token not found");
-    return "/login";
-  }else{
-    console.log(await refreshTokenIfExpired())
-    if(!await refreshTokenIfExpired()){
-      console.log("Wasn't able to refresh returning to login")
-      return "/login";
-    }
-    else{
-      console.log("Succesfuly authentified");
-      return "/home"}
-  }
-};
-
+import { websocketService } from "@/messenger/webSockets";
 export default function HomeScreen() {
   const db = useSQLiteContext();
-  socketConnection(db);
+  websocketService.socketConnection(db);
+  const checkLoginStatus = async () => {
+    const token = await AsyncStorage.getItem("accessToken");
+    if (token && !isExpired(token) ) {
+      return "/home";
+    } else  if(!token) {
+      return "/login";
+    }else{
+      if(!await refreshTokenIfExpired()){
+        return "/login";
+      }
+      else{
+        return "/home"}
+    }
+  };
   createTable(db);
   const [url, setUrl] = useState<"/home" | "/login" | null>(null);
   useEffect(() => {

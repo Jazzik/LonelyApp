@@ -3,7 +3,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { View, Text,ActivityIndicator, RefreshControl } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {Avatar,GiftedChat,IMessage,InputToolbar, LoadEarlier,} from "react-native-gifted-chat";
-import { eventEmitter, sendMessage } from "@/messenger/webSockets";
+import { websocketService} from "@/messenger/webSockets";
 import { useSQLiteContext } from "expo-sqlite";
 import { createTable, getDialog, addMessagesRaw } from "@/messenger/sql";
 import {getMessages} from "@/apiv1/chats"
@@ -12,22 +12,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
 import i18n from "@/locales/i18n";
 import {objectifyMessages} from "@/utils/storageActions"
-
 import { getAvatar } from "@/apiv1/photos";
 import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
-  const [id, setId] = useState <string | number>(0);
+  const [id, setId] = useState <string|null>("");
   const [userAvatarUri, setUserAvatarUri] = useState<string>("");
   const [isLoadingEarlier, setIsLoadingEarlier] = useState(false);
-  const getId = async () => {
-    setId(await getUserId());
-  };
   const db = useSQLiteContext();
   const { group_id, name } = useLocalSearchParams();
   const fetchData = async () => {
     setUserAvatarUri(await AsyncStorage.getItem("UserPhotoPath"))    // console.log(await getDialog(db, group_id));
-    getId();
+    setId(await getUserId());
     createTable(db);
     const dialog = await getDialog(db, group_id)
     if (dialog.length > 0) {
@@ -41,7 +37,7 @@ export default function ThreadsScreen() {
       setIsLoadingEarlier(false)
     }
   
-    eventEmitter.on("message", async () => {
+    websocketService.eventEmitter.on("message", async () => {
       setMessages(await getDialog(db, group_id));
     });
     // const members =  await getMembers(group_id);
@@ -101,7 +97,8 @@ export default function ThreadsScreen() {
             messages={messages}
             onSend={async (newMessage) => {
               console.log("send message", newMessage);
-              await sendMessage(group_id, newMessage[0].text);
+              console.log(id)
+              await websocketService.sendMessage(group_id, newMessage[0].text);
               console.log(newMessage);
             }}
             

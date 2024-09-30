@@ -17,13 +17,10 @@ import { getChatId } from "@/utils/storageActions";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const [id, setId] = useState<number | null>(null);
-  const getId = async () => {
-    setId(await getChatId());
-  };
   const db = useSQLiteContext();
   const { group_id, name } = useLocalSearchParams();
   const fetchData = async () => {
-    getId();
+    setId(await AsyncStorage.getItem())
     createTable(db);
     setMessages(getMessages(db));
     eventEmitter.on("message", () => {
@@ -65,7 +62,7 @@ export default function ThreadsScreen() {
               console.log(newMessage);
             }}
             animateUsernameOnMessage={true}
-            //   keyboardShouldPersistTaps={"never"}
+            // r  keyboardShouldPersistTaps={"never"}
             // showAvatarForEveryMessage={true}
             renderAvatar={(props) => (
               <Avatar

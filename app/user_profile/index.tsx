@@ -15,7 +15,7 @@ import { checkUserPhotoLoaded } from "@/utils/checkUserPhotoLoaded";
 import { useSQLiteContext } from "expo-sqlite";
 import { dropTables, createTable } from "@/messenger/sql";
 import { uploadAvatar } from "@/apiv1/photos";
-
+import {websocketService} from "@/messenger/webSockets"
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
@@ -28,10 +28,12 @@ export default function UserProfile() {
 
   const LogOutUser = async () => {
     const router = useNavigationContainerRef();
+    websocketService.disconnect();
     await resetStorage();
     dropTables(db);
     createTable(db);
     router.reset({ index: 0, routes: [{ name: "login" }] });
+
   };
 
   const pickImageAsync = async () => {

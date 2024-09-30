@@ -16,13 +16,14 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import LottieView from "lottie-react-native";
-
+import { websocketService } from "@/messenger/webSockets";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import i18n from "@/locales/i18n";
 import { loginStyles } from "@/constants/Style";
 console.log("login.tsx");
+import { useSQLiteContext } from "expo-sqlite";
 import { succesfullLogin } from "@/apiv1/authorization";
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
@@ -34,6 +35,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function LoginScreen() {
+  const db = useSQLiteContext();
   return (
     <Animated.ScrollView
       scrollEventThrottle={16}
@@ -47,6 +49,7 @@ export default function LoginScreen() {
             validationSchema={LoginSchema}
             onSubmit={async (values) => {
              await succesfullLogin(values)
+             websocketService.socketConnection(db)
             }}
           >
             {({
