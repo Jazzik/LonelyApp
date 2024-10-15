@@ -1,10 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { router } from "expo-router";
-import { ip } from "@/ip.json";
+import { ip } from "../ip.json";
+//import * as Notifications from 'expo-notifications';
 export const succesfullLogin = async (values) => {
     let flag = false;
-    await axios
+    axios
       .post(`http://${ip}:8080/api/v1/auth/login`, values)
       .then(async (response) => {
         console.log("succesfull login");
@@ -20,6 +21,7 @@ export const succesfullLogin = async (values) => {
         router.replace("/home");
       })
       .catch((error) => {
+        console.log(error.);
         if (error.response && error.response.status === 404) {
           console.log("redirect to register");
           succesfullRegister(values);

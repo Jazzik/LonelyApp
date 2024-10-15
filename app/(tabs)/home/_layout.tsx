@@ -16,7 +16,7 @@ export default function HomeLayout() {
       <Stack.Screen
         name="index"
         options={{
-          animation: Platform.OS === "android" ? "slide_from_right" : "default",
+          //animation: Platform.OS === "android" ? "slide_from_right" : "default",
           headerBackTitle: "Back",
           headerBackButtonMenuEnabled: true,
           headerBackTitleVisible: true,
@@ -30,7 +30,7 @@ export default function HomeLayout() {
       <Stack.Screen
         name="tasks"
         options={{
-          animation: Platform.OS === "android" ? "slide_from_right" : "default",
+          //animation: Platform.OS === "android" ? "slide_from_right" : "default",
           // presentation: "containedModal",
           headerShown: false,
           headerStyle: {

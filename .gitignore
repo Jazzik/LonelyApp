@@ -18,5 +18,5 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
-ip.json
+# ip.json
 google-services.json

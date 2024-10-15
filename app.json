@@ -2,7 +2,7 @@
   "expo": {
     "name": "LonelyApp",
     "slug": "LonelyApp",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -15,7 +15,6 @@
     "ios": {
       "usesAppleSignIn": true,
       "supportsTablet": true,
-      "googleServicesFile": "z.env/google-services.json",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
       },
@@ -42,9 +41,14 @@
       "typedRoutes": true
     },
     "locales": {
-      "ja": "./languages/ja.json",
-      "ru": "./languages/ru.json",
-      "en": "./languages/en.json"
+      "ja": "./locales/ja.json",
+      "ru": "./locales/ru.json",
+      "en": "./locales/en.json"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "95c0f660-a1dd-4751-b77d-57c915581bc2"
+      }
     }
   }
 }

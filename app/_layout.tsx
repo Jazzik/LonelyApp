@@ -10,7 +10,7 @@ export default () => {
       <Stack.Screen
         name="index"
         options={{
-          animation: Platform.OS === "android" ? "fade" : "default",
+          //animation: Platform.OS === "android" ? "fade" : "default",
           headerShown: false,
           headerStyle: { backgroundColor: Colors.dark.upper_background },
         }}
@@ -18,7 +18,7 @@ export default () => {
       <Stack.Screen
         name="(tabs)"
         options={{
-          animation: Platform.OS === "android" ? "slide_from_right" : "default",
+          //animation: Platform.OS === "android" ? "slide_from_right" : "default",
           headerShown: false,
           headerStyle: { backgroundColor: Colors.dark.upper_background },
           
@@ -34,7 +34,7 @@ export default () => {
       <Stack.Screen
         name="user_profile"
         options={{
-          animation: Platform.OS === "android" ? "slide_from_right" : "default",
+          //animation: Platform.OS === "android" ? "slide_from_right" : "default",
           // presentation: "transparentModal",
           headerBackTitle: "Back",
           headerStyle: {

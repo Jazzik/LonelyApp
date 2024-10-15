@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {refreshTokenIfExpired} from "@/apiv1/tokens";
+import {refreshTokenIfExpired} from "./tokens";
 import axios from "axios";
-import { ip } from "@/ip.json";
+import { ip } from "../ip.json";
 export async function getMessages(chatId, start, limit) {
   await refreshTokenIfExpired(); // Ensure this function is implemented
   const token = await AsyncStorage.getItem("accessToken");
