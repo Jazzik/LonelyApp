@@ -1,7 +1,7 @@
 import EventEmitter from "events";
-import { ip } from "@/ip.json";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { addMessageRaw } from "./sql";
+import { ipManager } from "@/apiv1/ip";
 class WebsocketService {
   constructor(){
     this.eventEmitter = new EventEmitter();
@@ -12,7 +12,7 @@ class WebsocketService {
 async getConnection(){
         const token = await AsyncStorage.getItem("accessToken");
         const auth = "Bearer " + token;
-        this.ws = new WebSocket(`ws://${ip}:8080/ws/messages`, [], { headers: {Authorization:auth} })
+        this.ws = new WebSocket(`ws://${ipManager.getIp()}:8080/ws/messages`, [], { headers: {Authorization:auth} })
         console.log('connected')
     
     

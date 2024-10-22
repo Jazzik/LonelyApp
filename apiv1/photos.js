@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {refreshTokenIfExpired} from "./tokens"
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
-import { ip } from "../ip.json";
+import { ipManager } from "./ip";
 export async function uploadAvatar(photo) {
     await refreshTokenIfExpired(); // Ensure this function is implemented
     const token = await AsyncStorage.getItem("accessToken");
@@ -16,7 +16,7 @@ export async function uploadAvatar(photo) {
   
     try {
       const req = await axios.post(
-        `http://${ip}:8080/api/v1/photos/avatar`,
+        `http://${ipManager.getIp()}:8080/api/v1/photos/avatar`,
         formData,
         {
           headers: {
@@ -39,7 +39,7 @@ export async function uploadAvatar(photo) {
     const token = await AsyncStorage.getItem("accessToken");
     try {
       // URL of the file you want to download
-      const fileUri = `http://${ip}:8080/api/v1/photos/avatar/${userId}`;
+      const fileUri = `http://${ipManager.getIp()}:8080/api/v1/photos/avatar/${userId}`;
   
       // Local path where you want to save the file
       const localUri = FileSystem.documentDirectory + `a_${userId}.jpg`;
@@ -54,7 +54,6 @@ export async function uploadAvatar(photo) {
         headers: headers,
       });
   
-      console.log("File downloaded to:", uri.uri);
       return uri.uri;
     } catch (error) {
       console.error("Error downloading file:", error);
@@ -67,8 +66,8 @@ export async function uploadAvatar(photo) {
     console.log("userId", userId);
     try {
       const req = await axios.get(
-        // `http://${ip}:8080/api/v1/photos/avatar/${userId}`,
-        "https://i.sstatic.net/WndPD.png",
+         `http://${ipManager.getIp()}:8080/api/v1/photos/avatar/${userId}`,
+        //"https://i.sstatic.net/WndPD.png",
         {
           headers: {
             Authorization: `Bearer ${token}`,

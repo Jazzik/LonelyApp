@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {refreshTokenIfExpired} from "./tokens";
 import axios from "axios";
-import { ip } from "../ip.json";
+import { ipManager } from "./ip";
 export async function getMessages(chatId, start, limit) {
   await refreshTokenIfExpired(); // Ensure this function is implemented
   const token = await AsyncStorage.getItem("accessToken");
   try {
     const req = await axios.get(
-      `http://${ip}:8080/api/v1/account/chats/messages`,
+      `http://${ipManager.getIp()}:8080/api/v1/account/chats/messages`,
 
       {
         headers: {
@@ -34,7 +34,7 @@ export async function getMembers(chat_id) {
   const token = await AsyncStorage.getItem("accessToken");
   try {
     const req = await axios.get(
-      `http://${ip}:8080/api/v1/account/chats/members/${chat_id}`,
+      `http://${ipManager.getIp()}:8080/api/v1/account/chats/members/${chat_id}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ export async function getMembers(chat_id) {
 export async function getChats() {
   await refreshTokenIfExpired();
   const token = await AsyncStorage.getItem("accessToken");
-  const req = await axios.get(`http://${ip}:8080/api/v1/account/chats`, {
+  const req = await axios.get(`http://${ipManager.getIp()}:8080/api/v1/account/chats`, {
     headers: { Authorization: "Bearer " + token },
   });
   const dat = await req.data;

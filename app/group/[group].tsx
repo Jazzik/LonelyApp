@@ -12,8 +12,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserId } from "@/utils/storageActions";
 import i18n from "@/locales/i18n";
 import {objectifyMessages} from "@/utils/storageActions"
-import { getAvatar } from "@/apiv1/photos";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 export default function ThreadsScreen() {
   const [messages, setMessages] = useState<IMessage[]>([]); // Updated line with default parameter
   const [id, setId] = useState <string|null>("");

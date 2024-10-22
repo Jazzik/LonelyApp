@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   TouchableOpacity,
@@ -9,12 +9,12 @@ import {
   TextInput,
   SafeAreaView,
   Platform,
+  Modal,
+  Image,
 } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from "react-native-reanimated";
+import { Colors } from "@/constants/Colors";
+import { FontAwesome } from "@expo/vector-icons";
+import Animated from "react-native-reanimated";
 import LottieView from "lottie-react-native";
 import { websocketService } from "@/messenger/webSockets";
 import * as AppleAuthentication from "expo-apple-authentication";
@@ -25,6 +25,8 @@ import { loginStyles } from "@/constants/Style";
 console.log("login.tsx");
 import { useSQLiteContext } from "expo-sqlite";
 import { succesfullLogin } from "@/apiv1/authorization";
+import {ipManager} from "../apiv1/ip";
+import {sendDeviceToken} from "../apiv1/tokens"
 const LoginSchema = Yup.object().shape({
   email: Yup.string()
     .email(i18n.t("wrong_email"))
@@ -36,22 +38,38 @@ const LoginSchema = Yup.object().shape({
 
 export default function LoginScreen() {
   const db = useSQLiteContext();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [serverAdress,setServerAdress] = useState("");
   return (
     <Animated.ScrollView
       scrollEventThrottle={16}
       style={loginStyles.loginScrollView}
     >
+      <TouchableOpacity
+            style={{
+              position: "absolute",
+              top: "10%",
+              left: "90%",
+              width: 40,
+              height: 40,
+              alignItems: "center",
+            }}
+            onPress={() => setModalVisible(true)}
+          >
+          <FontAwesome name="cog" size={24} color={Colors.light.text}/>
+
+          </TouchableOpacity>
       <SafeAreaView style={loginStyles.loginContainer}>
-        <View>
-        
+
+
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
             onSubmit={async (values) => {
-             await succesfullLogin(values)
+             console.log(await succesfullLogin(values))
+             await sendDeviceToken()
              websocketService.socketConnection(db)
-            }}
-          >
+            }}>
             {({
               handleChange,
               handleBlur,
@@ -89,7 +107,7 @@ export default function LoginScreen() {
                   onBlur={handleBlur("password")}
                   value={values.password}
                 />
-               
+
                 {errors.password && touched.password ? (
                   <Text style={loginStyles.loginErrorText}>
                     {errors.password}
@@ -129,10 +147,78 @@ export default function LoginScreen() {
               }}
             />
           )}
-           
-        </View>
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+            }}>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+              }}
+            >
+              <View
+                style={{
+                  width: "80%",
+                  backgroundColor: "#fff",
+                  borderRadius: 20,
+                  borderBlockColor: "black",
+                  padding: 20,
+                }}
+              >
+                <TextInput
+                  style={{ ...loginStyles.loginItem}}
+                  placeholder="Enter the server adress"
+                  onChangeText={setServerAdress}
+                  value={serverAdress}
+
+                />
+              <TouchableOpacity
+                  style={{
+                    marginTop: 20,
+                    padding: 10,
+                    backgroundColor: "#007bff",
+                    borderRadius: 5,
+                  }}
+                    onPress={() => {
+                      ipManager.setIp(serverAdress)
+                      if(serverAdress!=""){
+                        setModalVisible(!modalVisible)
+                      }
+                      console.log(ipManager.getIp())
+                      
+                    }}
+                  >
+    
+                  <Text style={{ color: "#fff", textAlign: "center" }}>
+                    Set IP
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    marginTop: 20,
+                    padding: 10,
+                    backgroundColor: "#007bff",
+                    borderRadius: 5,
+                  }}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={{ color: "#fff", textAlign: "center" }}>
+                    Close
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
+
       </SafeAreaView>
-    </Animated.ScrollView>
+  </Animated.ScrollView>
   );
 }
-
